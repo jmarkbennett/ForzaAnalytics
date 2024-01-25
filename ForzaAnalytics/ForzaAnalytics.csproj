@@ -9,13 +9,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Maps\1641.json" />
+    <None Remove="Resources\Maps\68.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\ForzaAnalytics.Models\ForzaAnalytics.Models.csproj" />
     <ProjectReference Include="..\ForzaAnalytics.Services\ForzaAnalytics.Services.csproj" />
     <ProjectReference Include="..\ForzaAnalytics.UdpReader\ForzaAnalytics.UdpReader.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Resources\Maps\" />
+    <Resource Include="Resources\Maps\1641.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Maps\68.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>
