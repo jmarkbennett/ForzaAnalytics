@@ -94,7 +94,7 @@ namespace ForzaAnalytics.Models.Core
             get { return minSpeed; }
             set
             {
-                maxSpeed = value;
+                minSpeed = value;
                 OnPropertyChanged(nameof(MinSpeed));
             }
         }
