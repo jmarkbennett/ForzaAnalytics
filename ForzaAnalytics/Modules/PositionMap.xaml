@@ -1,0 +1,131 @@
+﻿<UserControl x:Class="ForzaAnalytics.Modules.PositionMap"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ForzaAnalytics.Modules"
+             mc:Ignorable="d" 
+             d:DesignHeight="640" d:DesignWidth="800">
+    <Grid Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
+        </Grid.RowDefinitions>
+        <Label Grid.Row="0"  Content="Positions" Style="{StaticResource HeaderLabel}"></Label>
+
+        <Grid Grid.Row="1" Name="CoreContent">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+
+            <Grid Grid.Column="0" Name="Variables">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="Track ID" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="1" Grid.Column="1" Name="tbTrackId" IsEnabled="false"></TextBox>
+                <Label Grid.Row="2" Grid.Column="2" Content="Track Name" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="3" Grid.Column="3" Name="tbTrackName" IsEnabled="False"></TextBox>
+                <Label Grid.Row="4" Content="X Offset:" HorizontalContentAlignment="Center"></Label>
+                <Grid Grid.Row="5">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="btnXOffsetDown" Content="-10" Grid.Column="0" Click="btnXOffsetDown_Click"></Button>
+                    <TextBox Grid.Column="1" Name="tbXOffset" Text="0"></TextBox>
+                    <Button Name="btnXOffsetUp" Content="+10" Grid.Column="2" Click="btnXOffsetUp_Click"></Button>
+                </Grid>
+                <Label Grid.Row="6" Content="Z Offset:" HorizontalContentAlignment="Center"></Label>
+                <Grid Grid.Row="7">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="50"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Button Name="btnZOffsetDown" Content="-10" Grid.Column="0" Height="26" Margin="4,2,4,0" VerticalAlignment="Top" Click="btnZOffsetDown_Click"></Button>
+                    <TextBox  Grid.Column="1"  Name="tbZOffset" Text="0"></TextBox>
+                    <Button Name="btnZOffsetUp" Content="+10" Grid.Column="2" Click="btnZOffsetUp_Click"></Button>
+                </Grid>
+
+                <Button Grid.Row="8" Name="btnApplyOffset" Content="Apply Offsets" Click="btnApplyOffset_Click"></Button>
+                <Label Grid.Row="9" Content="Visual Type:" HorizontalContentAlignment="Center"></Label>
+                <ComboBox Grid.Row="10" x:Name="cbChartType" SelectionChanged="cbChartType_SelectionChanged" Width="200">
+                    <ComboBoxItem Content="Default" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Pedal Pressure"></ComboBoxItem>
+                    <ComboBoxItem Content="Speed Heatmap"></ComboBoxItem>
+                    <ComboBoxItem Content="Gear Number"></ComboBoxItem>
+                </ComboBox>
+                <Label Grid.Row="11" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
+                <ComboBox Grid.Row="12" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
+                    <ComboBoxItem Content="Double (200%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Half Bigger (150%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Default (100%)" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Three Quarters (75%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Half (50%)"></ComboBoxItem>
+                </ComboBox>
+                <Label Grid.Row="13" Content="Map Orientation:"></Label>
+                <ToggleButton Grid.Row="14" Content="Rotate" Name="tbnRotateMap" Checked="tbnRotateMap_Checked" Unchecked="tbnRotateMap_Unchecked" Height="30" VerticalAlignment="Top"></ToggleButton>
+                <Label Grid.Row="15" Content="Show Points:"></Label>
+                <ComboBox Grid.Row="16" x:Name="cbLapPoints" SelectionChanged="cbLapPoints_SelectionChanged">
+                    <ComboBoxItem Content="All Laps" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Current Lap"></ComboBoxItem>
+                </ComboBox>
+
+
+            </Grid>
+            <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
+                <Border BorderThickness="2" BorderBrush="#DDDDDD">
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
+                        <Canvas Name="cMapPlot"  Width="0" Height="0" RenderTransform="1 0 0 -1 0 0"></Canvas>
+                    </ScrollViewer>
+                </Border>
+            </Grid>
+            <Grid Grid.Column="2" Name="CoreActions">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <ToggleButton Name="tglTrackData" Content="Start Tracking" Grid.Row="0" Grid.RowSpan="2"  Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked" Margin="4"></ToggleButton>
+                <Button Name="btnReset" Content="Reset" Grid.Row="3" Click="btnReset_Click"></Button>
+                <Button Name="btnLoadMap" Content="Load Map" Grid.Row="5" Grid.Column="2" Click="btnLoadMap_Click"></Button>
+                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="7" Grid.Column="2" Click="btnReduceMap_Click"></Button>
+                <Button Name="btnLoadAndReduceMap" Content="Load Reduced Map" Grid.Row="9" Grid.Column="2" Click="btnLoadAndReduceMap_Click"></Button>
+                <Button Name="btnImportData" Content="Import Data" Grid.Row="11" Grid.Column="2" Click="btnImportData_Click"></Button>
+                <Button Name="btnExportData" Content="Export Data" Grid.Row="13" Grid.Column="2" Click="btnExportData_Click"></Button>
+
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="ForzaAnalytics.Modules.PedalPressures"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ForzaAnalytics.Modules"
+             mc:Ignorable="d" 
+             d:DesignHeight="155" d:DesignWidth="800">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="25"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+        <Label Style="{StaticResource HeaderLabel}" Content="Pedal Pressures" Grid.ColumnSpan="6"></Label>
+
+
+        <Label Grid.Row="1" Grid.Column="0" FontSize="12" HorizontalAlignment="Center" Content="Acceleration"></Label>
+        <Label Grid.Row="1" Grid.Column="1" FontSize="12" HorizontalAlignment="Center" Content="Brake"></Label>
+        <Label Grid.Row="1" Grid.Column="2" FontSize="12" HorizontalAlignment="Center" Content="Clutch"></Label>
+        <Label Grid.Row="1" Grid.Column="3" FontSize="12" HorizontalAlignment="Center" Content="Handbrake"></Label>
+        <Label Grid.Row="1" Grid.Column="4" FontSize="12" HorizontalAlignment="Center" Content="RPMs"></Label>
+        <Label Grid.Row="1" Grid.Column="5" FontSize="12" HorizontalAlignment="Center" Content="Fuel"></Label>
+        
+        <ProgressBar Margin="12 2" Background="Transparent" BorderBrush="Transparent" Grid.Row="2" Grid.Column="0" Orientation="Vertical" Name="pbAcc" Minimum="0" Maximum="100" Foreground="#0EB8FF"></ProgressBar>
+        <ProgressBar Margin="12 2" Background="Transparent" BorderBrush="Transparent" Grid.Row="3" Grid.Column="1" Orientation="Vertical" Name="pbBrake" Minimum="0" Maximum="100" Foreground="Red"></ProgressBar>
+        <ProgressBar Margin="12 2" Background="Transparent" BorderBrush="Transparent" Grid.Row="3" Grid.Column="2" Orientation="Vertical" Name="pbClutch" Minimum="0" Maximum="100" Foreground="MediumSeaGreen"></ProgressBar>
+        <ProgressBar Margin="12 2" Background="Transparent" BorderBrush="Transparent" Grid.Row="3" Grid.Column="3" Orientation="Vertical" Name="pbHandbrake" Minimum="0" Maximum="100" Foreground="DarkOrange"></ProgressBar>
+        <ProgressBar Margin="12 2" Background="Transparent" BorderBrush="Transparent" Grid.Row="3" Grid.Column="4" Orientation="Vertical" Name="pbRpms" Minimum="0" Maximum="100" Foreground="White"></ProgressBar>
+        <ProgressBar Margin="12 2" Background="Transparent" BorderBrush="Transparent" Grid.Row="3" Grid.Column="5" Orientation="Vertical" Name="pbFuel" Minimum="0" Maximum="1" Foreground="OrangeRed"></ProgressBar>
+
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" HorizontalAlignment="Center" Name="tbAcc"></Label>
+        <Label Grid.Row="2" Grid.Column="1" VerticalAlignment="Center" HorizontalAlignment="Center" Name="tbBrake"></Label>
+        <Label Grid.Row="2" Grid.Column="2" VerticalAlignment="Center" HorizontalAlignment="Center" Name="tbClutch"></Label>
+        <Label Grid.Row="2" Grid.Column="3" VerticalAlignment="Center" HorizontalAlignment="Center" Name="tbHandbrake"></Label>
+        <Label Grid.Row="2" Grid.Column="4" VerticalAlignment="Center" HorizontalAlignment="Center" Name="tbRpms"></Label>
+        <Label Grid.Row="2" Grid.Column="5" VerticalAlignment="Center" HorizontalAlignment="Center" Name="tbFuel"></Label>
+    </Grid>
+</UserControl>

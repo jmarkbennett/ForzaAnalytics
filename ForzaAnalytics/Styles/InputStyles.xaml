@@ -1,0 +1,18 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    <Style TargetType="TextBox">
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
+    </Style>
+    <Style  TargetType="ComboBox">
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="Height" Value="32"></Setter>
+    </Style>
+
+    <Style  TargetType="ComboBoxItem">
+        <Setter Property="Foreground" Value="Black"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+    </Style>
+</ResourceDictionary>

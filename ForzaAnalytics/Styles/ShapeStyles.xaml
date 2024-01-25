@@ -1,0 +1,53 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+
+    <Style x:Key="PiContainer" TargetType="Rectangle">
+        <Setter Property="Fill" Value="Black"></Setter>
+        <Setter Property="Width" Value="32"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Right"></Setter>
+        <Setter Property="Height" Value="41"></Setter>
+    </Style>
+    <Style x:Key="PiNumberContainer" TargetType="Rectangle">
+        <Setter Property="Fill" Value="#1C1C1C"></Setter>
+        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="Width" Value="38"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Left"></Setter>
+ 
+    </Style>
+    <Style x:Key="PiContainerOutline" TargetType="Rectangle">
+        <Setter Property="Fill" Value="Transparent"></Setter>
+    </Style>
+
+    <Style x:Key="CarClass" TargetType="Border">
+        <Setter Property="CornerRadius" Value="6"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="Height" Value="45"></Setter>
+    </Style>
+
+    <Style x:Key="CarClassContainer" TargetType="Rectangle">
+        <Setter Property="RadiusX" Value="4"></Setter>
+        <Setter Property="RadiusY" Value="4"></Setter>
+        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="Width" Value="30"></Setter>
+    </Style>
+
+    <Style x:Key="DriveTrainContainer" TargetType="Rectangle">
+        <Setter Property="Fill" Value="#1C1C1C"></Setter>
+        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="RadiusX" Value="4"></Setter>
+        <Setter Property="RadiusY" Value="4"></Setter>
+    </Style>
+
+    <Style x:Key="DriveDrainBorder" TargetType="Border">
+        <Setter Property="BorderBrush" Value="#CECECE"></Setter>
+        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="BorderThickness" Value="2"></Setter>
+        <Setter Property="CornerRadius" Value="4"></Setter>
+    </Style>
+    <Style x:Key="CylinderContainer" TargetType="Rectangle">
+        <Setter Property="Fill" Value="Black"></Setter>
+        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="RadiusX" Value="4"></Setter>
+        <Setter Property="RadiusY" Value="4"></Setter>
+    </Style>
+</ResourceDictionary>

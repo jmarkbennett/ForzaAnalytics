@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net8.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\ForzaAnalytics.Models\ForzaAnalytics.Models.csproj" />
+    <ProjectReference Include="..\ForzaAnalytics.Services\ForzaAnalytics.Services.csproj" />
+    <ProjectReference Include="..\ForzaAnalytics.UdpReader\ForzaAnalytics.UdpReader.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Resources\Maps\" />
+  </ItemGroup>
+
+</Project>

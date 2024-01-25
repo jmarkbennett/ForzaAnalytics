@@ -1,0 +1,86 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:ForzaAnalytics"
+        xmlns:Modules="clr-namespace:ForzaAnalytics.Modules" x:Class="ForzaAnalytics.MainWindow"
+        mc:Ignorable="d"
+        Title="Forza Analytics" Height="1280" Width="1400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition></RowDefinition>
+            <RowDefinition Height="150"></RowDefinition>
+        </Grid.RowDefinitions>
+        <Grid Grid.Row="0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Modules:SessionDetail  x:Name="sessionDetailsModule"></Modules:SessionDetail>
+            <ToggleButton x:Name="tglTracking" Margin="8" Grid.Column="1" Content="Start" Checked="tglTracking_Checked" Unchecked="tglTracking_Unchecked"></ToggleButton>
+        </Grid>
+
+        <TabControl Grid.Row="1">
+            <TabItem Header="Core Metrics">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="134"/>
+                        <RowDefinition/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0" x:Name="SummaryGrid">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition/>
+                            <ColumnDefinition Width="80"/>
+                        </Grid.ColumnDefinitions>
+                    </Grid>
+                    <Grid Grid.Row="0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="300"></ColumnDefinition>
+                            <ColumnDefinition Width="8"></ColumnDefinition>
+                            <ColumnDefinition Width="500"></ColumnDefinition>
+                            <ColumnDefinition></ColumnDefinition>
+                        </Grid.ColumnDefinitions>
+                        <Modules:CarDetail Grid.Column="0" x:Name="carDetailsModule"></Modules:CarDetail>
+                        <Modules:PedalPressures Grid.Row="0" Grid.Column="2" x:Name="ppAbc"></Modules:PedalPressures>
+
+                    </Grid>
+
+                    <Grid Grid.Row="1" x:Name="CoreContainer">
+                        <TabControl Grid.Column="0">
+                            <TabItem Header="Lap Times">
+                                <Modules:LapDetail x:Name="ldlapDetail"/>
+                            </TabItem>
+                            <TabItem Header="Car Positions">
+                                <Modules:PositionMap x:Name="positionMap"></Modules:PositionMap>
+                            </TabItem>
+                        </TabControl>
+                    </Grid>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Map Generator">
+                <Modules:MapGenerator x:Name="mapGenerator"></Modules:MapGenerator>
+            </TabItem>
+            <TabItem Header="Configure">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200"></ColumnDefinition>
+                        <ColumnDefinition Width="300"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition Height="60"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Label Content="IP Address:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></Label>
+                    <Label Content="Port:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></Label>
+                    <TextBox Name="tbIpAddress" Grid.Column="1" Grid.Row="0" Text="198.168.68.68"></TextBox>
+                    <TextBox Name="tbPort" Grid.Column="1" Grid.Row="1" Text="6969"></TextBox>
+                </Grid>
+            </TabItem>
+        </TabControl>
+        <Modules:CoreMetrics Grid.Row="2" x:Name="coreMetricsModule"></Modules:CoreMetrics>
+    </Grid>
+</Window>

@@ -1,0 +1,147 @@
+﻿<UserControl x:Class="ForzaAnalytics.Modules.CoreMetrics"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ForzaAnalytics.Modules"
+             mc:Ignorable="d" 
+             d:DesignHeight="150" d:DesignWidth="1980">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition></ColumnDefinition>
+        </Grid.ColumnDefinitions>
+
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Background="#5F5F5F" Grid.Row="0" Content="Speed" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="4 0 0 0" Width="108"></Label>
+            <Label Background="#5F5F5F" Grid.Row="0" Content="Gear" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0 0 4 0" Width="70"></Label>
+            <Grid Grid.Row="1" Name="CoreCarVals" Style="{StaticResource CoreMetricContainer}" >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition Width="2"></ColumnDefinition>
+                    <ColumnDefinition Width="70"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="75"/>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Label Name="lSpeed" Style="{StaticResource SecondaryMetric}"></Label>
+                <Label Grid.Row="1" Content="MPH" Style="{StaticResource SecondaryMetricDesc}"></Label>
+                <Border Grid.Column="1" Grid.RowSpan="2" BorderBrush="White" BorderThickness="1" Margin="0 4"></Border>
+                <Label Name="lGear" Grid.Column="2" Grid.Row="0" Grid.RowSpan="2" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="RPMs" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lRpm" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Power (HP)" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lPower" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="3">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Boost (PSI)" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lBoost" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+        
+        <Grid Grid.Column="4">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Fuel %" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lFuel" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="5">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Yaw" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lYaw"  Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="6">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Pitch" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lPitch" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="7">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Roll" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lRoll" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="8">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Torque (lb-ft)" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lTorque" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="9">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Distance Travelled" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lDistanceTravelled" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+    </Grid>
+</UserControl>
