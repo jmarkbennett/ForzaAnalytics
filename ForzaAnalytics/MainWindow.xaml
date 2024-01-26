@@ -9,24 +9,30 @@
         Title="Forza Analytics" Height="1280" Width="1400">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Height="80"></RowDefinition>
+            <RowDefinition Height="120"></RowDefinition>
             <RowDefinition></RowDefinition>
             <RowDefinition Height="150"></RowDefinition>
         </Grid.RowDefinitions>
         <Grid Grid.Row="0">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="4"></ColumnDefinition>
+                <ColumnDefinition Width="356"></ColumnDefinition>
+                <ColumnDefinition Width="4"></ColumnDefinition>
+                <ColumnDefinition Width="356"></ColumnDefinition>
                 <ColumnDefinition Width="140"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Modules:SessionDetail  x:Name="sessionDetailsModule"></Modules:SessionDetail>
-            <ToggleButton x:Name="tglTracking" Margin="8" Grid.Column="1" Content="Start" Checked="tglTracking_Checked" Unchecked="tglTracking_Unchecked"></ToggleButton>
+            <Modules:SessionDetail Grid.Column="0" x:Name="sessionDetailsModule"></Modules:SessionDetail>
+            <Modules:CarDetail Grid.Column="2" x:Name="carDetailsModule"></Modules:CarDetail>
+            <Modules:PedalPressures Grid.Column="4" x:Name="ppAbc" Margin="0,2,0,-2"></Modules:PedalPressures>
+            <ToggleButton x:Name="tglTracking" Margin="8" Grid.Column="5" Content="Start" Checked="tglTracking_Checked" Unchecked="tglTracking_Unchecked"></ToggleButton>
         </Grid>
 
         <TabControl Grid.Row="1">
             <TabItem Header="Core Metrics">
                 <Grid>
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="134"/>
+                        <RowDefinition Height="20"/>
                         <RowDefinition/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0" x:Name="SummaryGrid">
@@ -34,17 +40,6 @@
                             <ColumnDefinition/>
                             <ColumnDefinition Width="80"/>
                         </Grid.ColumnDefinitions>
-                    </Grid>
-                    <Grid Grid.Row="0">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="300"></ColumnDefinition>
-                            <ColumnDefinition Width="8"></ColumnDefinition>
-                            <ColumnDefinition Width="500"></ColumnDefinition>
-                            <ColumnDefinition></ColumnDefinition>
-                        </Grid.ColumnDefinitions>
-                        <Modules:CarDetail Grid.Column="0" x:Name="carDetailsModule"></Modules:CarDetail>
-                        <Modules:PedalPressures Grid.Row="0" Grid.Column="2" x:Name="ppAbc"></Modules:PedalPressures>
-
                     </Grid>
 
                     <Grid Grid.Row="1" x:Name="CoreContainer">

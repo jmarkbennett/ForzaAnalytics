@@ -7,7 +7,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
-using ForzaAnalytics.Models.Formatters;
 using ForzaAnalytics.Models.Enumerators;
 namespace ForzaAnalytics.Modules
 {
@@ -19,6 +18,7 @@ namespace ForzaAnalytics.Modules
         private bool isTracking = false;
         private GroupedPositionalData mapPositions;
         private GroupedExtendedPositionalData positions;
+        private double maxSpeed;
         private int currentLapNumber = 0;
         private int lapToPlot = -2; // -2 = ALL, -2 = Current, all others are specific Lap
         private bool isRotated = false;
@@ -31,6 +31,7 @@ namespace ForzaAnalytics.Modules
             positions = new GroupedExtendedPositionalData();
             mapScale = 1.0;
             InitializeComponent();
+            maxSpeed = 0;
         }
 
         public void ReceiveEvents(Telemetry payload)
@@ -39,6 +40,8 @@ namespace ForzaAnalytics.Modules
 
             if (isTracking)
             {
+                if (payload.Speed_Mph > maxSpeed)
+                    maxSpeed = payload.Speed_Mph;
                 positions.ExtendedPositions.Add(new ExtendedPositionalData(payload.Position.PositionX, payload.Position.PositionY, payload.Position.PositionZ)
                 {
                     Acceleration = payload.Acceleration,
@@ -65,7 +68,7 @@ namespace ForzaAnalytics.Modules
                     {
                         Width = 2,
                         Height = 2,
-                        Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(payload, mapMode))
+                        Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(payload, mapMode, maxSpeed)),
                     };
 
                     Point canvasPoint = new Point(
@@ -158,16 +161,19 @@ namespace ForzaAnalytics.Modules
         }
         private void ReplotPositions()
         {
+            maxSpeed = 0;
             // then the other others...
             foreach (var position in positions.GetAdjustedPositions())
             {
                 if (lapToPlot == -2 || (lapToPlot == -1 && currentLapNumber == position.LapNumber) || lapToPlot == position.LapNumber)
                 {
+                    if (position.Speed_Mph > maxSpeed)
+                        maxSpeed = position.Speed_Mph;
                     Ellipse dot = new Ellipse
                     {
                         Width = 2,
                         Height = 2,
-                        Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(position, mapMode))
+                        Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(position, mapMode, maxSpeed)),
                     };
 
                     Point canvasPoint = new Point(
@@ -222,6 +228,7 @@ namespace ForzaAnalytics.Modules
             mapPositions.Positions = newPositions.Distinct(new PositionalDataComparer()).ToList();
             ReplotPoints();
         }
+
         private void cbChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var action = (cbChartType.SelectedItem as ComboBoxItem)?.Content.ToString();
@@ -251,6 +258,9 @@ namespace ForzaAnalytics.Modules
             var action = (cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString();
             switch (action)
             {
+                case "Massive (400%)":
+                 mapScale = 4.0;
+                    break;
                 case "Double (200%)":
                     mapScale = 2.0;
                     break;

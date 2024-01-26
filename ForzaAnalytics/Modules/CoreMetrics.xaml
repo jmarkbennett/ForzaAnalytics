@@ -18,6 +18,7 @@
             <ColumnDefinition Width="190"></ColumnDefinition>
             <ColumnDefinition Width="190"></ColumnDefinition>
             <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="190"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
@@ -141,6 +142,17 @@
             <Label Grid.Row="0" Content="Distance Travelled" Style="{StaticResource CoreMetricLabel}"></Label>
             <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
                 <Label Name="lDistanceTravelled" Style="{StaticResource PrimaryMetric}"></Label>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0" Content="Steering Angle" Style="{StaticResource CoreMetricLabel}"></Label>
+            <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+                <Label Name="lSteeringAngle" Style="{StaticResource PrimaryMetric}"></Label>
             </Grid>
         </Grid>
     </Grid>

@@ -26,6 +26,7 @@ namespace ForzaAnalytics.Modules
             lPower.Content = payload.EnginePowerHp.ToString("N");
             lTorque.Content= payload.TorqueOneFootPound.ToString("N");
             lDistanceTravelled.Content = payload.DistanceTravelled.ToString("N");
+            lSteeringAngle.Content = payload.SteeringAngle.ToString();
         }
         public void ResetEvents()
         {

@@ -4,6 +4,7 @@ namespace ForzaAnalytics.Services.Helpers
 {
     public static class ColourHelper
     {
+
         public static string GetCarClassColour(CarClass carClass)
         {
             switch (carClass)
@@ -29,7 +30,7 @@ namespace ForzaAnalytics.Services.Helpers
             }
             return "FFFFFF";
         }
-        public static string GetColourForMapMode(ExtendedPositionalData position, MapModeOptions mapMode)
+        public static string GetColourForMapMode(ExtendedPositionalData position, MapModeOptions mapMode, double? maxSpeed = null)
         {
             switch (mapMode)
             {
@@ -37,98 +38,110 @@ namespace ForzaAnalytics.Services.Helpers
                     return "000000";
                 case MapModeOptions.AcceBrake:
                     if (position.Acceleration > 90)
-                        return "00FF00";
-                    else if (position.Acceleration > 75)
-                        return "32FF32";
-                    else if (position.Acceleration > 50)
-                        return "64FF64";
-                    else if (position.Acceleration > 25)
-                        return "80FF80";
-                    else if (position.Brake > 90)
-                        return "FF0000";
-                    else if (position.Brake > 75)
-                        return "FF3232";
-                    else if (position.Brake > 50)
-                        return "FF6464";
-                    else if (position.Brake > 25)
-                        return "FF8080";
+                        return GlobalVariables.AccelerationColours[4];
+                    else if (position.Acceleration > 80)
+                        return GlobalVariables.AccelerationColours[3];
+                    else if (position.Acceleration > 60)
+                        return GlobalVariables.AccelerationColours[2];
+                    else if (position.Acceleration > 40)
+                        return GlobalVariables.AccelerationColours[1];
+                    else if (position.Acceleration > 20)
+                        return GlobalVariables.AccelerationColours[0];
+                    if (position.Brake > 90)
+                        return GlobalVariables.BrakeColours[4];
+                    else if (position.Brake > 80)
+                        return GlobalVariables.BrakeColours[3];
+                    else if (position.Brake > 60)
+                        return GlobalVariables.BrakeColours[2];
+                    else if (position.Brake > 40)
+                        return GlobalVariables.BrakeColours[1];
+                    else if (position.Brake > 20)
+                        return GlobalVariables.BrakeColours[0];
                     else if (position.Acceleration == 0 && position.Brake == 0)
-                        return "FFFF00";
+                        return GlobalVariables.BaseCoastingColour;
                     break;
                 case MapModeOptions.GearNumber:
-                    if (position.GearNumber == "1")
-                       return "2D86FF";
-                    else if (position.GearNumber == "2")
-                        return "2774DE";
-                    else if (position.GearNumber == "3")
-                        return "2367C4";
-                    else if (position.GearNumber == "4")
-                        return "1E5AAB";
-                    else if (position.GearNumber == "5")
-                        return "1A4E94";
-                    else if (position.GearNumber == "6")
-                        return "174380";
-                    else if (position.GearNumber == "7")
-                        return "13386B";
-                    else if (position.GearNumber == "8")
-                        return "0F2D57";
-                    else if (position.GearNumber == "9")
-                        return "0B2140";
-                    else if (position.GearNumber == "10")
-                        return "050F1C";
+                    if (position.GearNumber != "N")
+                        return GlobalVariables.GearShades[int.Parse(position.GearNumber)];
+                    break;
+                case MapModeOptions.SpeedHeatmap:
+                    if (position.Speed_Mph > (maxSpeed * 0.9))
+                        return GlobalVariables.HeatmapColours[9];
+                    else if (position.Speed_Mph > (maxSpeed * 0.8))
+                        return GlobalVariables.HeatmapColours[8];
+                    else if (position.Speed_Mph > (maxSpeed * 0.7))
+                        return GlobalVariables.HeatmapColours[7];
+                    else if (position.Speed_Mph > (maxSpeed * 0.6))
+                        return GlobalVariables.HeatmapColours[6];
+                    else if (position.Speed_Mph > (maxSpeed * 0.5))
+                        return GlobalVariables.HeatmapColours[5];
+                    else if (position.Speed_Mph > (maxSpeed * 0.4))
+                        return GlobalVariables.HeatmapColours[4];
+                    else if (position.Speed_Mph > (maxSpeed * 0.3))
+                        return GlobalVariables.HeatmapColours[3];
+                    else if (position.Speed_Mph > (maxSpeed * 0.2))
+                        return GlobalVariables.HeatmapColours[2];
+                    else if (position.Speed_Mph > (maxSpeed * 0.1))
+                        return GlobalVariables.HeatmapColours[1];
                     break;
                 default:
                     return "000000";
             }
             return "000000";
         }
-        public static string GetColourForMapMode(UdpReader.Model.Telemetry payload, MapModeOptions mapMode)
+        public static string GetColourForMapMode(UdpReader.Model.Telemetry position, MapModeOptions mapMode, double? maxSpeed = null)
         {
             switch (mapMode)
             {
                 case MapModeOptions.DefaultPosition:
                     return "000000";
                 case MapModeOptions.AcceBrake:
-                    if (payload.Acceleration > 90)
-                        return "00FF00";
-                    else if (payload.Acceleration > 75)
-                        return "32FF32";
-                    else if (payload.Acceleration > 50)
-                        return "64FF64";
-                    else if (payload.Acceleration > 25)
-                        return "80FF80";
-                    else if (payload.Brake > 90)
-                        return "FF0000";
-                    else if (payload.Brake > 75)
-                        return "FF3232";
-                    else if (payload.Brake > 50)
-                        return "FF6464";
-                    else if (payload.Brake > 25)
-                        return "FF8080";
-                    else if (payload.Acceleration == 0 && payload.Brake == 0)
-                        return "FFFF00";
+                    if (position.Acceleration > 90)
+                        return GlobalVariables.AccelerationColours[4];
+                    else if (position.Acceleration > 80)
+                        return GlobalVariables.AccelerationColours[3];
+                    else if (position.Acceleration > 60)
+                        return GlobalVariables.AccelerationColours[2];
+                    else if (position.Acceleration > 40)
+                        return GlobalVariables.AccelerationColours[1];
+                    else if (position.Acceleration > 20)
+                        return GlobalVariables.AccelerationColours[0];
+                    if (position.Brake > 90)
+                        return GlobalVariables.BrakeColours[4];
+                    else if (position.Brake > 80)
+                        return GlobalVariables.BrakeColours[3];
+                    else if (position.Brake > 60)
+                        return GlobalVariables.BrakeColours[2];
+                    else if (position.Brake > 40)
+                        return GlobalVariables.BrakeColours[1];
+                    else if (position.Brake > 20)
+                        return GlobalVariables.BrakeColours[0];
+                    else if (position.Acceleration == 0 && position.Brake == 0)
+                        return GlobalVariables.BaseCoastingColour;
                     break;
                 case MapModeOptions.GearNumber:
-                    if (payload.GearNumber == "1")
-                        return "2D86FF";
-                    else if (payload.GearNumber == "2")
-                        return "2774DE";
-                    else if (payload.GearNumber == "3")
-                        return "2367C4";
-                    else if (payload.GearNumber == "4")
-                        return "1E5AAB";
-                    else if (payload.GearNumber == "5")
-                        return "1A4E94";
-                    else if (payload.GearNumber == "6")
-                        return "174380";
-                    else if (payload.GearNumber == "7")
-                        return "13386B";
-                    else if (payload.GearNumber == "8")
-                        return "0F2D57";
-                    else if (payload.GearNumber == "9")
-                        return "0B2140";
-                    else if (payload.GearNumber == "10")
-                        return "050F1C";
+                    if (position.GearNumber != "N")
+                        return GlobalVariables.GearShades[int.Parse(position.GearNumber)];
+                    break;
+                case MapModeOptions.SpeedHeatmap:
+                    if (position.Speed_Mph > (maxSpeed * 0.9))
+                        return GlobalVariables.HeatmapColours[9];
+                    else if (position.Speed_Mph > (maxSpeed * 0.8))
+                        return GlobalVariables.HeatmapColours[8];
+                    else if (position.Speed_Mph > (maxSpeed * 0.7))
+                        return GlobalVariables.HeatmapColours[7];
+                    else if (position.Speed_Mph > (maxSpeed * 0.6))
+                        return GlobalVariables.HeatmapColours[6];
+                    else if (position.Speed_Mph > (maxSpeed * 0.5))
+                        return GlobalVariables.HeatmapColours[5];
+                    else if (position.Speed_Mph > (maxSpeed * 0.4))
+                        return GlobalVariables.HeatmapColours[4];
+                    else if (position.Speed_Mph > (maxSpeed * 0.3))
+                        return GlobalVariables.HeatmapColours[3];
+                    else if (position.Speed_Mph > (maxSpeed * 0.2))
+                        return GlobalVariables.HeatmapColours[2];
+                    else if (position.Speed_Mph > (maxSpeed * 0.1))
+                        return GlobalVariables.HeatmapColours[1];
                     break;
                 default:
                     return "000000";

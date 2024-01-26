@@ -77,6 +77,7 @@
                 </ComboBox>
                 <Label Grid.Row="11" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
                 <ComboBox Grid.Row="12" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
+                    <ComboBoxItem Content="Massive (400%)"></ComboBoxItem>
                     <ComboBoxItem Content="Double (200%)"></ComboBoxItem>
                     <ComboBoxItem Content="Half Bigger (150%)"></ComboBoxItem>
                     <ComboBoxItem Content="Default (100%)" IsSelected="True"></ComboBoxItem>

@@ -27,8 +27,7 @@
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Style="{StaticResource TitleLabel}" Content="Game Status:"></Label>
-            <Ellipse Name="eGameStatus" Grid.Column="1" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6 8">
-            </Ellipse>
+            <Ellipse Name="eGameStatus" Grid.Column="1" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6 8"></Ellipse>
             <Label Grid.Column="1" Name="lGameStatus" HorizontalAlignment="Left" Margin="24 0 0 0"></Label>
             <Label Style="{StaticResource TitleLabel}" Grid.Column="2" Content="Race Time:"></Label>
             <Label Grid.Column="3" Name="lSessionTime" FontWeight="Bold" Margin="4 0"></Label>
