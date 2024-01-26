@@ -18,6 +18,7 @@ namespace ForzaAnalytics.Modules
         private bool isTracking = false;
         private GroupedPositionalData mapPositions;
         private GroupedExtendedPositionalData positions;
+        private TransformGroup mapTransformGroup;
         private double maxSpeed;
         private int currentLapNumber = 0;
         private int lapToPlot = -2; // -2 = ALL, -2 = Current, all others are specific Lap
@@ -32,6 +33,9 @@ namespace ForzaAnalytics.Modules
             mapScale = 1.0;
             InitializeComponent();
             maxSpeed = 0;
+            mapTransformGroup = new TransformGroup();
+            mapTransformGroup.Children.Add(new RotateTransform(180, 0, 0));
+            mapTransformGroup.Children.Add(new ScaleTransform(-1, 1));
         }
 
         public void ReceiveEvents(Telemetry payload)
@@ -64,19 +68,8 @@ namespace ForzaAnalytics.Modules
 
                 if (lapToPlot == -2 || (lapToPlot == -1 && payload.Race.LapNumber == currentLapNumber) || lapToPlot == payload.Race.LapNumber) // if its all/current OR the lap number from the options... show it..
                 {
-                    Ellipse dot = new Ellipse
-                    {
-                        Width = 2,
-                        Height = 2,
-                        Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(payload, mapMode, maxSpeed)),
-                    };
-
-                    Point canvasPoint = new Point(
-                        isRotated ? (payload.Position.PositionZ + positions.ZOffset) * mapScale : (payload.Position.PositionX + positions.XOffset) * mapScale,
-                        isRotated ? (payload.Position.PositionX + positions.XOffset) * mapScale : (payload.Position.PositionZ + positions.ZOffset) * mapScale);
-                    Canvas.SetLeft(dot, canvasPoint.X);
-                    Canvas.SetTop(dot, canvasPoint.Y);
-                    cMapPlot.Children.Add(dot);
+                    AddPlotPoint(payload.Position.PositionX, payload.Position.PositionZ, ref payload);
+                    AddPlotLabels(payload);
                 }
                 if (currentLapNumber != payload.Race.LapNumber)
                     cbLapPoints.Items.Add(payload.Race.LapNumber);
@@ -162,27 +155,112 @@ namespace ForzaAnalytics.Modules
         private void ReplotPositions()
         {
             maxSpeed = 0;
-            // then the other others...
-            foreach (var position in positions.GetAdjustedPositions())
+            var adjustedPositions = positions.GetAdjustedPositions();
+            for (var i = 0; i < adjustedPositions.Count; i++)
             {
-                if (lapToPlot == -2 || (lapToPlot == -1 && currentLapNumber == position.LapNumber) || lapToPlot == position.LapNumber)
+                if (lapToPlot == -2 || (lapToPlot == -1 && currentLapNumber == adjustedPositions[i].LapNumber) || lapToPlot == adjustedPositions[i].LapNumber)
                 {
-                    if (position.Speed_Mph > maxSpeed)
-                        maxSpeed = position.Speed_Mph;
-                    Ellipse dot = new Ellipse
-                    {
-                        Width = 2,
-                        Height = 2,
-                        Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(position, mapMode, maxSpeed)),
-                    };
+                    if (adjustedPositions[i].Speed_Mph > maxSpeed)
+                        maxSpeed = adjustedPositions[i].Speed_Mph;
 
-                    Point canvasPoint = new Point(
-                        isRotated ? position.Z * mapScale : position.X * mapScale,
-                        isRotated ? position.X * mapScale : position.Z * mapScale);
-                    Canvas.SetLeft(dot, canvasPoint.X);
-                    Canvas.SetTop(dot, canvasPoint.Y);
-                    cMapPlot.Children.Add(dot);
+                    AddPlotPoint(adjustedPositions[i].X, adjustedPositions[i].Z, adjustedPositions[i]);
+                    AddPlotLabels(i > 0, adjustedPositions[i], i > 0 ? adjustedPositions[i - 1] : null);
                 }
+            }
+        }
+        private Label GeneratePlotLabel(double x, double z, string content)
+        {
+            double width = 30;
+            double height = 30;
+            if (mapMode == MapModeOptions.SpeedHeatmap)
+                width = 80;
+            Label label = new Label()
+            {
+                Content = content,
+                FontSize = 16,
+                Width = width,
+                Height = height,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                FontWeight = FontWeights.Bold,
+                RenderTransform = mapTransformGroup,
+                Foreground = new SolidColorBrush(Colors.Black),
+                BorderBrush = new SolidColorBrush(Colors.DarkGray),
+                Background = new SolidColorBrush(Colors.White),
+                BorderThickness = new Thickness(1),
+                Margin =
+                new Thickness(
+                        isRotated ? z * mapScale : x * mapScale,
+                        isRotated ? x * mapScale : z * mapScale,
+                        0.0,
+                        0.0
+                    )
+            };
+
+            return label;
+        }
+
+        private void AddPlotPoint(double x, double z, ExtendedPositionalData data)
+        {
+            Ellipse dot = new Ellipse
+            {
+                Width = 2,
+                Height = 2,
+                Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(data, mapMode, maxSpeed)),
+            };
+
+            Point canvasPoint = new Point(
+                isRotated ? z * mapScale : x * mapScale,
+                isRotated ? x * mapScale : z * mapScale);
+            Canvas.SetLeft(dot, canvasPoint.X);
+            Canvas.SetTop(dot, canvasPoint.Y);
+            cMapPlot.Children.Add(dot);
+        }
+        private void AddPlotPoint(double x, double z, ref Telemetry data)
+        {
+            Ellipse dot = new Ellipse
+            {
+                Width = 2,
+                Height = 2,
+                Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(data, mapMode, maxSpeed)),
+            };
+
+            Point canvasPoint = new Point(
+                isRotated ? (z + positions.ZOffset) * mapScale : (x + positions.XOffset) * mapScale,
+                isRotated ? (x + positions.XOffset) * mapScale : (z + positions.ZOffset) * mapScale);
+            Canvas.SetLeft(dot, canvasPoint.X);
+            Canvas.SetTop(dot, canvasPoint.Y);
+            cMapPlot.Children.Add(dot);
+        }
+        private void AddPlotLabels(Telemetry currentRow)
+        {
+            switch (mapMode)
+            {
+                case MapModeOptions.GearNumber:
+                    if (
+                        positions.ExtendedPositions == null ||
+                        positions.ExtendedPositions.Count == 0 ||
+                        (
+                            positions.ExtendedPositions.Count > 2 
+                            && 
+                            currentRow.GearNumber != positions.ExtendedPositions[positions.ExtendedPositions.Count - 2].GearNumber
+                        ))
+                        cMapPlot.Children.Add(
+                            GeneratePlotLabel(
+                                currentRow.Position.PositionX + positions.XOffset, 
+                                currentRow.Position.PositionZ + positions.ZOffset, 
+                                currentRow.GearNumber));
+                    break;
+            }
+        }
+        private void AddPlotLabels(bool hasPrevious, ExtendedPositionalData currentRow, ExtendedPositionalData? previousRow = null)
+        {
+            switch (mapMode)
+            {
+                case MapModeOptions.GearNumber:
+                    if (!hasPrevious || currentRow.GearNumber != previousRow.GearNumber)
+                        cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
+                    break;
             }
         }
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
@@ -206,12 +284,12 @@ namespace ForzaAnalytics.Modules
             var tmp = mapPositions.GetAdjustedPositions();
             if (tmp.Any())
             {
-                float minX = tmp.Min(x => x.X) ;
+                float minX = tmp.Min(x => x.X);
                 float minZ = tmp.Min(x => x.Z);
                 float maxX = tmp.Max(x => x.X);
                 float maxZ = tmp.Max(x => x.Z);
 
-                cMapPlot.Height =  isRotated ? (maxX * mapScale) - (minX * mapScale) + 40 : (maxZ * mapScale) - (minZ * mapScale) + 40;
+                cMapPlot.Height = isRotated ? (maxX * mapScale) - (minX * mapScale) + 40 : (maxZ * mapScale) - (minZ * mapScale) + 40;
                 cMapPlot.Width = isRotated ? (maxZ * mapScale) - (minZ * mapScale) + 40 : (maxX * mapScale) - (minX * mapScale) + 40;
             }
         }
@@ -228,7 +306,6 @@ namespace ForzaAnalytics.Modules
             mapPositions.Positions = newPositions.Distinct(new PositionalDataComparer()).ToList();
             ReplotPoints();
         }
-
         private void cbChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var action = (cbChartType.SelectedItem as ComboBoxItem)?.Content.ToString();
@@ -259,7 +336,7 @@ namespace ForzaAnalytics.Modules
             switch (action)
             {
                 case "Massive (400%)":
-                 mapScale = 4.0;
+                    mapScale = 4.0;
                     break;
                 case "Double (200%)":
                     mapScale = 2.0;
@@ -288,7 +365,7 @@ namespace ForzaAnalytics.Modules
             dialog.FileName = $"{tbTrackId}_telemetry.json";
             if (dialog.ShowDialog() == true)
             {
-                MapSerializer.ExportPositionData(dialog.FileName,positions);
+                MapSerializer.ExportPositionData(dialog.FileName, positions);
             }
         }
         private void btnImportData_Click(object sender, RoutedEventArgs e)
@@ -310,7 +387,7 @@ namespace ForzaAnalytics.Modules
                     if (!laps.Contains(position.LapNumber))
                         laps.Add(position.LapNumber);
                 }
-                foreach(var item in laps)
+                foreach (var item in laps)
                     cbLapPoints.Items.Add(item);
             }
         }
@@ -358,7 +435,7 @@ namespace ForzaAnalytics.Modules
         {
             if (!string.IsNullOrEmpty(tbZOffset.Text))
             {
-                tbZOffset.Text = (int.Parse(tbZOffset.Text) +10).ToString();
+                tbZOffset.Text = (int.Parse(tbZOffset.Text) + 10).ToString();
                 positions.ZOffset = int.Parse(tbZOffset.Text);
                 mapPositions.ZOffset = int.Parse(tbZOffset.Text);
                 ReplotPoints();
@@ -367,11 +444,11 @@ namespace ForzaAnalytics.Modules
         private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var action = (cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString();
-            if(action == "All Laps")
+            if (action == "All Laps")
                 lapToPlot = -2;
             else if (action == "Current Lap")
                 lapToPlot = -1;
-            else if(action == null)
+            else if (action == null)
             {
                 lapToPlot = (int)cbLapPoints.SelectedItem;
             }

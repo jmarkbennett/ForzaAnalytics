@@ -61,7 +61,9 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.BaseCoastingColour;
                     break;
                 case MapModeOptions.GearNumber:
-                    if (position.GearNumber != "N")
+                    if (position.GearNumber == "R")
+                        return "FF0000";
+                    else if (position.GearNumber != "N")
                         return GlobalVariables.GearShades[int.Parse(position.GearNumber)];
                     break;
                 case MapModeOptions.SpeedHeatmap:
@@ -120,7 +122,9 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.BaseCoastingColour;
                     break;
                 case MapModeOptions.GearNumber:
-                    if (position.GearNumber != "N")
+                    if (position.GearNumber == "R")
+                        return "FF0000";
+                    else if (position.GearNumber != "N")
                         return GlobalVariables.GearShades[int.Parse(position.GearNumber)];
                     break;
                 case MapModeOptions.SpeedHeatmap:
