@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              xmlns:Controls="clr-namespace:ForzaAnalytics.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="150" d:DesignWidth="1980">
+             d:DesignHeight="120" d:DesignWidth="1980">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="160"></ColumnDefinition>

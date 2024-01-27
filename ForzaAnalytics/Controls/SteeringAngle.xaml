@@ -30,9 +30,12 @@
                 <RotateTransform x:Name="lAngle" Angle="0" CenterY="30" CenterX="2"></RotateTransform>
             </Rectangle.RenderTransform>
         </Rectangle>
+        <Ellipse Grid.Row="1" Margin="20" VerticalAlignment="Top" Height="2" Width="2" Fill="White"></Ellipse>
         <Ellipse Grid.Row="1" Height="55" Width="55" Fill="#5F5F5F"></Ellipse>
         <Rectangle Grid.Row="1" Margin="4" Height="50" VerticalAlignment="Bottom" Fill="#5F5F5F"></Rectangle>
         <Rectangle Grid.Row="1" Height="4" VerticalAlignment="Bottom" Fill="#3B3B3B"></Rectangle>
+        <Rectangle Grid.Row="1" Height="2" Margin="4 2 62 0" Width="4" VerticalAlignment="Center" Fill="#3B3B3B"></Rectangle>
+        <Rectangle Grid.Row="1" Height="2" Margin="58 2 0 0" Width="4" VerticalAlignment="Center" Fill="#3B3B3B"></Rectangle>
         <Label Name="lValue" Grid.Row="1" Margin="4" VerticalContentAlignment="Center" Content="0" HorizontalContentAlignment="Center"></Label>
     </Grid>
 </UserControl>

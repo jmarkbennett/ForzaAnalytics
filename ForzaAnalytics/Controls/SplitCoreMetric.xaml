@@ -20,7 +20,7 @@
                 <ColumnDefinition Width="50"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="75"/>
+                <RowDefinition Height="65"/>
                 <RowDefinition />
             </Grid.RowDefinitions>
             <Label Name="lPrimaryMetricValue" Style="{StaticResource SecondaryMetric}"></Label>
