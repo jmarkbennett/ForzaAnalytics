@@ -74,6 +74,5 @@
             GaugeColour="OrangeRed"
             >
         </Controls:GaugeMonitor>
-        <ProgressBar x:Name="biggles"></ProgressBar>
     </Grid>
 </UserControl>

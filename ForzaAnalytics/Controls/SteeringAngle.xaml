@@ -16,10 +16,10 @@
             <Label Name="lMetricValue" Style="{StaticResource PrimaryMetric}"></Label>
         </Grid>
        
-        <Ellipse Grid.Row="1" Height="80" Width="80" Fill="DarkGray"></Ellipse>
+        <Ellipse Grid.Row="1" Height="60" Width="60" Fill="DarkGray"></Ellipse>
         <Rectangle Name="rAngle" 
                    HorizontalAlignment="Center" 
-                   VerticalAlignment="Center" Height="80" Grid.Row="1" Width="4">
+                   VerticalAlignment="Center" Height="60" Grid.Row="1" Width="4">
             <Rectangle.Fill>
                 <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
                     <GradientStop Color="White" Offset="0"/>
@@ -27,10 +27,10 @@
                 </LinearGradientBrush>
             </Rectangle.Fill>
             <Rectangle.RenderTransform>
-                <RotateTransform x:Name="lAngle" Angle="0" CenterY="40" CenterX="2"></RotateTransform>
+                <RotateTransform x:Name="lAngle" Angle="0" CenterY="30" CenterX="2"></RotateTransform>
             </Rectangle.RenderTransform>
         </Rectangle>
-        <Ellipse Grid.Row="1" Height="70" Width="70" Fill="#5F5F5F"></Ellipse>
+        <Ellipse Grid.Row="1" Height="55" Width="55" Fill="#5F5F5F"></Ellipse>
         <Rectangle Grid.Row="1" Margin="4" Height="50" VerticalAlignment="Bottom" Fill="#5F5F5F"></Rectangle>
         <Rectangle Grid.Row="1" Height="4" VerticalAlignment="Bottom" Fill="#3B3B3B"></Rectangle>
         <Label Name="lValue" Grid.Row="1" Margin="4" VerticalContentAlignment="Center" Content="0" HorizontalContentAlignment="Center"></Label>

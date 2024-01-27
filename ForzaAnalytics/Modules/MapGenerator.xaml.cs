@@ -14,10 +14,12 @@ namespace ForzaAnalytics.Modules
     /// </summary>
     public partial class MapGenerator : UserControl
     {
+        private int lapNumber;
         private bool isTracking = false;
         private Models.Core.GroupedPositionalData positions;
         public MapGenerator()
         {
+            lapNumber = 0;
             positions = new Models.Core.GroupedPositionalData();
             InitializeComponent();
         }
@@ -27,20 +29,29 @@ namespace ForzaAnalytics.Modules
             positions.TrackId = payload.Race.TrackIdentifier;
             if (isTracking)
             {
-                positions.Positions.Add(new Models.Core.PositionalData(payload.Position.PositionX, payload.Position.PositionY, payload.Position.PositionZ));
-                Ellipse dot = new Ellipse
+                if (payload.Race.LapNumber == lapNumber)
                 {
-                    Width = 2,
-                    Height = 2,
-                    Fill = Brushes.DarkGray
-                };
+                    positions.Positions.Add(new Models.Core.PositionalData(payload.Position.PositionX, payload.Position.PositionY, payload.Position.PositionZ));
+                    Ellipse dot = new Ellipse
+                    {
+                        Width = 2,
+                        Height = 2,
+                        Fill = Brushes.DarkGray
+                    };
 
-                Point canvasPoint = new Point(
-                    payload.Position.PositionX + (positions.XOffset), 
-                    payload.Position.PositionZ + (positions.ZOffset));
-                Canvas.SetLeft(dot, canvasPoint.X);
-                Canvas.SetTop(dot, canvasPoint.Y);
-                cMapPlot.Children.Add(dot);
+                    Point canvasPoint = new Point(
+                        payload.Position.PositionX + (positions.XOffset),
+                        payload.Position.PositionZ + (positions.ZOffset));
+                    Canvas.SetLeft(dot, canvasPoint.X);
+                    Canvas.SetTop(dot, canvasPoint.Y);
+                    cMapPlot.Children.Add(dot);
+                }
+                else
+                {
+                    tglTrackData.IsChecked = false;
+                    isTracking = false;
+                    lapNumber = payload.Race.LapNumber;
+                }
             }
         }
         public void ResetEvents()
