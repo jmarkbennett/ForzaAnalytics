@@ -31,5 +31,9 @@ namespace ForzaAnalytics.UdpReader.Model
         private float raw_tireTempRearLeft { get { return TelemetryHelper.extractSingle(ref payload, 264, 267); } }// F32 TireTempRearLeft;	4	264	267
         private float raw_tireTempRearRight { get { return TelemetryHelper.extractSingle(ref payload, 268, 271); } }// F32 TireTempRearRight;	4	268	271
 
+        public float TireSlipRatioFrontLeft { get { return raw_tireCombinedSlipFrontLeft; } }
+        public float TireSlipRatioFrontRight { get { return raw_tireCombinedSlipFrontRight; } }
+        public float TireSlipRatioRearLeft { get { return raw_tireCombinedSlipRearLeft; } }
+        public float TireSlipRatioRearRight { get { return raw_tireCombinedSlipRearRight; } }
     }
 }

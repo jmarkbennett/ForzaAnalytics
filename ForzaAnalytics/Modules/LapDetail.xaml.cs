@@ -15,6 +15,7 @@ namespace ForzaAnalytics.Modules
         public  List<double> currentBrakeApplied;
         private List<double> fuelConsumption;
         private int currentLapNumber;
+        private float initialfuel = -1;
         public LapDetail()
         {
             LapTimes = [];
@@ -33,7 +34,8 @@ namespace ForzaAnalytics.Modules
             tbBestLapTime.Content = Models.Formatters.Formatting.FormattedTime(payload.Race.BestLapTime);
             tbFuel.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Fuel);
 
-
+            if (initialfuel == -1)
+                initialfuel = payload.Fuel;
             // For this just use the last lap values... and do -1 on the current lap...
             if (LapTimes.Any() && payload.Race.LastLapTime > 0)
             {
@@ -43,7 +45,7 @@ namespace ForzaAnalytics.Modules
                         new LapTime()
                         {
                             IsBestLap = (payload.Race.LastLapTime == payload.Race.BestLapTime),
-                            LapNumber = payload.Race.LapNumber - 1, // this is debatable..
+                            LapNumber = payload.Race.LapNumber,
                             TimeInSeconds = payload.Race.LastLapTime,
                             FuelRemaining = payload.Fuel,
                             AverageSpeed = currentSpeeds.Any() ? currentSpeeds.Average() : 0.0,
@@ -52,14 +54,11 @@ namespace ForzaAnalytics.Modules
                             MaxSpeed = currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Max() : 0.0,
                             MinSpeed = currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Min() : 0.0,
                             FuelUsed = fuelConsumption.Any() ? fuelConsumption.Max() - fuelConsumption.Min() : 0
-
                         }
                         );
 
                     foreach (LapTime t in LapTimes)
-                    {
                         t.IsBestLap = (t.TimeInSeconds == payload.Race.BestLapTime);
-                    }
                 }
             }
             else if (payload.Race.LastLapTime > 0)
@@ -68,7 +67,7 @@ namespace ForzaAnalytics.Modules
                     new LapTime()
                     {
                         IsBestLap = (payload.Race.LastLapTime == payload.Race.BestLapTime),
-                        LapNumber = payload.Race.LapNumber - 1, // this is debatable..
+                        LapNumber = payload.Race.LapNumber,
                         TimeInSeconds = payload.Race.LastLapTime,
                         FuelRemaining = payload.Fuel,
                         AverageSpeed = currentSpeeds.Any() ? currentSpeeds.Average() : 0.0,
@@ -76,7 +75,7 @@ namespace ForzaAnalytics.Modules
                         PercentFullThrottle = ((double)currentAccelerations.Count(x => x == 100) / (double)currentBrakeApplied.Count()),
                         MaxSpeed = currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Max() : 0.0,
                         MinSpeed = currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Min() : 0.0,
-                        FuelUsed = fuelConsumption.Any() ? fuelConsumption.Max() - fuelConsumption.Min() : 0
+                        FuelUsed = fuelConsumption.Any() ? fuelConsumption.Max() - fuelConsumption.Min() : initialfuel - payload.Fuel
                     }
                 );
             }

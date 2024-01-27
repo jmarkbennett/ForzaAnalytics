@@ -90,4 +90,11 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
         <Setter Property="Margin" Value="4 0 4 0"></Setter>
     </Style>
+    <Style x:Key="GaugeTitle" TargetType="Label">
+        <Setter Property="FontSize" Value="12"></Setter>
+        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="HorizontalAlignment" Value="Center"></Setter>
+        <Setter Property="VerticalAlignment" Value="Center"></Setter>
+    </Style>
 </ResourceDictionary>

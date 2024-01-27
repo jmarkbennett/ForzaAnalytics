@@ -1,4 +1,5 @@
-﻿using ForzaAnalytics.Services.Serializers;
+﻿using ForzaAnalytics.Models.Helpers;
+using ForzaAnalytics.Services.Serializers;
 using ForzaAnalytics.UdpReader.Model;
 using Microsoft.Win32;
 using System.Windows;
@@ -87,6 +88,25 @@ namespace ForzaAnalytics.Modules
                 positions.ZOffset = int.Parse(tbZOffset.Text);
 
             ReplotPoints();
+        }
+
+        private void ReduceMap()
+        {
+            var newPositions = new List<Models.Core.PositionalData>();
+            if (tbReducePrecision.Text != null)
+            {
+                foreach (var row in positions.Positions)
+                    newPositions.Add(
+                        new Models.Core.PositionalData(
+                            (float)Math.Round(row.X, int.Parse(tbReducePrecision.Text)), 
+                            (float)Math.Round(row.Y, int.Parse(tbReducePrecision.Text)), 
+                            (float)Math.Round(row.Z, int.Parse(tbReducePrecision.Text))
+                            )
+                    );
+
+                positions.Positions = newPositions.Distinct(new PositionalDataComparer()).ToList();
+                ReplotPoints();
+            }
         }
 
         private void ReplotPoints()

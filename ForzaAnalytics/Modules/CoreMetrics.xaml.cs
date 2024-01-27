@@ -1,4 +1,5 @@
 ﻿using ForzaAnalytics.UdpReader.Model;
+using System.Diagnostics;
 using System.Windows.Controls;
 
 namespace ForzaAnalytics.Modules
@@ -8,6 +9,7 @@ namespace ForzaAnalytics.Modules
     /// </summary>
     public partial class CoreMetrics : UserControl
     {
+
         public CoreMetrics()
         {
             InitializeComponent();
@@ -15,18 +17,17 @@ namespace ForzaAnalytics.Modules
 
         public void ReceiveEvents(Telemetry payload)
         {
-            lBoost.Content = payload.Boost.ToString("N");
-            lFuel.Content = ForzaAnalytics.Models.Formatters.Formatting.FormattedPercentage(payload.Fuel);
-            lGear.Content = payload.GearNumber;
-            lPitch.Content = payload.Pitch.ToString("N");
-            lYaw.Content = payload.Yaw.ToString("N");
-            lRoll.Content = payload.Roll.ToString("N");
-            lRpm.Content = payload.EngineRpm.ToString("N");
-            lSpeed.Content = payload.Speed_Mph;
-            lPower.Content = payload.EnginePowerHp.ToString("N");
-            lTorque.Content= payload.TorqueOneFootPound.ToString("N");
-            lDistanceTravelled.Content = payload.DistanceTravelled.ToString("N");
-            lSteeringAngle.Content = payload.SteeringAngle.ToString();
+            mBoost.Update(payload.Boost.ToString("N"));
+            mFuel.Update(Models.Formatters.Formatting.FormattedPercentage(payload.Fuel));
+            mPitch.Update(payload.Pitch.ToString("N"));
+            mYaw.Update(payload.Yaw.ToString("N"));
+            mRoll.Update(payload.Roll.ToString("N"));
+            mRpm.Update(payload.EngineRpm.ToString("N"));
+            mPower.Update(payload.EnginePowerHp.ToString("N"));
+            mTorque.Update(payload.TorqueOneFootPound.ToString("N"));
+            mDistanceTravelled.Update(payload.DistanceTravelled.ToString("N"));
+            mSteeringAngle.Update(payload.SteeringAngle.ToString());
+            mSpeed.Update(payload.Speed_Mph.ToString("N"), payload.GearNumber);
         }
         public void ResetEvents()
         {

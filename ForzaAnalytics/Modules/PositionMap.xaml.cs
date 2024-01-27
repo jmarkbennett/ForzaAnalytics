@@ -41,7 +41,6 @@ namespace ForzaAnalytics.Modules
         public void ReceiveEvents(Telemetry payload)
         {
             tbTrackId.Text = payload.Race.TrackIdentifier.ToString();
-
             if (isTracking)
             {
                 if (payload.Speed_Mph > maxSpeed)
@@ -199,7 +198,6 @@ namespace ForzaAnalytics.Modules
 
             return label;
         }
-
         private void AddPlotPoint(double x, double z, ExtendedPositionalData data)
         {
             Ellipse dot = new Ellipse

@@ -57,11 +57,23 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <ToggleButton Name="tglTrackData" Content="Start Tracking" Margin="4" Grid.Row="0" Grid.RowSpan="2" Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked">
                 </ToggleButton>
-                <Button Name="btnReset" Content="Reset" Grid.Row="3" Click="btnReset_Click"></Button>
-                <Button Name="btnSave" Content="Save Map" Grid.Row="5" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
+                <Label Grid.Row="3" Content="Reduce Map Precision:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Name="tbReducePrecision" Grid.Row="4" Text="0"></TextBox>
+                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="5" Click="btnReset_Click"></Button>
+                
+                <Button Name="btnReset" Content="Reset" Grid.Row="7" Click="btnReset_Click"></Button>
+                <Button Name="btnSave" Content="Save Map" Grid.Row="9" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
             </Grid>
         </Grid>
     </Grid>
