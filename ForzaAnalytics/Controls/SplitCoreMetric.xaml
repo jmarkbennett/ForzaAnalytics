@@ -11,13 +11,13 @@
             <RowDefinition Height="30"/>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <Label Content="{Binding PrimaryMetricTitle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Background="#5F5F5F" Grid.Row="0" Name="lPrimaryMetricTitle" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="4 0 0 0" Width="108"></Label>
-        <Label Content="{Binding SecondaryMetricTitle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="#5F5F5F" Grid.Row="0" Name="lSecondaryMetricTitle" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0 0 4 0" Width="70"></Label>
+        <Label Content="{Binding PrimaryMetricTitle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Background="#5F5F5F" Grid.Row="0" Name="lPrimaryMetricTitle" HorizontalAlignment="Left" HorizontalContentAlignment="Center" Margin="4 0 0 0" Width="128"></Label>
+        <Label Content="{Binding SecondaryMetricTitle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Background="#5F5F5F" Grid.Row="0" Name="lSecondaryMetricTitle" HorizontalAlignment="Right" HorizontalContentAlignment="Center" Margin="0 0 4 0" Width="50"></Label>
         <Grid Grid.Row="1" Name="CoreCarVals" Style="{StaticResource CoreMetricContainer}" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="2"></ColumnDefinition>
-                <ColumnDefinition Width="70"></ColumnDefinition>
+                <ColumnDefinition Width="50"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="75"/>

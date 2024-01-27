@@ -9,30 +9,31 @@
              d:DesignHeight="150" d:DesignWidth="1980">
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
-            <ColumnDefinition Width="190"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
+            <ColumnDefinition Width="160"></ColumnDefinition>
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
         <Controls:SplitCoreMetric Grid.Column="0" PrimaryMetricTitle="Speed" SecondaryMetricTitle="Gear" SubTitle="MPH" x:Name="mSpeed"></Controls:SplitCoreMetric>
-        <Controls:CoreMetric Grid.Column="1"  MetricTitle="RPMs" x:Name="mRpm"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="2"  MetricTitle="Power (HP)" x:Name="mPower"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="3"  MetricTitle="Boost (PSI)" x:Name="mBoost"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="4"  MetricTitle="Fuel %" x:Name="mFuel"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="5"  MetricTitle="Yaw" x:Name="mYaw"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="6"  MetricTitle="Pitch" x:Name="mPitch"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="7"  MetricTitle="Roll" x:Name="mRoll"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="8"  MetricTitle="Torque (lb-ft)" x:Name="mTorque"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="9"  MetricTitle="Distance Travelled (m)" x:Name="mDistanceTravelled"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="10" MetricTitle="RPMs" x:Name="mSteeringAngle"></Controls:CoreMetric>
+        <Controls:SteeringAngle Grid.Column="1" x:Name="mSteeringAngle"></Controls:SteeringAngle>
+        <Controls:CoreMetric Grid.Column="2"  MetricTitle="RPMs" x:Name="mRpm"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="3"  MetricTitle="Power (HP)" x:Name="mPower"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="4"  MetricTitle="Boost (PSI)" x:Name="mBoost"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="5"  MetricTitle="Fuel %" x:Name="mFuel"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="6"  MetricTitle="Yaw" x:Name="mYaw"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="7"  MetricTitle="Pitch" x:Name="mPitch"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="8"  MetricTitle="Roll" x:Name="mRoll"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="9"  MetricTitle="Torque (lb-ft)" x:Name="mTorque"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="10"  MetricTitle="Distance Travelled (m)" x:Name="mDistanceTravelled"></Controls:CoreMetric>
+        
     </Grid>
 </UserControl>

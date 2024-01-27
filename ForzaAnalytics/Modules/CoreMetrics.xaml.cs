@@ -26,7 +26,7 @@ namespace ForzaAnalytics.Modules
             mPower.Update(payload.EnginePowerHp.ToString("N"));
             mTorque.Update(payload.TorqueOneFootPound.ToString("N"));
             mDistanceTravelled.Update(payload.DistanceTravelled.ToString("N"));
-            mSteeringAngle.Update(payload.SteeringAngle.ToString());
+            mSteeringAngle.Update(payload.SteeringAngle);
             mSpeed.Update(payload.Speed_Mph.ToString("N"), payload.GearNumber);
         }
         public void ResetEvents()
