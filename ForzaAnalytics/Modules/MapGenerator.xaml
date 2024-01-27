@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
+             d:DesignHeight="640" d:DesignWidth="800">
     <Grid Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
@@ -31,6 +31,14 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Track ID" HorizontalContentAlignment="Center"></Label>
                 <TextBox Grid.Row="1" Grid.Column="1" Name="tbTrackId" IsEnabled="false"></TextBox>
@@ -41,6 +49,14 @@
                 <Label Grid.Row="6" Content="Z Offset:" HorizontalContentAlignment="Center"></Label>
                 <TextBox  Grid.Row="7" Name="tbZOffset" Text="0"></TextBox>
                 <Button Grid.Row="8" Name="btnApplyOffset" Content="Apply Offsets" Click="btnApplyOffset_Click"></Button>
+                <Label Grid.Row="9" Content="Current Min X:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="10" Grid.Column="1" Name="tbMinX" IsEnabled="false"></TextBox>
+                <Label Grid.Row="11" Content="Current Max X:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="12" Grid.Column="1" Name="tbMaxX" IsEnabled="false"></TextBox>
+                <Label Grid.Row="13" Content="Current Min Z:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="14" Grid.Column="1" Name="tbMinZ" IsEnabled="false"></TextBox>
+                <Label Grid.Row="15" Content="Current Max Z:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="16" Grid.Column="1" Name="tbMaxZ" IsEnabled="false"></TextBox>
             </Grid>
             <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
                 <Border BorderThickness="2" BorderBrush="#DDDDDD">
@@ -65,15 +81,19 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <ToggleButton Name="tglTrackData" Content="Start Tracking" Margin="4" Grid.Row="0" Grid.RowSpan="2" Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked">
                 </ToggleButton>
                 <Label Grid.Row="3" Content="Reduce Map Precision:" HorizontalContentAlignment="Center"></Label>
                 <TextBox Name="tbReducePrecision" Grid.Row="4" Text="0"></TextBox>
                 <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="5" Click="btnReset_Click"></Button>
-                
-                <Button Name="btnReset" Content="Reset" Grid.Row="7" Click="btnReset_Click"></Button>
-                <Button Name="btnSave" Content="Save Map" Grid.Row="9" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
+
+                <Button Name="btnResetLatest" Content="Reset Latest" Grid.Row="7" Click="btnResetLatest_Click"></Button>
+                <Button Name="btnReset" Content="Reset" Grid.Row="9" Click="btnReset_Click"></Button>
+                <Button Name="btnCommit" Content="Commit Latest" Grid.Row="11" Height="26" Margin="4,2,4,0" VerticalAlignment="Top" Click="btnCommit_Click"></Button>
+                <Button Name="btnSave" Content="Save Map" Grid.Row="13" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
             </Grid>
         </Grid>
     </Grid>
