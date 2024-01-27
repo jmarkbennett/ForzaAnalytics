@@ -54,6 +54,9 @@
                     </Grid>
                 </Grid>
             </TabItem>
+            <TabItem Header="All Metrics">
+                <Modules:AllMetrics x:Name="allMetrics"></Modules:AllMetrics>
+            </TabItem>
             <TabItem Header="Map Generator">
                 <Modules:MapGenerator x:Name="mapGenerator"></Modules:MapGenerator>
             </TabItem>

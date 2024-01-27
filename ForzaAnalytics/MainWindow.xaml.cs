@@ -40,6 +40,7 @@ namespace ForzaAnalytics
                             mapGenerator.ReceiveEvents(payload);
                             positionMap.ReceiveEvents(payload);
                             coreMetricsModule.ReceiveEvents(payload);
+                            allMetrics.ReceiveEvents(payload);
                         }
                         else
                         {
