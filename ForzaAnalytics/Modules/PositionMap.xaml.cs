@@ -19,20 +19,18 @@ namespace ForzaAnalytics.Modules
         private GroupedPositionalData mapPositions;
         private GroupedExtendedPositionalData positions;
         private TransformGroup mapTransformGroup;
-        private double maxSpeed;
+        private double maxSpeed = 0;
         private int currentLapNumber = 0;
         private int lapToPlot = -2; // -2 = ALL, -2 = Current, all others are specific Lap
         private bool isRotated = false;
-        private double mapScale { get; set; }
+        private double mapScale = 1.0;
         private MapModeOptions mapMode = MapModeOptions.DefaultPosition;
 
         public PositionMap()
         {
             mapPositions = new GroupedPositionalData();
             positions = new GroupedExtendedPositionalData();
-            mapScale = 1.0;
             InitializeComponent();
-            maxSpeed = 0;
             mapTransformGroup = new TransformGroup();
             mapTransformGroup.Children.Add(new RotateTransform(180, 0, 0));
             mapTransformGroup.Children.Add(new ScaleTransform(-1, 1));
@@ -52,6 +50,7 @@ namespace ForzaAnalytics.Modules
                     Clutch = payload.Clutch,
                     Handbrake = payload.Handbrake,
                     Speed_Mph = payload.Speed_Mph,
+                    Speed_Mps = payload.Speed_Mps,
                     RaceTime = payload.Race.CurrentRaceTime,
                     LapTime = payload.Race.CurrentLapTime,
                     LapNumber = payload.Race.LapNumber,
@@ -161,8 +160,10 @@ namespace ForzaAnalytics.Modules
                 {
                     if (adjustedPositions[i].Speed_Mph > maxSpeed)
                         maxSpeed = adjustedPositions[i].Speed_Mph;
-
-                    AddPlotPoint(adjustedPositions[i].X, adjustedPositions[i].Z, adjustedPositions[i]);
+                    double prevSpeed = 0;
+                    if (i > 10)
+                        prevSpeed = adjustedPositions[i - 10].Speed_Mps;
+                    AddPlotPoint(adjustedPositions[i].X, adjustedPositions[i].Z, adjustedPositions[i], prevSpeed);
                     AddPlotLabels(i > 0, adjustedPositions[i], i > 0 ? adjustedPositions[i - 1] : null);
                 }
             }
@@ -198,13 +199,13 @@ namespace ForzaAnalytics.Modules
 
             return label;
         }
-        private void AddPlotPoint(double x, double z, ExtendedPositionalData data)
+        private void AddPlotPoint(double x, double z, ExtendedPositionalData data, double? prevSpeed)
         {
             Ellipse dot = new Ellipse
             {
                 Width = 2,
                 Height = 2,
-                Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(data, mapMode, maxSpeed)),
+                Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(data, mapMode, maxSpeed, prevSpeed)),
             };
 
             Point canvasPoint = new Point(
@@ -216,11 +217,14 @@ namespace ForzaAnalytics.Modules
         }
         private void AddPlotPoint(double x, double z, ref Telemetry data)
         {
+            double prevSpeed = 0;
+            if(positions.ExtendedPositions != null && positions.ExtendedPositions.Count > 10)
+                prevSpeed = positions.ExtendedPositions[positions.ExtendedPositions.Count -10].Speed_Mps;
             Ellipse dot = new Ellipse
             {
                 Width = 2,
                 Height = 2,
-                Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(data, mapMode, maxSpeed)),
+                Fill = Helpers.ColourHelper.GetColourFromString(Services.Helpers.ColourHelper.GetColourForMapMode(data, mapMode, maxSpeed, prevSpeed)),
             };
 
             Point canvasPoint = new Point(
@@ -321,9 +325,13 @@ namespace ForzaAnalytics.Modules
                 case "Gear Number":
                     mapMode = MapModeOptions.GearNumber;
                     break;
+                case "Acceleration":
+                    mapMode = MapModeOptions.Acceleration;
+                    break;
                 default:
                     mapMode = MapModeOptions.DefaultPosition;
                     break;
+                
             }
 
             ReplotPoints();
@@ -360,7 +368,7 @@ namespace ForzaAnalytics.Modules
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "JSON files (*.json)|*.json";
             dialog.Title = "Save Telemetry";
-            dialog.FileName = $"{tbTrackId}_telemetry.json";
+            dialog.FileName = $"{tbTrackId.Text}_telemetry.json";
             if (dialog.ShowDialog() == true)
             {
                 MapSerializer.ExportPositionData(dialog.FileName, positions);

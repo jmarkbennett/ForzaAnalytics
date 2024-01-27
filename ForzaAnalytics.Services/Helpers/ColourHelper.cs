@@ -30,7 +30,7 @@ namespace ForzaAnalytics.Services.Helpers
             }
             return "FFFFFF";
         }
-        public static string GetColourForMapMode(ExtendedPositionalData position, MapModeOptions mapMode, double? maxSpeed = null)
+        public static string GetColourForMapMode(ExtendedPositionalData position, MapModeOptions mapMode, double? maxSpeed = null, double? prevSpeed = null)
         {
             switch (mapMode)
             {
@@ -85,13 +85,23 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[2];
                     else if (position.Speed_Mph > (maxSpeed * 0.1))
                         return GlobalVariables.HeatmapColours[1];
+                    break;
+                case MapModeOptions.Acceleration:
+                    if (prevSpeed == null)
+                        return "0000FF";
+                    else if (Math.Round(position.Speed_Mps, 3) > Math.Round(prevSpeed.Value, 3)) // Accelerating
+                        return "00FF00";
+                    else if (Math.Round(position.Speed_Mps, 3) == Math.Round(prevSpeed.Value, 3)) // Maintaining
+                        return "0000FF";
+                    else if (Math.Round(position.Speed_Mps, 3) < Math.Round(prevSpeed.Value, 3)) // Slowing
+                        return "FF0000";
                     break;
                 default:
                     return "000000";
             }
             return "000000";
         }
-        public static string GetColourForMapMode(UdpReader.Model.Telemetry position, MapModeOptions mapMode, double? maxSpeed = null)
+        public static string GetColourForMapMode(UdpReader.Model.Telemetry position, MapModeOptions mapMode, double? maxSpeed = null, double? prevSpeed = null)
         {
             switch (mapMode)
             {
@@ -146,6 +156,16 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[2];
                     else if (position.Speed_Mph > (maxSpeed * 0.1))
                         return GlobalVariables.HeatmapColours[1];
+                    break;
+                case MapModeOptions.Acceleration:
+                    if (prevSpeed == null)
+                        return "0000FF";
+                    else if (Math.Round(position.Speed_Mps,3) > Math.Round(prevSpeed.Value,3)) // Accelerating
+                        return "00FF00";
+                    else if (Math.Round(position.Speed_Mps,3)  == Math.Round(prevSpeed.Value,3)) // Maintaining
+                        return "0000FF";
+                    else if (Math.Round(position.Speed_Mps,3) < Math.Round(prevSpeed.Value,3)) // Slowing
+                        return "FF0000";
                     break;
                 default:
                     return "000000";

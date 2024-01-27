@@ -23,6 +23,7 @@
                     Handbrake = position.Handbrake,
                     Speed_Mph = position.Speed_Mph,
                     LapNumber = position.LapNumber,
+                    Speed_Mps = position.Speed_Mps,
                     LapTime = position.LapTime,
                     RaceTime = position.RaceTime,
                     GearNumber= position.GearNumber

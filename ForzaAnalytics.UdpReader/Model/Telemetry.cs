@@ -100,6 +100,13 @@ namespace ForzaAnalytics.UdpReader.Model
                 return Math.Round(raw_speed * 2.23694, 2);
             }
         }
+        public double Speed_Mps
+        {
+            get
+            {
+                return raw_speed;
+            }
+        }
         public double Speed_Kph
         {
             get

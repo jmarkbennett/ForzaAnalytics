@@ -22,7 +22,7 @@
 
             <Grid Grid.Column="0" Name="Variables">
                 <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
+                    <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
@@ -74,6 +74,7 @@
                     <ComboBoxItem Content="Pedal Pressure"></ComboBoxItem>
                     <ComboBoxItem Content="Speed Heatmap"></ComboBoxItem>
                     <ComboBoxItem Content="Gear Number"></ComboBoxItem>
+                    <ComboBoxItem Content="Acceleration"></ComboBoxItem>
                 </ComboBox>
                 <Label Grid.Row="11" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
                 <ComboBox Grid.Row="12" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
