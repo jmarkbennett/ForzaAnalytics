@@ -88,7 +88,7 @@
                 </ToggleButton>
                 <Label Grid.Row="3" Content="Reduce Map Precision:" HorizontalContentAlignment="Center"></Label>
                 <TextBox Name="tbReducePrecision" Grid.Row="4" Text="0"></TextBox>
-                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="5" Click="btnReset_Click"></Button>
+                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="5"></Button>
 
                 <Button Name="btnResetLatest" Content="Reset Latest" Grid.Row="7" Click="btnResetLatest_Click"></Button>
                 <Button Name="btnReset" Content="Reset" Grid.Row="9" Click="btnReset_Click"></Button>

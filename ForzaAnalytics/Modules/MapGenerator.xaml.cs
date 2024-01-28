@@ -132,18 +132,29 @@ namespace ForzaAnalytics.Modules
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(tbTrackName.Text))
+            if (allPositions.Positions.Count > 0)
             {
-                allPositions.TrackName = tbTrackName.Text;
-                positions.TrackName = tbTrackName.Text;
+                if (!string.IsNullOrEmpty(tbTrackName.Text))
+                {
+                    allPositions.TrackName = tbTrackName.Text;
+                    positions.TrackName = tbTrackName.Text;
+                }
+
+                SaveFileDialog dialog = new SaveFileDialog();
+                dialog.Filter = "JSON files (*.json)|*.json";
+                dialog.Title = "Save Map";
+                dialog.FileName = $"{allPositions.TrackId}.json";
+                if (dialog.ShowDialog() == true)
+                {
+                    MapSerializer.PersistMap(dialog.FileName, allPositions);
+                }
             }
-            SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "JSON files (*.json)|*.json";
-            dialog.Title = "Save Map";
-            dialog.FileName = $"{allPositions.TrackId}.json";
-            if (dialog.ShowDialog() == true)
+            else
             {
-                MapSerializer.PersistMap(dialog.FileName, allPositions);
+                if(positions.Positions.Count > 0)
+                    MessageBox.Show("No Positions have been commited, but you have some uncommited. Please commit these first");
+                else
+                    MessageBox.Show("No Positions have been commited to save!");
             }
         }
 
@@ -262,13 +273,22 @@ namespace ForzaAnalytics.Modules
 
         private void btnCommit_Click(object sender, RoutedEventArgs e)
         {
-            allPositions.Positions.AddRange(positions.Positions);
+            if (positions.Positions.Count > 0)
+            {
+                allPositions.Positions.AddRange(positions.Positions);
+            }
+            else { MessageBox.Show("No Positions have been tracked", "No Positions Tracked"); }
         }
 
         private void btnResetLatest_Click(object sender, RoutedEventArgs e)
         {
             positions.Positions.Clear();
             ReplotPoints();
+        }
+
+        private void btnReduceMap_Click(object sender, RoutedEventArgs e)
+        {
+            ReduceMap();
         }
     }
 }
