@@ -39,6 +39,8 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Track ID" HorizontalContentAlignment="Center"></Label>
                 <TextBox Grid.Row="1" Grid.Column="1" Name="tbTrackId" IsEnabled="false"></TextBox>
@@ -92,6 +94,8 @@
                     <ComboBoxItem Content="All Laps" IsSelected="True"></ComboBoxItem>
                     <ComboBoxItem Content="Current Lap"></ComboBoxItem>
                 </ComboBox>
+                <Label Grid.Row="18" Content="Show Lap Times:"></Label>
+                <CheckBox Grid.Row="18" Name="cbIncludeLapTimes" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="30 0" Unchecked="cbIncludeLapTimes_Changed" Checked="cbIncludeLapTimes_Changed"></CheckBox>
 
 
             </Grid>

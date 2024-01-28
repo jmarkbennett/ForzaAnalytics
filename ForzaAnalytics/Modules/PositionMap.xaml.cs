@@ -70,7 +70,10 @@ namespace ForzaAnalytics.Modules
                     AddPlotLabels(payload);
                 }
                 if (currentLapNumber != payload.Race.LapNumber)
+                {
                     cbLapPoints.Items.Add(payload.Race.LapNumber);
+                    AddLapTimePlotLabels(payload);
+                }
                 currentLapNumber = payload.Race.LapNumber;
             }
         }
@@ -89,7 +92,6 @@ namespace ForzaAnalytics.Modules
         {
             LoadMap();
         }
-
         private bool LoadMap()
         {
             var result = false;
@@ -165,6 +167,8 @@ namespace ForzaAnalytics.Modules
                         prevSpeed = adjustedPositions[i - 10].Speed_Mps;
                     AddPlotPoint(adjustedPositions[i].X, adjustedPositions[i].Z, adjustedPositions[i], prevSpeed);
                     AddPlotLabels(i > 0, adjustedPositions[i], i > 0 ? adjustedPositions[i - 1] : null);
+                    if(i < (adjustedPositions.Count - 1))
+                        AddLapTimePlotLabels(true, adjustedPositions[i], adjustedPositions[i + 1]);
                 }
             }
         }
@@ -177,6 +181,37 @@ namespace ForzaAnalytics.Modules
             Label label = new Label()
             {
                 Content = content,
+                FontSize = 16,
+                Width = width,
+                Height = height,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalContentAlignment = HorizontalAlignment.Center,
+                FontWeight = FontWeights.Bold,
+                RenderTransform = mapTransformGroup,
+                Foreground = new SolidColorBrush(Colors.Black),
+                BorderBrush = new SolidColorBrush(Colors.DarkGray),
+                Background = new SolidColorBrush(Colors.White),
+                BorderThickness = new Thickness(1),
+                Margin =
+                new Thickness(
+                        isRotated ? z * mapScale : x * mapScale,
+                        isRotated ? x * mapScale : z * mapScale,
+                        0.0,
+                        0.0
+                    )
+            };
+
+            return label;
+        }
+        private Label GenerateLapTimePlotLabel(double x, double z, int lapNumber, float lapTime)
+        {
+            double width = 120;
+            double height = 30;
+            if (mapMode == MapModeOptions.SpeedHeatmap)
+                width = 80;
+            Label label = new Label()
+            {
+                Content = $"{lapNumber}|{Models.Formatters.Formatting.FormattedTime(lapTime)}",
                 FontSize = 16,
                 Width = width,
                 Height = height,
@@ -265,6 +300,18 @@ namespace ForzaAnalytics.Modules
                     break;
             }
         }
+        private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
+        {
+            if (cbIncludeLapTimes.IsChecked ?? false)
+                if (hasNext && currentRow.LapNumber != nextRow.LapNumber)
+                    cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.X, currentRow.Z, currentRow.LapNumber, currentRow.LapTime));
+        }
+        private void AddLapTimePlotLabels(Telemetry currentRow)
+        {
+            if(cbIncludeLapTimes.IsChecked ?? false)
+                cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.Position.PositionX, currentRow.Position.PositionZ, currentRow.Race.LapNumber -1, currentRow.Race.LastLapTime));
+        }
+
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(tbXOffset.Text))
@@ -464,6 +511,11 @@ namespace ForzaAnalytics.Modules
         {
             if (LoadMap())
                 ReduceMap();
+        }
+
+        private void cbIncludeLapTimes_Changed(object sender, RoutedEventArgs e)
+        {
+            ReplotPositions();
         }
     }
 }
