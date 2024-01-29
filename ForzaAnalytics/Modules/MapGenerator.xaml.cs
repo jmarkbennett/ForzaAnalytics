@@ -157,9 +157,9 @@ namespace ForzaAnalytics.Modules
                 }
 
                 SaveFileDialog dialog = new SaveFileDialog();
-                dialog.Filter = "JSON files (*.json)|*.json";
+                dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
                 dialog.Title = "Save Map";
-                dialog.FileName = $"{allPositions.TrackId}.json";
+                dialog.FileName = $"{allPositions.TrackId}.fzmap";
                 if (dialog.ShowDialog() == true)
                 {
                     MapSerializer.PersistMap(dialog.FileName, allPositions);

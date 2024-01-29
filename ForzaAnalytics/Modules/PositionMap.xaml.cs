@@ -78,7 +78,17 @@ namespace ForzaAnalytics.Modules
                 }
                 if (currentLapNumber != payload.Race.LapNumber)
                 {
-                    cbLapPoints.Items.Add(payload.Race.LapNumber);
+                    var laps = new List<int>();
+
+                    var existingLaps = new List<int>();
+                    if (cbLapPoints.Items.Count > 2)
+                    {
+                        for (var i = 2; i < cbLapPoints.Items.Count; i++)
+                            existingLaps.Add((int)cbLapPoints.Items[i]);
+                    }
+                    if (!existingLaps.Contains(payload.Race.LapNumber))
+                        cbLapPoints.Items.Add(payload.Race.LapNumber);
+           
                     AddLapTimePlotLabels(payload);
                 }
                 currentLapNumber = payload.Race.LapNumber;
@@ -106,7 +116,7 @@ namespace ForzaAnalytics.Modules
         {
             var result = false;
             OpenFileDialog dialog = new();
-            dialog.Filter = "JSON files (*.json)|*.json";
+            dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
             dialog.Title = "Load Map";
             if (!string.IsNullOrEmpty(tbTrackId.Text))
                 dialog.FileName = $"{tbTrackId.Text}.json";
@@ -116,6 +126,7 @@ namespace ForzaAnalytics.Modules
                 ReplotPoints();
                 if (!string.IsNullOrEmpty(mapPositions.TrackName))
                     tbTrackName.Text = mapPositions.TrackName;
+                tbTrackId.Text = mapPositions.TrackId.ToString();
                 tbXOffset.Text = mapPositions.XOffset.ToString();
                 positions.XOffset = mapPositions.XOffset;
                 tbZOffset.Text = mapPositions.ZOffset.ToString();
@@ -433,10 +444,10 @@ namespace ForzaAnalytics.Modules
         private void btnImportData_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new();
-            dialog.Filter = "JSON files (*.json)|*.json";
+            dialog.Filter = "FZTEL files (*.fztel)|*.fztel";
             dialog.Title = "Load Telemtry";
             if (!string.IsNullOrEmpty(tbTrackId.Text))
-                dialog.FileName = $"{tbTrackId.Text}.json";
+                dialog.FileName = $"{tbTrackId.Text}.fztel";
             if (dialog.ShowDialog() == true)
             {
                 positions = MapSerializer.LoadPositionData(dialog.FileName);
@@ -449,8 +460,17 @@ namespace ForzaAnalytics.Modules
                     if (!laps.Contains(position.LapNumber))
                         laps.Add(position.LapNumber);
                 }
+                var existingLaps = new List<int>();
+                if (cbLapPoints.Items.Count > 2)
+                {
+                    for (var i = 2; i < cbLapPoints.Items.Count; i++)
+                        existingLaps.Add((int)cbLapPoints.Items[i]);
+                }
                 foreach (var item in laps)
-                    cbLapPoints.Items.Add(item);
+                {
+                    if (!existingLaps.Contains(item))
+                        cbLapPoints.Items.Add(item);
+                }
             }
         }
         private void tbnRotateMap_Checked(object sender, RoutedEventArgs e)
@@ -523,7 +543,9 @@ namespace ForzaAnalytics.Modules
         }
         private void cbIncludeLapTimes_Changed(object sender, RoutedEventArgs e)
         {
-            ReplotPositions();
+            if (cMapPlot != null)
+                cMapPlot.Children.Clear();
+            ReplotPoints();
         }
         private void CoreMap_MouseDown(object sender, MouseButtonEventArgs e)
         {
