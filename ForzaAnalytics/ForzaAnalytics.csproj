@@ -9,8 +9,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Maps\1641.json" />
-    <None Remove="Resources\Maps\68.json" />
+    <None Remove="Resources\Maps\1641.fzmap" />
+    <None Remove="Resources\Maps\1660.fzmap" />
+    <None Remove="Resources\Maps\252.fzmap" />
+    <None Remove="Resources\Maps\37.fzmap" />
+    <None Remove="Resources\Maps\68.fzmap" />
+    <None Remove="Resources\Maps\841.fzmap" />
   </ItemGroup>
 
   <ItemGroup>
@@ -20,10 +24,22 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="Resources\Maps\1641.json">
+    <Resource Include="Resources\Maps\1641.fzmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Resources\Maps\68.json">
+    <Resource Include="Resources\Maps\1660.fzmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Maps\252.fzmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Maps\37.fzmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Maps\68.fzmap">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Resources\Maps\841.fzmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
