@@ -19,7 +19,7 @@ namespace ForzaAnalytics.Modules
         private bool wasDragged = false;
         private double mousePressedInitialX = 0;
         private double mousePressedInitialY = 0;
-
+        private double mapScale = 1.0;
 
         private int lapNumber;
         private bool isTracking = false;
@@ -110,8 +110,9 @@ namespace ForzaAnalytics.Modules
                     };
 
                     Point canvasPoint = new Point(
-                        payload.Position.PositionX + (positions.XOffset),
-                        payload.Position.PositionZ + (positions.ZOffset));
+                        (payload.Position.PositionX + (positions.XOffset)) * mapScale,
+                        (payload.Position.PositionZ + (positions.ZOffset)) * mapScale
+                        );
                     Canvas.SetLeft(dot, canvasPoint.X);
                     Canvas.SetTop(dot, canvasPoint.Y);
                     cMapPlot.Children.Add(dot);
@@ -231,36 +232,39 @@ namespace ForzaAnalytics.Modules
 
         private void ReplotPoints()
         {
-            cMapPlot.Children.Clear();
-            foreach (var position in allPositions.GetAdjustedPositions())
+            if (cMapPlot != null)
             {
-                Ellipse dot = new Ellipse
+                cMapPlot.Children.Clear();
+                foreach (var position in allPositions.GetAdjustedPositions())
                 {
-                    Width = 2,
-                    Height = 2,
-                    Fill = Brushes.DarkGray
-                };
+                    Ellipse dot = new Ellipse
+                    {
+                        Width = 2,
+                        Height = 2,
+                        Fill = Brushes.DarkGray
+                    };
 
-                Point canvasPoint = new Point(position.X, position.Z);
-                Canvas.SetLeft(dot, canvasPoint.X);
-                Canvas.SetTop(dot, canvasPoint.Y);
-                cMapPlot.Children.Add(dot);
-            }
-            foreach (var position in positions.GetAdjustedPositions())
-            {
-                Ellipse dot = new Ellipse
+                    Point canvasPoint = new Point(position.X * mapScale, position.Z * mapScale);
+                    Canvas.SetLeft(dot, canvasPoint.X);
+                    Canvas.SetTop(dot, canvasPoint.Y);
+                    cMapPlot.Children.Add(dot);
+                }
+                foreach (var position in positions.GetAdjustedPositions())
                 {
-                    Width = 2,
-                    Height = 2,
-                    Fill = Brushes.DarkGray
-                };
+                    Ellipse dot = new Ellipse
+                    {
+                        Width = 2,
+                        Height = 2,
+                        Fill = Brushes.DarkGray
+                    };
 
-                Point canvasPoint = new Point(position.X, position.Z);
-                Canvas.SetLeft(dot, canvasPoint.X);
-                Canvas.SetTop(dot, canvasPoint.Y);
-                cMapPlot.Children.Add(dot);
+                    Point canvasPoint = new Point(position.X * mapScale, position.Z * mapScale);
+                    Canvas.SetLeft(dot, canvasPoint.X);
+                    Canvas.SetTop(dot, canvasPoint.Y);
+                    cMapPlot.Children.Add(dot);
+                }
+                ResizeCanvas();
             }
-            ResizeCanvas();
         }
 
         private void ResizeCanvas()
@@ -334,11 +338,37 @@ namespace ForzaAnalytics.Modules
             }
 
         }
-
         private void CoreMap_MouseMove(object sender, MouseEventArgs e)
         {
             if (mousePressed)
                 wasDragged = true;
+        }
+        private void cbMapScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            var action = (cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString();
+            switch (action)
+            {
+                case "Massive (400%)":
+                    mapScale = 4.0;
+                    break;
+                case "Double (200%)":
+                    mapScale = 2.0;
+                    break;
+                case "Half Bigger (150%)":
+                    mapScale = 1.5;
+                    break;
+                case "Default (100%)":
+                    mapScale = 1;
+                    break;
+                case "Three Quarters (75%)":
+                    mapScale = 0.75;
+                    break;
+                case "Half (50%)":
+                    mapScale = 0.5;
+                    break;
+            }
+
+            ReplotPoints();
         }
     }
 }

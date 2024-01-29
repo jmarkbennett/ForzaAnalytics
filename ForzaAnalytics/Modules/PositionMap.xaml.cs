@@ -162,7 +162,7 @@ namespace ForzaAnalytics.Modules
             foreach (var position in mapPositions.GetAdjustedPositions())
             {
                 points.Add(new Point(
-                    isRotated ? position.Z * mapScale : position.X * mapScale,
+                    isRotated ? -position.Z * mapScale : position.X * mapScale,
                     isRotated ? position.X * mapScale : position.Z * mapScale));
             }
             Polygon polygon = new Polygon();
@@ -215,7 +215,7 @@ namespace ForzaAnalytics.Modules
                 BorderThickness = new Thickness(1),
                 Margin =
                 new Thickness(
-                        isRotated ? z * mapScale : x * mapScale,
+                        isRotated ? -z * mapScale : x * mapScale,
                         isRotated ? x * mapScale : z * mapScale,
                         0.0,
                         0.0
@@ -246,7 +246,7 @@ namespace ForzaAnalytics.Modules
                 BorderThickness = new Thickness(1),
                 Margin =
                 new Thickness(
-                        isRotated ? z * mapScale : x * mapScale,
+                        isRotated ? -z * mapScale : x * mapScale,
                         isRotated ? x * mapScale : z * mapScale,
                         0.0,
                         0.0
@@ -265,7 +265,7 @@ namespace ForzaAnalytics.Modules
             };
 
             Point canvasPoint = new Point(
-                isRotated ? z * mapScale : x * mapScale,
+                isRotated ? -z * mapScale : x * mapScale,
                 isRotated ? x * mapScale : z * mapScale);
             Canvas.SetLeft(dot, canvasPoint.X);
             Canvas.SetTop(dot, canvasPoint.Y);
@@ -284,7 +284,7 @@ namespace ForzaAnalytics.Modules
             };
 
             Point canvasPoint = new Point(
-                isRotated ? (z + positions.ZOffset) * mapScale : (x + positions.XOffset) * mapScale,
+                isRotated ? (-z + positions.ZOffset) * mapScale : (x + positions.XOffset) * mapScale,
                 isRotated ? (x + positions.XOffset) * mapScale : (z + positions.ZOffset) * mapScale);
             Canvas.SetLeft(dot, canvasPoint.X);
             Canvas.SetTop(dot, canvasPoint.Y);

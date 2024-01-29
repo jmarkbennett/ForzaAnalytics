@@ -23,7 +23,7 @@
             <ColumnDefinition></ColumnDefinition>
         </Grid.ColumnDefinitions>
 
-        <Controls:SplitCoreMetric Grid.Column="0" PrimaryMetricTitle="Speed" SecondaryMetricTitle="Gear" SubTitle="MPH" x:Name="mSpeed"></Controls:SplitCoreMetric>
+        <Controls:SplitCoreMetric Grid.Column="0" PrimaryMetricTitle="Speed" SecondaryMetricTitle="Gear" x:Name="mSpeed"></Controls:SplitCoreMetric>
         <Controls:SteeringAngle Grid.Column="1" x:Name="mSteeringAngle"></Controls:SteeringAngle>
         <Controls:CoreMetric Grid.Column="2"  MetricTitle="RPMs" x:Name="mRpm"></Controls:CoreMetric>
         <Controls:CoreMetric Grid.Column="3"  MetricTitle="Power (HP)" x:Name="mPower"></Controls:CoreMetric>

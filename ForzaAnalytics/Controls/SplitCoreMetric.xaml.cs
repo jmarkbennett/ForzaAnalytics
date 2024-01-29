@@ -53,10 +53,11 @@ namespace ForzaAnalytics.Controls
             InitializeComponent();
         }
 
-        public void Update(string primaryValue, string secondaryValue)
+        public void Update(string primaryValue, string secondaryValue, string subTitle)
         {
             lPrimaryMetricValue.Content = primaryValue;
             lSecondaryMetricValue.Content = secondaryValue;
+            lSubTitle.Content = subTitle;
         }
     }
 }

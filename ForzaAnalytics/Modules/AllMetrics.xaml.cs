@@ -29,10 +29,10 @@ namespace ForzaAnalytics.Modules
         }
         public void ReceiveEvents(Telemetry payload)
         {
-            mAcc.Update(payload.Acceleration.ToString());
-            mBrake.Update(payload.Brake.ToString());
-            mClutch.Update(payload.Clutch.ToString());
-            mHandbrake.Update(payload.Handbrake.ToString());
+            mAcc.Update($"{payload.Acceleration.ToString()}%");
+            mBrake.Update($"{payload.Brake.ToString()}%");
+            mClutch.Update($"{payload.Clutch.ToString()}%");
+            mHandbrake.Update($"{payload.Handbrake.ToString()}%");
             mNormSuspTravelFl.Update(payload.Suspension.NormalizedSuspensionTravelFrontLeft.ToString("F2"));
             mNormSuspTravelFr.Update(payload.Suspension.NormalizedSuspensionTravelFrontRight.ToString("F2"));
             mNormSuspTravelRl.Update(payload.Suspension.NormalizedSuspensionTravelRearLeft.ToString("F2"));

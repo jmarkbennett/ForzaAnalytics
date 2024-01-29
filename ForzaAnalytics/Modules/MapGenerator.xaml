@@ -39,6 +39,8 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Track ID" HorizontalContentAlignment="Center"></Label>
                 <TextBox Grid.Row="1" Grid.Column="1" Name="tbTrackId" IsEnabled="false"></TextBox>
@@ -57,6 +59,15 @@
                 <TextBox Grid.Row="14" Grid.Column="1" Name="tbMinZ" IsEnabled="false"></TextBox>
                 <Label Grid.Row="15" Content="Current Max Z:" HorizontalContentAlignment="Center"></Label>
                 <TextBox Grid.Row="16" Grid.Column="1" Name="tbMaxZ" IsEnabled="false"></TextBox>
+                <Label Grid.Row="17" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
+                <ComboBox Grid.Row="18" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
+                    <ComboBoxItem Content="Massive (400%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Double (200%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Half Bigger (150%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Default (100%)" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Three Quarters (75%)"></ComboBoxItem>
+                    <ComboBoxItem Content="Half (50%)"></ComboBoxItem>
+                </ComboBox>
             </Grid>
             <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
                 <Border BorderThickness="2" BorderBrush="#DDDDDD">
