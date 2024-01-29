@@ -27,7 +27,7 @@ namespace ForzaAnalytics.UdpReader.Model
         private float raw_wheelInPuddleDepthFrontRight { get { return TelemetryHelper.extractSingle(ref payload, 136, 139); } }// F32 WheelInPuddleDepthFrontRight;	4	136	139
         private float raw_wheelInPuddleDepthRearLeft { get { return TelemetryHelper.extractSingle(ref payload, 140, 143); } }// F32 WheelInPuddleDepthRearLeft;	4	140	143
         private float raw_wheelInPuddleDepthRearRight { get { return TelemetryHelper.extractSingle(ref payload, 144, 147); } }// F32 WheelInPuddleDepthRearRight;	4	144	147
-        private float raw_surfaceRumbleFrontLeft { get { return TelemetryHelper.extractSingle(ref payload, 178, 151); } }// F32 SurfaceRumbleFrontLeft;	4	148	151
+        private float raw_surfaceRumbleFrontLeft { get { return TelemetryHelper.extractSingle(ref payload, 148, 151); } }// F32 SurfaceRumbleFrontLeft;	4	148	151
         private float raw_surfaceRumbleFrontRight { get { return TelemetryHelper.extractSingle(ref payload, 152, 155); } }// F32 SurfaceRumbleFrontRight;	4	152	155
         private float raw_surfaceRumbleRearLeft { get { return TelemetryHelper.extractSingle(ref payload, 156, 159); } }// F32 SurfaceRumbleRearLeft;	4	156	159
         private float raw_surfaceRumbleRearRight { get { return TelemetryHelper.extractSingle(ref payload, 160, 163); } }// F32 SurfaceRumbleRearRight;	4	160	163

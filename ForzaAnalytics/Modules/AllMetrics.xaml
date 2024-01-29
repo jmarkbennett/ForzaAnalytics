@@ -6,10 +6,13 @@
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              xmlns:Controls="clr-namespace:ForzaAnalytics.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1800">
+             d:DesignHeight="850" d:DesignWidth="1800">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="140"></RowDefinition>
+            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition Height="140"></RowDefinition>
             <RowDefinition Height="140"></RowDefinition>
             <RowDefinition Height="40"></RowDefinition>
             <RowDefinition Height="140"></RowDefinition>
@@ -36,8 +39,8 @@
         <Controls:CoreMetric Grid.Column="1" Grid.Row="1"  MetricTitle="Brake" x:Name="mBrake"></Controls:CoreMetric>
         <Controls:CoreMetric Grid.Column="2" Grid.Row="1"  MetricTitle="Clutch" x:Name="mClutch"></Controls:CoreMetric>
         <Controls:CoreMetric Grid.Column="3" Grid.Row="1"  MetricTitle="Handbrake" x:Name="mHandbrake"></Controls:CoreMetric>
-        <Label Content="Wheel Metrics" 
-              Grid.Column="0" Grid.ColumnSpan="4"
+        <Label Content="Wheel Rotation Metrics" 
+              Grid.Column="0" Grid.ColumnSpan="3"
                Grid.Row="2" 
                Style="{StaticResource HeaderLabel}">
         </Label>
@@ -45,22 +48,25 @@
         <Controls:CoreMetric Grid.Column="1" Grid.Row="3"  MetricTitle="Wheel Rotation FR" x:Name="mWheelRotationSpeedFr"></Controls:CoreMetric>
         <Controls:CoreMetric Grid.Column="0" Grid.Row="4"  MetricTitle="Wheel Rotation FL" x:Name="mWheelRotationSpeedRl"></Controls:CoreMetric>
         <Controls:CoreMetric Grid.Column="1" Grid.Row="4"  MetricTitle="Wheel Rotation FR" x:Name="mWheelRotationSpeedRr"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="2" Grid.Row="3"  MetricTitle="Wheel Puddle FL" x:Name="mWheelPuddleFl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="3" Grid.Row="3"  MetricTitle="Wheel Puddle FR" x:Name="mWheelPuddleFr"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="2" Grid.Row="4"  MetricTitle="Wheel Puddle FL" x:Name="mWheelPuddleRl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="3" Grid.Row="4"  MetricTitle="Wheel Puddle FR" x:Name="mWheelPuddleRr"></Controls:CoreMetric>
-        <Label Content="Suspension Metrics" 
-              Grid.Column="4" Grid.ColumnSpan="4"
+        <Controls:CoreMetric Grid.Column="2" Grid.Row="3"  MetricTitle="Front Delta" x:Name="mWheelRotationDeltaF"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="2" Grid.Row="4"  MetricTitle="Rear Delta" x:Name="mWheelRotationDeltaR"></Controls:CoreMetric>
+        <Label Content="Wheel Moisture" 
+              Grid.Column="3" Grid.ColumnSpan="2"
                Grid.Row="2" 
                Style="{StaticResource HeaderLabel}">
         </Label>
-        <Controls:CoreMetric Grid.Column="4" Grid.Row="3"  MetricTitle="Norm. Susp Travel Fl" x:Name="mNormSuspTravelFl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="5" Grid.Row="3"  MetricTitle="Norm. Susp Travel Fr" x:Name="mNormSuspTravelFr"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="4" Grid.Row="4"  MetricTitle="Norm. Susp Travel Rl" x:Name="mNormSuspTravelRl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="5" Grid.Row="4"  MetricTitle="Norm. Susp Travel Rr" x:Name="mNormSuspTravelRr"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="6" Grid.Row="3"  MetricTitle="Susp Travel Fl" x:Name="mSuspTravelFl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="7" Grid.Row="3"  MetricTitle="Susp Travel Fr" x:Name="mSuspTravelFr"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="6" Grid.Row="4"  MetricTitle="Susp Travel Rl" x:Name="mSuspTravelRl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="7" Grid.Row="4"  MetricTitle="Susp Travel Rr" x:Name="mSuspTravelRr"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="3" Grid.Row="3"  MetricTitle="Wheel Puddle FL" x:Name="mWheelPuddleFl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="4" Grid.Row="3"  MetricTitle="Wheel Puddle FR" x:Name="mWheelPuddleFr"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="3" Grid.Row="4"  MetricTitle="Wheel Puddle FL" x:Name="mWheelPuddleRl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="4" Grid.Row="4"  MetricTitle="Wheel Puddle FR" x:Name="mWheelPuddleRr"></Controls:CoreMetric>
+        <Label Content="Suspension Metrics" 
+              Grid.Column="0" Grid.ColumnSpan="2"
+               Grid.Row="5" 
+               Style="{StaticResource HeaderLabel}">
+        </Label>
+        <Controls:CoreMetric Grid.Column="0" Grid.Row="6"  MetricTitle="Norm. Susp Travel Fl" x:Name="mNormSuspTravelFl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="1" Grid.Row="6"  MetricTitle="Norm. Susp Travel Fr" x:Name="mNormSuspTravelFr"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="0" Grid.Row="7"  MetricTitle="Norm. Susp Travel Rl" x:Name="mNormSuspTravelRl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="1" Grid.Row="8"  MetricTitle="Norm. Susp Travel Rr" x:Name="mNormSuspTravelRr"></Controls:CoreMetric>
     </Grid>
 </UserControl>

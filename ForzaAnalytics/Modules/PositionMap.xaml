@@ -96,13 +96,11 @@
                 </ComboBox>
                 <Label Grid.Row="18" Content="Show Lap Times:"></Label>
                 <CheckBox Grid.Row="18" Name="cbIncludeLapTimes" IsChecked="True" VerticalAlignment="Center" HorizontalAlignment="Right" Margin="30 0" Unchecked="cbIncludeLapTimes_Changed" Checked="cbIncludeLapTimes_Changed"></CheckBox>
-
-
             </Grid>
             <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
                 <Border BorderThickness="2" BorderBrush="#DDDDDD">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <Canvas Name="cMapPlot"  Width="0" Height="0" RenderTransform="1 0 0 -1 0 0"></Canvas>
+                    <ScrollViewer  MouseRightButtonDown="CoreMap_MouseDown" MouseRightButtonUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Visible">
+                        <Canvas MouseRightButtonDown="CoreMap_MouseDown" MouseRightButtonUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" Name="cMapPlot" RenderTransform="1 0 0 -1 0 0"></Canvas>
                     </ScrollViewer>
                 </Border>
             </Grid>

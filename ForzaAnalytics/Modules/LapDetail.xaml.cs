@@ -106,8 +106,17 @@ namespace ForzaAnalytics.Modules
 
         public void ResetEvents()
         {
+            LapTimes = new ObservableCollection<LapTime>();
+            currentSpeeds = new List<double>();
+            currentAccelerations = new List<double>();
+            currentBrakeApplied = new List<double>();
+            fuelConsumption = new List<double>();
+            currentLapNumber = 0;
+            initialfuel = -1;
+
             tbCurrentLapNumber.Content = string.Empty;
             tbCurrentLapTime.Content = string.Empty;
+
         }
     }
 }

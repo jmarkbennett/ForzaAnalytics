@@ -31,7 +31,17 @@ namespace ForzaAnalytics.Modules
         }
         public void ResetEvents()
         {
-
+            mBoost.Update(string.Empty);
+            mFuel.Update(string.Empty);
+            mPitch.Update(string.Empty);
+            mYaw.Update(string.Empty);
+            mRoll.Update(string.Empty);
+            mRpm.Update(string.Empty);
+            mPower.Update(string.Empty);
+            mTorque.Update(string.Empty);
+            mDistanceTravelled.Update(string.Empty);
+            mSteeringAngle.Update(0);
+            mSpeed.Update(string.Empty,string.Empty);
         }
     }
 }

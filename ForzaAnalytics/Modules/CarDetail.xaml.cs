@@ -34,6 +34,7 @@ namespace ForzaAnalytics.Modules
             lCarClass.Content = string.Empty;
             lCpi.Content = string.Empty;
             lCarCylinders.Content = string.Empty;
+            lCarDriveTrain.Content = string.Empty;
         }
     }
 }

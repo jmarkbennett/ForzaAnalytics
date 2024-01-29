@@ -81,5 +81,19 @@ namespace ForzaAnalytics
                 threadRunning = false;
             }
         }
+
+        private void btnResetAll_Click(object sender, RoutedEventArgs e)
+        {
+           if(MessageBox.Show("Are you sure you want to Reset ALL controls? this removes any data currently loaded and should only be done on the start of a new session", "Confirm Reset", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                ldlapDetail.ResetEvents();
+                ppAbc.ResetEvents();
+                carDetailsModule.ResetEvents();
+                mapGenerator.ResetEvents();
+                positionMap.ResetEvents();
+                coreMetricsModule.ResetEvents();
+                allMetrics.ResetEvents();
+            }
+        }
     }
 }

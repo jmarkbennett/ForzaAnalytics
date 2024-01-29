@@ -60,8 +60,8 @@
             </Grid>
             <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
                 <Border BorderThickness="2" BorderBrush="#DDDDDD">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-                        <Canvas Name="cMapPlot"  Width="0" Height="0" RenderTransform="1 0 0 -1 0 0"></Canvas>
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" MouseRightButtonDown="CoreMap_MouseDown" MouseRightButtonUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" >
+                        <Canvas Name="cMapPlot" RenderTransform="1 0 0 -1 0 0" MouseRightButtonDown="CoreMap_MouseDown" MouseRightButtonUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" ></Canvas>
                     </ScrollViewer>
                 </Border>
             </Grid>

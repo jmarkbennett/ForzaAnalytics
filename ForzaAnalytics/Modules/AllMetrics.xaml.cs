@@ -1,4 +1,5 @@
 ﻿using ForzaAnalytics.Controls;
+using ForzaAnalytics.Models.Formatters;
 using ForzaAnalytics.UdpReader.Model;
 using System;
 using System.Collections.Generic;
@@ -32,25 +33,47 @@ namespace ForzaAnalytics.Modules
             mBrake.Update(payload.Brake.ToString());
             mClutch.Update(payload.Clutch.ToString());
             mHandbrake.Update(payload.Handbrake.ToString());
-            mNormSuspTravelFl.Update(payload.Suspension.NormalizedSuspensionTravelFrontLeft.ToString());
-            mNormSuspTravelFr.Update(payload.Suspension.NormalizedSuspensionTravelFrontRight.ToString());
-            mNormSuspTravelRl.Update(payload.Suspension.NormalizedSuspensionTravelRearLeft.ToString());
-            mNormSuspTravelRr.Update(payload.Suspension.NormalizedSuspensionTravelRearRight.ToString());
-
-            mSuspTravelFl.Update(payload.Suspension.SuspensionTravelMetersFrontLeft.ToString());
-            mSuspTravelFr.Update(payload.Suspension.SuspensionTravelMetersFrontRight.ToString());
-            mSuspTravelRl.Update(payload.Suspension.SuspensionTravelMetersRearLeft.ToString());
-            mSuspTravelRr.Update(payload.Suspension.SuspensionTravelMetersRearRight.ToString());
+            mNormSuspTravelFl.Update(payload.Suspension.NormalizedSuspensionTravelFrontLeft.ToString("F2"));
+            mNormSuspTravelFr.Update(payload.Suspension.NormalizedSuspensionTravelFrontRight.ToString("F2"));
+            mNormSuspTravelRl.Update(payload.Suspension.NormalizedSuspensionTravelRearLeft.ToString("F2"));
+            mNormSuspTravelRr.Update(payload.Suspension.NormalizedSuspensionTravelRearRight.ToString("F2"));
 
             mWheelPuddleFl.Update(payload.Wheel.WheelInPuddleDepthFrontLeft.ToString());
             mWheelPuddleFr.Update(payload.Wheel.WheelInPuddleDepthFrontRight.ToString());
             mWheelPuddleRl.Update(payload.Wheel.WheelInPuddleDepthRearLeft.ToString());
             mWheelPuddleRr.Update(payload.Wheel.WheelInPuddleDepthRearRight.ToString());
 
-            mWheelRotationSpeedFl.Update(payload.Wheel.WheelRotationSpeedFrontLeft.ToString());
-            mWheelRotationSpeedFr.Update(payload.Wheel.WheelRotationSpeedFrontRight.ToString());
-            mWheelRotationSpeedRl.Update(payload.Wheel.WheelRotationSpeedRearLeft.ToString());
-            mWheelRotationSpeedRr.Update(payload.Wheel.WheelRotationSpeedRearRight.ToString());
+            mWheelRotationSpeedFl.Update(payload.Wheel.WheelRotationSpeedFrontLeft.ToString("F2"));
+            mWheelRotationSpeedFr.Update(payload.Wheel.WheelRotationSpeedFrontRight.ToString("F2"));
+            mWheelRotationSpeedRl.Update(payload.Wheel.WheelRotationSpeedRearLeft.ToString("F2"));
+            mWheelRotationSpeedRr.Update(payload.Wheel.WheelRotationSpeedRearRight.ToString("F2"));
+            mWheelRotationDeltaF.Update((payload.Wheel.WheelRotationSpeedFrontLeft - payload.Wheel.WheelRotationSpeedFrontRight).ToString("F2"));
+            mWheelRotationDeltaR.Update((payload.Wheel.WheelRotationSpeedRearLeft - payload.Wheel.WheelRotationSpeedRearRight).ToString("F2"));
+        }
+
+        public void ResetEvents()
+        {
+            mAcc.Update(string.Empty);
+            mBrake.Update(string.Empty);
+            mClutch.Update(string.Empty);
+            mHandbrake.Update(string.Empty);
+            mNormSuspTravelFl.Update(string.Empty);
+            mNormSuspTravelFr.Update(string.Empty);
+            mNormSuspTravelRl.Update(string.Empty);
+            mNormSuspTravelRr.Update(string.Empty);
+
+
+            mWheelPuddleFl.Update(string.Empty);
+            mWheelPuddleFr.Update(string.Empty);
+            mWheelPuddleRl.Update(string.Empty);
+            mWheelPuddleRr.Update(string.Empty);
+
+            mWheelRotationSpeedFl.Update(string.Empty);
+            mWheelRotationSpeedFr.Update(string.Empty);
+            mWheelRotationSpeedRl.Update(string.Empty);
+            mWheelRotationSpeedRr.Update(string.Empty);
+            mWheelRotationDeltaF.Update(string.Empty);
+            mWheelRotationDeltaR.Update(string.Empty);
         }
     }
 }

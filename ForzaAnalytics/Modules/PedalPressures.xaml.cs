@@ -25,7 +25,13 @@ namespace ForzaAnalytics.Modules
         }
         public void ResetEvents()
         {
-
+            gmAcceleration.Update(0, string.Empty);
+            gmBrake.Update(0, string.Empty);
+            gmClutch.Update(0, string.Empty);
+            gmHandbrake.Update(0, string.Empty);
+            gmRPM.Update(0, string.Empty);
+            gmFuel.Update(0, string.Empty);
+            gmRPM.Maximum = 100;
         }
     }
 }

@@ -25,7 +25,14 @@
             <Modules:SessionDetail Grid.Column="0" x:Name="sessionDetailsModule"></Modules:SessionDetail>
             <Modules:CarDetail Grid.Column="2" x:Name="carDetailsModule"></Modules:CarDetail>
             <Modules:PedalPressures Grid.Column="4" x:Name="ppAbc" Margin="0,2,0,-2"></Modules:PedalPressures>
-            <ToggleButton x:Name="tglTracking" Margin="8" Grid.Column="5" Content="Start" Checked="tglTracking_Checked" Unchecked="tglTracking_Unchecked"></ToggleButton>
+            <Grid Grid.Column="5" >
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <ToggleButton x:Name="tglTracking" Margin="8" Content="Start" Checked="tglTracking_Checked" Unchecked="tglTracking_Unchecked"></ToggleButton>
+                <Button x:Name="btnResetAll" Margin="8"  Grid.Row="2" Content="Reset All" Click="btnResetAll_Click"></Button>
+            </Grid>
         </Grid>
 
         <TabControl Grid.Row="1">

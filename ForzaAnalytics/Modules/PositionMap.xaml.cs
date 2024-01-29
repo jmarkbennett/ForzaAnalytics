@@ -8,6 +8,8 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Shapes;
 using ForzaAnalytics.Models.Enumerators;
+using System.Windows.Input;
+
 namespace ForzaAnalytics.Modules
 {
     /// <summary>
@@ -15,6 +17,11 @@ namespace ForzaAnalytics.Modules
     /// </summary>
     public partial class PositionMap : UserControl
     {
+        private bool mousePressed = false;
+        private bool wasDragged = false;
+        private double mousePressedInitialX = 0;
+        private double mousePressedInitialY = 0;
+
         private bool isTracking = false;
         private GroupedPositionalData mapPositions;
         private GroupedExtendedPositionalData positions;
@@ -81,6 +88,9 @@ namespace ForzaAnalytics.Modules
         public void ResetEvents()
         {
             positions.ResetPositions();
+            mapPositions.ResetPositions();
+            maxSpeed = 0;
+            currentLapNumber = 0;
             ReplotPoints();
         }
 
@@ -311,7 +321,6 @@ namespace ForzaAnalytics.Modules
             if(cbIncludeLapTimes.IsChecked ?? false)
                 cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.Position.PositionX, currentRow.Position.PositionZ, currentRow.Race.LapNumber -1, currentRow.Race.LastLapTime));
         }
-
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(tbXOffset.Text))
@@ -512,10 +521,41 @@ namespace ForzaAnalytics.Modules
             if (LoadMap())
                 ReduceMap();
         }
-
         private void cbIncludeLapTimes_Changed(object sender, RoutedEventArgs e)
         {
             ReplotPositions();
+        }
+        private void CoreMap_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            mousePressed = true;
+            wasDragged = false;
+            mousePressedInitialX = e.GetPosition(this).X;
+            mousePressedInitialY = e.GetPosition(this).Y;
+        }
+        private void CoreMap_MouseUp(object sender, MouseButtonEventArgs e)
+        {
+            mousePressed = false;
+            if (wasDragged)
+            {
+                var deltaX = (int)mousePressedInitialX - (int)e.GetPosition(this).X;
+                var deltaZ = (int)mousePressedInitialY - (int)e.GetPosition(this).Y;
+                // once mouse has been lifted, adjust position based on end.
+                mapPositions.XOffset = isRotated ? mapPositions.XOffset + deltaZ : mapPositions.XOffset - deltaX;
+                mapPositions.ZOffset = isRotated ? mapPositions.ZOffset - deltaX : mapPositions.ZOffset + deltaZ;
+                positions.XOffset = mapPositions.XOffset;
+                positions.ZOffset = mapPositions.ZOffset;
+
+                tbXOffset.Text = mapPositions.XOffset.ToString();
+                tbZOffset.Text = mapPositions.ZOffset.ToString();
+                wasDragged = false;
+                ReplotPoints();
+            }
+
+        }
+        private void CoreMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mousePressed)
+                wasDragged = true;
         }
     }
 }

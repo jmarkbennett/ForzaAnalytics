@@ -11,10 +11,12 @@
         {
             return $"{val.ToString("P2")}";
         }
+
         public static Enumerators.CarClass GetCarClass(int carClass)
         {
            return (Enumerators.CarClass)carClass;
         }
+
         public static Enumerators.DriveTrain GetDriveTrain(int driveTrain)
         {
             return (Enumerators.DriveTrain)driveTrain;
