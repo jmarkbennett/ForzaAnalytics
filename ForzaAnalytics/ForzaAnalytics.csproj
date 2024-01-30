@@ -23,25 +23,4 @@
     <ProjectReference Include="..\ForzaAnalytics.UdpReader\ForzaAnalytics.UdpReader.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Resources\Maps\1641.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\1660.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\252.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\37.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\68.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\841.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
-
 </Project>
