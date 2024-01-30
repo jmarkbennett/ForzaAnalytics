@@ -12,7 +12,7 @@ There are two main areas to the application: Lap Time data and the Map.
 
 ## Lap Time Data
 Lap Time data should show information pertaining to the current session. Lap info is automatically tracked as the car goes around the circuit. however it is dependant on data picked up during play. pausing tracking and resuming between lap times _will_ cause unpredictable behaviour as it depends on live and previous information. 
-![Lap Info](README_Resources/Screenshot-02.png)
+![Lap Info](./README_Resources/Screenshot-02.png)
 
 - The Car Positioning/Map is effectively two areas: the 'Map Generator' and the 'Car Positions' (under 'Core Metrics').
 The Map Generator exists as a way for you to create your own maps. T10 does not currently provide geometry data for circuits so this is a way around plotting it manually.
