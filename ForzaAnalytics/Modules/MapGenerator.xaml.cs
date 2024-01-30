@@ -17,6 +17,7 @@ namespace ForzaAnalytics.Modules
     {
         private bool mousePressed = false;
         private bool wasDragged = false;
+        private double initialCanvasSize = 8000;
         private double mousePressedInitialX = 0;
         private double mousePressedInitialY = 0;
         private double mapScale = 1.0;
@@ -37,6 +38,8 @@ namespace ForzaAnalytics.Modules
             positions = new Models.Core.GroupedPositionalData();
             allPositions = new Models.Core.GroupedPositionalData();
             InitializeComponent();
+            cMapPlot.Height = initialCanvasSize;
+            cMapPlot.Width = initialCanvasSize;
         }
         public void ReceiveEvents(Telemetry payload)
         {
@@ -280,25 +283,41 @@ namespace ForzaAnalytics.Modules
 
         private void ResizeCanvas()
         {
-            var tmp = allPositions.GetAdjustedPositions();
-            if (tmp != null && tmp.Count < 0)
+            var height = initialCanvasSize;
+            var width = initialCanvasSize;
+            if (allPositions.Positions.Count > 0)
             {
-                float minX = tmp.Min(x => x.X);
-                float minZ = tmp.Min(x => x.Z);
-                float maxX = tmp.Max(x => x.X);
-                float maxZ = tmp.Max(x => x.Z);
-                cMapPlot.Height = maxZ - minZ;
-                cMapPlot.Width = maxX - minX;
+                var tmp = allPositions.GetAdjustedPositions();
+                if (tmp != null && tmp.Count < 0)
+                {
+                    float minX = tmp.Min(x => x.X);
+                    float minZ = tmp.Min(x => x.Z);
+                    float maxX = tmp.Max(x => x.X);
+                    float maxZ = tmp.Max(x => x.Z);
+                    height = maxZ - minZ * mapScale * 4;
+                    width = maxX - minX * mapScale * 4;
+                    if (height > initialCanvasSize)
+                        cMapPlot.Height = height;
+                    if (width > initialCanvasSize)
+                        cMapPlot.Width = width;
+                }
             }
-            tmp = positions.GetAdjustedPositions();
-            if (tmp != null && tmp.Count < 0)
+            else
             {
-                float minX = tmp.Min(x => x.X);
-                float minZ = tmp.Min(x => x.Z);
-                float maxX = tmp.Max(x => x.X);
-                float maxZ = tmp.Max(x => x.Z);
-                cMapPlot.Height = maxZ - minZ;
-                cMapPlot.Width = maxX - minX;
+                var tmp = positions.GetAdjustedPositions();
+                if (tmp != null && tmp.Count < 0)
+                {
+                    float minX = tmp.Min(x => x.X);
+                    float minZ = tmp.Min(x => x.Z);
+                    float maxX = tmp.Max(x => x.X);
+                    float maxZ = tmp.Max(x => x.Z);
+                    height = maxZ - minZ * mapScale * 4;
+                    width = maxX - minX * mapScale * 4;
+                    if (height > initialCanvasSize)
+                        cMapPlot.Height = height;
+                    if (width > initialCanvasSize)
+                        cMapPlot.Width = width;
+                }
             }
         }
 

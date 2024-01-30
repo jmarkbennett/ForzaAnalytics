@@ -358,8 +358,12 @@ namespace ForzaAnalytics.Modules
                 float maxX = tmp.Max(x => x.X);
                 float maxZ = tmp.Max(x => x.Z);
 
-                cMapPlot.Height = isRotated ? (maxX * mapScale) - (minX * mapScale) + 40 : (maxZ * mapScale) - (minZ * mapScale) + 40;
-                cMapPlot.Width = isRotated ? (maxZ * mapScale) - (minZ * mapScale) + 40 : (maxX * mapScale) - (minX * mapScale) + 40;
+                cMapPlot.Height = isRotated ? 
+                    ((maxX * mapScale) - (minX * mapScale)) * 2: 
+                    ((maxZ * mapScale) - (minZ * mapScale)) * 2;
+                cMapPlot.Width = isRotated ? 
+                    ((maxZ * mapScale) - (minZ * mapScale)) * 2: 
+                    ((maxX * mapScale) - (minX * mapScale)) * 2;
             }
         }
         private void btnReduceMap_Click(object sender, RoutedEventArgs e)
