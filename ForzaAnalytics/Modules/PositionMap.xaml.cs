@@ -119,7 +119,7 @@ namespace ForzaAnalytics.Modules
             dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
             dialog.Title = "Load Map";
             if (!string.IsNullOrEmpty(tbTrackId.Text))
-                dialog.FileName = $"{tbTrackId.Text}.json";
+                dialog.FileName = $"{tbTrackId.Text}.fzmap";
             if (dialog.ShowDialog() == true)
             {
                 mapPositions = MapSerializer.LoadMap(dialog.FileName);
@@ -433,9 +433,9 @@ namespace ForzaAnalytics.Modules
         private void btnExportData_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
-            dialog.Filter = "JSON files (*.json)|*.json";
+            dialog.Filter = "FZTEL files (*.fztel)|*.fztel";
             dialog.Title = "Save Telemetry";
-            dialog.FileName = $"{tbTrackId.Text}_telemetry.json";
+            dialog.FileName = $"{tbTrackId.Text}_telemetry.fztel";
             if (dialog.ShowDialog() == true)
             {
                 MapSerializer.ExportPositionData(dialog.FileName, positions);
