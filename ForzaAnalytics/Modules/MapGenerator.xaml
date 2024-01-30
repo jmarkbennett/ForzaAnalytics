@@ -103,8 +103,8 @@
 
                 <Button Name="btnResetLatest" Content="Reset Latest" Grid.Row="7" Click="btnResetLatest_Click"></Button>
                 <Button Name="btnReset" Content="Reset" Grid.Row="9" Click="btnReset_Click"></Button>
-                <Button Name="btnCommit" Content="Commit Latest" Grid.Row="11" Height="26" Margin="4,2,4,0" VerticalAlignment="Top" Click="btnCommit_Click"></Button>
-                <Button Name="btnSave" Content="Save Map" Grid.Row="13" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
+                <Button Name="btnCommit" IsEnabled="False" Content="Commit Latest" Grid.Row="11" Height="26" Margin="4,2,4,0" VerticalAlignment="Top" Click="btnCommit_Click"></Button>
+                <Button Name="btnSave" IsEnabled="False" Content="Save Map" Grid.Row="13" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
             </Grid>
         </Grid>
     </Grid>

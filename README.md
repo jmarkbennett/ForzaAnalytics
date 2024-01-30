@@ -1,5 +1,7 @@
 Forza Analytics is a POC C# WPF Application that reads data from the 'Data Out' option in Forza Motorsport. it displays information pertaining to Raw Live figures such as Acceleration, Brake application, RPMs, and also values such as Lap Time breakdowns and map positions.
 
+**THIS IS A POC AND WIP AND MAYBE BUGGY OR BEHAVE UNPREDICTABLY IN SOME SCENARIOS!**
+
 To get started, build the solution and edit the configuration files according to your IP/Port setup in Forza. **This tool specfically uses the DASH format**.
 
 - The 'Start' open starts listening to the selected IP/Port (changing this requires app restart). Stopping this will prevent further data being received.
@@ -95,4 +97,6 @@ You can load telemetry without needing Forza Motorsport open, and without needin
 
 if you had it open or a previous session, hit 'Reset', otherwise load the map file and then hit 'Import Data'.
 
-this will open the telemtry file and replot the positions on the map aligned, you can interact with this as you would when Forza was running - changing the zoom/rotation/visual type etc
+this will open the telemtry file and replot the positions on the map aligned, you can interact with this as you would when Forza was running - changing the zoom/rotation/visual type etc.
+
+So long as the map files are shared, the telemetry data can be shared with others who have the application to load/preview.

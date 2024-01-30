@@ -123,6 +123,7 @@ namespace ForzaAnalytics.Modules
                     isTracking = false;
                     lapNumber = payload.Race.LapNumber;
                 }
+                btnCommit.IsEnabled = true;
             }
         }
         public void ResetEvents()
@@ -138,6 +139,9 @@ namespace ForzaAnalytics.Modules
             maxZ = 0;
             if (cMapPlot.Children != null)
                 cMapPlot.Children.Clear();
+
+            btnCommit.IsEnabled = false;
+            btnSave.IsEnabled = false;
         }
 
         private void btnReset_Click(object sender, RoutedEventArgs e)
@@ -145,6 +149,7 @@ namespace ForzaAnalytics.Modules
             allPositions.ResetPositions();
             positions.ResetPositions();
             ReplotPoints();
+            btnCommit.IsEnabled = false;
         }
 
         private void btnSave_Click(object sender, RoutedEventArgs e)
@@ -156,14 +161,20 @@ namespace ForzaAnalytics.Modules
                     allPositions.TrackName = tbTrackName.Text;
                     positions.TrackName = tbTrackName.Text;
                 }
-
-                SaveFileDialog dialog = new SaveFileDialog();
-                dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
-                dialog.Title = "Save Map";
-                dialog.FileName = $"{allPositions.TrackId}.fzmap";
-                if (dialog.ShowDialog() == true)
+                if (positions.Positions.Count > 0)
                 {
-                    MapSerializer.PersistMap(dialog.FileName, allPositions);
+                    MessageBox.Show("You Have Uncommitted Positions. please either commit these or 'Recent Latest'");
+                }
+                else {
+                    SaveFileDialog dialog = new SaveFileDialog();
+                    dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
+                    dialog.Title = "Save Map";
+                    dialog.FileName = $"{allPositions.TrackId}.fzmap";
+                    if (dialog.ShowDialog() == true)
+                    {
+                        MapSerializer.PersistMap(dialog.FileName, allPositions);
+                        MessageBox.Show("Map Saved!");
+                    }
                 }
             }
             else
@@ -296,6 +307,11 @@ namespace ForzaAnalytics.Modules
             if (positions.Positions.Count > 0)
             {
                 allPositions.Positions.AddRange(positions.Positions);
+                MessageBox.Show($"Committed {positions.Positions.Count} Row(s)");
+                positions.ResetPositions();
+                ReplotPoints();
+                btnCommit.IsEnabled = false;
+                btnSave.IsEnabled = true;
             }
             else { MessageBox.Show("No Positions have been tracked", "No Positions Tracked"); }
         }
@@ -305,12 +321,10 @@ namespace ForzaAnalytics.Modules
             positions.Positions.Clear();
             ReplotPoints();
         }
-
         private void btnReduceMap_Click(object sender, RoutedEventArgs e)
         {
             ReduceMap();
         }
-
         private void CoreMap_MouseDown(object sender, MouseButtonEventArgs e)
         {
             mousePressed = true;

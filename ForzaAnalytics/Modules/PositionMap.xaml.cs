@@ -439,6 +439,7 @@ namespace ForzaAnalytics.Modules
             if (dialog.ShowDialog() == true)
             {
                 MapSerializer.ExportPositionData(dialog.FileName, positions);
+                MessageBox.Show("Telemetry Data Saved!");
             }
         }
         private void btnImportData_Click(object sender, RoutedEventArgs e)
@@ -471,6 +472,7 @@ namespace ForzaAnalytics.Modules
                     if (!existingLaps.Contains(item))
                         cbLapPoints.Items.Add(item);
                 }
+                MessageBox.Show("Telemetry Loaded");
             }
         }
         private void tbnRotateMap_Checked(object sender, RoutedEventArgs e)
