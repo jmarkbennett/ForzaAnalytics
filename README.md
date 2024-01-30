@@ -1,0 +1,1 @@
+Forza Analytics is a POC C# WPF Application that reads data from the 'Data Out' option in Forza Motorsport. it displays information pertaining to Raw Live figures such as Acceleration, Brake application, RPMs, and also values such as Lap Time breakdowns and map positions.
