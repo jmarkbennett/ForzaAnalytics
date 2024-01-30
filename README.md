@@ -6,13 +6,13 @@ To get started, build the solution and edit the configuration files according to
 
 - The 'Start' open starts listening to the selected IP/Port (changing this requires app restart). Stopping this will prevent further data being received.
 - 'Reset All' will clear out all open pages/windows in the even of high memory consumption, or a session/event has changed.
-![Top Level Menu](README_Resources/Screenshot-01.png)
+![Top Level Menu](README_Resources/ScreenShot-01.png)
 
 There are two main areas to the application: Lap Time data and the Map.
 
 ## Lap Time Data
 Lap Time data should show information pertaining to the current session. Lap info is automatically tracked as the car goes around the circuit. however it is dependant on data picked up during play. pausing tracking and resuming between lap times _will_ cause unpredictable behaviour as it depends on live and previous information. 
-![Lap Info](./README_Resources/Screenshot-02.png)
+![Lap Info](./README_Resources/ScreenShot-02.png)
 
 - The Car Positioning/Map is effectively two areas: the 'Map Generator' and the 'Car Positions' (under 'Core Metrics').
 The Map Generator exists as a way for you to create your own maps. T10 does not currently provide geometry data for circuits so this is a way around plotting it manually.
@@ -27,7 +27,7 @@ if you already have a map file (or are using an existingly plotted track you can
 Start a 'Test Drive' session in a car that you can handle reasonably on the track of your choosing. **Its important to choose a car that handles well and smoothly because the route you drive will form the map** a car you can handle less or moves less predicably will cause an 'skittish' map through constant course corrections. for the same reason, set the **weather to clear**. this can take a few minutes to plot both sides so you dont want any reason to have to start over.
 
 2 - complete a full lap or at least pass the Start line for the first time. then drive back to the start line and choose either the left or right side of the track limit. you should be like below in Game:
-![Starting Position](README_Resources/Screenshot-03.png)
+![Starting Position](README_Resources/ScreenShot-03.png)
 note the following points:
 - lap has just started as i have crossed the start line
 - positioned on the starting line
@@ -39,7 +39,7 @@ note the following points:
 
 > Note: when you start tracking, it will **automatically** stop tracking when you pass the start line on completion of the map. this is intentional.
 
-![Starting Tracking](README_Resources/Screenshot-04.png)
+![Starting Tracking](README_Resources/ScreenShot-04.png)
 
 As mentioned before, you may notice no lines being drawn as you drive around initially. you may need to pan around in the white area to find the line points being drawn. any panning will updae the 'X and Z Offet' fields (you can also set this manually if necessary). its best to drive a few seconds, pause and pan to find the line(s) drawn. due to the nature of the Canvas property used to plot points, scrolling isnt _fully_ functional (yet. WIP!)
 
@@ -49,7 +49,7 @@ Once you have found the drawn line(s). go back to game and complete a lap leavin
 
 5 - Once a lap is done, the app will automatically stop tracking.
 
-![Initial Lap Done](README_Resources/Screenshot-05.png)
+![Initial Lap Done](README_Resources/ScreenShot-05.png)
  Look at the app, confirm your happy with the layout, if so hit 'Commit Latest', this saves that layout to memory so you can start the next side.
 
  If at any point of the lap you mess up or lose control or perform a line your not happy with. hit 'Reset Latest', this will remove only the current (non-committed) positions
@@ -58,10 +58,10 @@ Once you have found the drawn line(s). go back to game and complete a lap leavin
 
  6 - move back to the start line on the opposite side/limit, hit 'Start Tracking' and perform another line.
 
- ![Starting Second Line](README_Resources/Screenshot-06.png)
+ ![Starting Second Line](README_Resources/ScreenShot-06.png)
 
  7 - once finished both sides and you're happy, hit 'Commit Latest' and then 'Save Map'
- ![Save](README_Resources/Screenshot-07.png)
+ ![Save](README_Resources/ScreenShot-07.png)
  Maps are saved as .fzmap. it is just JSON but another extension so that we dont mix telemetry with map data for cleanliness.
 
 notes:
@@ -71,12 +71,12 @@ Reduce Map is a means of reducing the file size and precision. because xyz coord
  1 - Navigate to the 'Core Metrics' and then 'Car Positions'
 
  2 - Click 'Load Map' and select the map relevant to the current track. This will load the map as a filled polygon (see below)
- ![Save](README_Resources/Screenshot-08.png)
+ ![Save](README_Resources/ScreenShot-08.png)
 
  **Optional**: Reduce the map. this helps save memory and track points though does have an impact on how 'smooth' the map is:
 
 Left Shows Normal Load, Right shows how it loads reduced. notice how left is more smooth but takes up more points...
- ![Reduced](README_Resources/Screenshot-09.png)
+ ![Reduced](README_Resources/ScreenShot-09.png)
 
  'Load Reduced Map' loads the map and automatically reduces it, handy to skip the step if you know you dont need to zoom in or have that level of precision.
 
@@ -84,7 +84,7 @@ Left Shows Normal Load, Right shows how it loads reduced. notice how left is mor
 
 3 - Click 'Start Tracking'
 the map will update with positions on top as you drive.
- ![Reduced](README_Resources/Screenshot-10.png)
+ ![Reduced](README_Resources/ScreenShot-10.png)
 
 you can change orientation, the visual type and the lap points etc to show as during operation if you please. the map should update accordingly.
 
