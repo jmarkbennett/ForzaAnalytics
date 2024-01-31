@@ -47,8 +47,8 @@ namespace ForzaAnalytics.Modules
             mWheelRotationSpeedFr.Update(payload.Wheel.WheelRotationSpeedFrontRight.ToString("F2"));
             mWheelRotationSpeedRl.Update(payload.Wheel.WheelRotationSpeedRearLeft.ToString("F2"));
             mWheelRotationSpeedRr.Update(payload.Wheel.WheelRotationSpeedRearRight.ToString("F2"));
-            mWheelRotationDeltaF.Update((payload.Wheel.WheelRotationSpeedFrontLeft - payload.Wheel.WheelRotationSpeedFrontRight).ToString("F2"));
-            mWheelRotationDeltaR.Update((payload.Wheel.WheelRotationSpeedRearLeft - payload.Wheel.WheelRotationSpeedRearRight).ToString("F2"));
+            mWheelRotationDeltaF.Update(payload.Wheel.WheelRotationSpeedFrontDelta.ToString("F2"));
+            mWheelRotationDeltaR.Update(payload.Wheel.WheelRotationSpeedRearDelta.ToString("F2"));
         }
 
         public void ResetEvents()

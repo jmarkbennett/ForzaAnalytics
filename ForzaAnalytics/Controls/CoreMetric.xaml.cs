@@ -22,18 +22,15 @@ namespace ForzaAnalytics.Controls
     {
         public static readonly DependencyProperty MetricTitleProperty =
         DependencyProperty.Register("MetricTitle", typeof(string), typeof(CoreMetric));
-
         public string MetricTitle
         {
             get { return (string)GetValue(MetricTitleProperty); }
             set { SetValue(MetricTitleProperty, value); }
         }
-
         public CoreMetric()
         {
             InitializeComponent();
         }
-
         public void Update(string value)
         {
             lMetricValue.Content = value;

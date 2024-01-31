@@ -35,8 +35,10 @@ namespace ForzaAnalytics.UdpReader.Model
 
         public float WheelRotationSpeedFrontLeft { get { return raw_wheelRotationSpeedFrontLeft; } }
         public float WheelRotationSpeedFrontRight { get { return raw_wheelRotationSpeedFrontRight; } }
+        public float WheelRotationSpeedFrontDelta { get { return WheelRotationSpeedFrontLeft - WheelRotationSpeedFrontRight; } }
         public float WheelRotationSpeedRearLeft { get { return raw_wheelRotationSpeedRearLeft; } }
         public float WheelRotationSpeedRearRight { get { return raw_wheelRotationSpeedRearRight; } }
+        public float WheelRotationSpeedRearDelta { get { return WheelRotationSpeedRearLeft - WheelRotationSpeedRearRight; } }
         public float WheelInPuddleDepthFrontLeft { get { return raw_wheelInPuddleDepthFrontLeft; } }
         public float WheelInPuddleDepthFrontRight { get { return raw_wheelInPuddleDepthFrontRight; } }
         public float WheelInPuddleDepthRearLeft { get { return raw_wheelInPuddleDepthRearLeft; } }
