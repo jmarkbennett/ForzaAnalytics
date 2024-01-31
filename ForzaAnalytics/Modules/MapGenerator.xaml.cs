@@ -1,5 +1,7 @@
 ﻿using ForzaAnalytics.Models.Helpers;
+using ForzaAnalytics.Services.Helpers;
 using ForzaAnalytics.Services.Serializers;
+using ForzaAnalytics.Services.Service;
 using ForzaAnalytics.UdpReader.Model;
 using Microsoft.Win32;
 using System.Windows;
@@ -15,156 +17,66 @@ namespace ForzaAnalytics.Modules
     /// </summary>
     public partial class MapGenerator : UserControl
     {
+        private MapGeneratorService svc;
         private bool mousePressed = false;
         private bool wasDragged = false;
-        private double initialCanvasSize = 8000;
         private double mousePressedInitialX = 0;
         private double mousePressedInitialY = 0;
-        private double mapScale = 1.0;
-
-        private int lapNumber;
-        private bool isTracking = false;
-        private Models.Core.GroupedPositionalData positions; // Current tracking..
-        private Models.Core.GroupedPositionalData allPositions; // Full tracking...
-
-        public float? minX { get; set; }
-        public float? maxX{ get; set; }
-        public float? minZ{ get; set; }
-        public float? maxZ{ get; set; }
-
         public MapGenerator()
         {
-            lapNumber = 0;
-            positions = new Models.Core.GroupedPositionalData();
-            allPositions = new Models.Core.GroupedPositionalData();
+            svc = new MapGeneratorService();
+
             InitializeComponent();
-            cMapPlot.Height = initialCanvasSize;
-            cMapPlot.Width = initialCanvasSize;
+            cMapPlot.Height = svc.InitialCanvasSize;
+            cMapPlot.Width = svc.InitialCanvasSize;
         }
         public void ReceiveEvents(Telemetry payload)
         {
             tbTrackId.Text = payload.Race.TrackIdentifier.ToString();
-            positions.TrackId = payload.Race.TrackIdentifier;
-            allPositions.TrackId = payload.Race.TrackIdentifier;
-            if (isTracking)
+            var position = svc.Update(payload);
+            tbMaxX.Text = svc.MaxX.ToString();
+            tbMaxZ.Text = svc.MaxZ.ToString();
+            tbMinX.Text = svc.MinX.ToString();
+            tbMinZ.Text = svc.MinZ.ToString();
+            if (svc.CurrentLapNumber != payload.Race.LapNumber)
+                tglTrackData.IsChecked = false;
+            AddCanvasPoint(position);
+            btnCommit.IsEnabled = true;        
+        }
+        private void AddCanvasPoint(Models.Core.PositionalData position)
+        {
+            Ellipse dot = new Ellipse
             {
-                if (maxX == null)
-                {
-                    maxX = payload.Position.PositionX;
-                    tbMaxX.Text = maxX.ToString();
-                }
-            else
-            {
-                if (maxX < payload.Position.PositionX)
-                {
-                    maxX = payload.Position.PositionX;
-                    tbMaxX.Text = maxX.ToString();
-                }
-            }
-            if (maxZ == null)
-            {
-                maxZ = payload.Position.PositionZ;
-                tbMaxZ.Text = maxZ.ToString();
-            }
-            else
-            {
-                if (maxZ < payload.Position.PositionZ)
-                {
-                    maxZ = payload.Position.PositionZ;
-                    tbMaxZ.Text = maxZ.ToString();
-                }
-            }
+                Width = 2,
+                Height = 2,
+                Fill = Brushes.DarkGray
+            };
 
-            if (minX == null)
-            {
-                minX = payload.Position.PositionX;
-                tbMinX.Text = minX.ToString();
-            }
-            else
-            {
-                if (minX > payload.Position.PositionX)
-                {
-                    minX = payload.Position.PositionX;
-                    tbMinX.Text = minX.ToString();
-                }
-            }
-                if (minZ == null)
-                {
-                    minZ = payload.Position.PositionZ;
-                    tbMinZ.Text = minZ.ToString();
-                }
-                else
-                {
-                    if (minZ > payload.Position.PositionZ)
-                    {
-                        minZ = payload.Position.PositionZ;
-                        tbMinZ.Text = minZ.ToString();
-                    }
-                }
+            Point canvasPoint = new Point(position.X,position.Z);
 
-                if (payload.Race.LapNumber == lapNumber)
-                {
-                    positions.Positions.Add(new Models.Core.PositionalData(payload.Position.PositionX, payload.Position.PositionY, payload.Position.PositionZ));
-                    Ellipse dot = new Ellipse
-                    {
-                        Width = 2,
-                        Height = 2,
-                        Fill = Brushes.DarkGray
-                    };
-
-                    Point canvasPoint = new Point(
-                        (payload.Position.PositionX + (positions.XOffset)) * mapScale,
-                        (payload.Position.PositionZ + (positions.ZOffset)) * mapScale
-                        );
-                    Canvas.SetLeft(dot, canvasPoint.X);
-                    Canvas.SetTop(dot, canvasPoint.Y);
-                    cMapPlot.Children.Add(dot);
-                }
-                else
-                {
-                    tglTrackData.IsChecked = false;
-                    isTracking = false;
-                    lapNumber = payload.Race.LapNumber;
-                }
-                btnCommit.IsEnabled = true;
-            }
+            Canvas.SetLeft(dot, canvasPoint.X);
+            Canvas.SetTop(dot, canvasPoint.Y);
+            cMapPlot.Children.Add(dot);
         }
         public void ResetEvents()
         {
-            lapNumber = 0;
-
-            positions = new Models.Core.GroupedPositionalData();
-            allPositions = new Models.Core.GroupedPositionalData();
-
-            minX = 0;
-            maxX = 0;
-            minZ = 0;
-            maxZ = 0;
+            svc.ResetService();
             if (cMapPlot.Children != null)
                 cMapPlot.Children.Clear();
-
             btnCommit.IsEnabled = false;
             btnSave.IsEnabled = false;
         }
-
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
-            allPositions.ResetPositions();
-            positions.ResetPositions();
-            ReplotPoints();
-            btnCommit.IsEnabled = false;
+            ResetEvents();
         }
-
         private void btnSave_Click(object sender, RoutedEventArgs e)
         {
-            if (allPositions.Positions.Count > 0)
+            if (svc.AllPositions.Positions.Count > 0)
             {
-                if (!string.IsNullOrEmpty(tbTrackName.Text))
-                {
-                    allPositions.TrackName = tbTrackName.Text;
-                    positions.TrackName = tbTrackName.Text;
-                }
-                if (positions.Positions.Count > 0)
+                svc.UpdateTrackName(tbTrackName.Text);
+
+                if (svc.Positions.Positions.Count > 0)
                 {
                     MessageBox.Show("You Have Uncommitted Positions. please either commit these or 'Recent Latest'");
                 }
@@ -172,172 +84,121 @@ namespace ForzaAnalytics.Modules
                     SaveFileDialog dialog = new SaveFileDialog();
                     dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
                     dialog.Title = "Save Map";
-                    dialog.FileName = $"{allPositions.TrackId}.fzmap";
+                    dialog.FileName = $"{svc.AllPositions.TrackId}.fzmap";
                     if (dialog.ShowDialog() == true)
                     {
-                        MapSerializer.PersistMap(dialog.FileName, allPositions);
+                        MapSerializer.PersistMap(dialog.FileName, svc.AllPositions);
                         MessageBox.Show("Map Saved!");
                     }
                 }
             }
             else
             {
-                if(positions.Positions.Count > 0)
+                if(svc.Positions.Positions.Count > 0)
                     MessageBox.Show("No Positions have been commited, but you have some uncommited. Please commit these first");
                 else
                     MessageBox.Show("No Positions have been commited to save!");
             }
         }
-
         private void tglTrackData_Checked(object sender, RoutedEventArgs e)
         {
-            isTracking = true;
+            svc.IsTracking = true;
             tglTrackData.Content = "Stop Tracking";
         }
-
         private void tglTrackData_Unchecked(object sender, RoutedEventArgs e)
         {
-            isTracking = false;
+            svc.IsTracking = false;
             tglTrackData.Content = "Start Tracking";
         }
-
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
         {
             if (!string.IsNullOrEmpty(tbXOffset.Text))
             {
-                positions.XOffset = int.Parse(tbXOffset.Text);
-                allPositions.XOffset = int.Parse(tbXOffset.Text);
+                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
+                svc.AllPositions.XOffset = int.Parse(tbXOffset.Text);
             }
             if (!string.IsNullOrEmpty(tbZOffset.Text))
             {
-                positions.ZOffset = int.Parse(tbZOffset.Text);
-                allPositions.ZOffset = int.Parse(tbZOffset.Text);
+                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
+                svc.AllPositions.ZOffset = int.Parse(tbZOffset.Text);
             }
             ReplotPoints();
         }
-
         private void ReduceMap()
         {
-            var newPositions = new List<Models.Core.PositionalData>();
             if (tbReducePrecision.Text != null)
             {
-                foreach (var row in allPositions.Positions)
-                    newPositions.Add(
-                        new Models.Core.PositionalData(
-                            (float)Math.Round(row.X, int.Parse(tbReducePrecision.Text)),
-                            (float)Math.Round(row.Y, int.Parse(tbReducePrecision.Text)),
-                            (float)Math.Round(row.Z, int.Parse(tbReducePrecision.Text))
-                            )
-                    );
-                allPositions.Positions = newPositions.Distinct(new PositionalDataComparer()).ToList();
-                newPositions = new List<Models.Core.PositionalData>();
-                foreach (var row in positions.Positions)
-                    newPositions.Add(
-                        new Models.Core.PositionalData(
-                            (float)Math.Round(row.X, int.Parse(tbReducePrecision.Text)), 
-                            (float)Math.Round(row.Y, int.Parse(tbReducePrecision.Text)), 
-                            (float)Math.Round(row.Z, int.Parse(tbReducePrecision.Text))
-                            )
-                    );
-                positions.Positions = newPositions.Distinct(new PositionalDataComparer()).ToList();
+                svc.ReduceMap(int.Parse(tbReducePrecision.Text));
                 ReplotPoints();
             }
         }
-
         private void ReplotPoints()
         {
             if (cMapPlot != null)
             {
                 cMapPlot.Children.Clear();
-                foreach (var position in allPositions.GetAdjustedPositions())
-                {
-                    Ellipse dot = new Ellipse
-                    {
-                        Width = 2,
-                        Height = 2,
-                        Fill = Brushes.DarkGray
-                    };
-
-                    Point canvasPoint = new Point(position.X * mapScale, position.Z * mapScale);
-                    Canvas.SetLeft(dot, canvasPoint.X);
-                    Canvas.SetTop(dot, canvasPoint.Y);
-                    cMapPlot.Children.Add(dot);
-                }
-                foreach (var position in positions.GetAdjustedPositions())
-                {
-                    Ellipse dot = new Ellipse
-                    {
-                        Width = 2,
-                        Height = 2,
-                        Fill = Brushes.DarkGray
-                    };
-
-                    Point canvasPoint = new Point(position.X * mapScale, position.Z * mapScale);
-                    Canvas.SetLeft(dot, canvasPoint.X);
-                    Canvas.SetTop(dot, canvasPoint.Y);
-                    cMapPlot.Children.Add(dot);
-                }
+                foreach (var position in svc.AllPositions.GetAdjustedPositions())
+                    AddCanvasPoint(position);
+                foreach (var position in svc.Positions.GetAdjustedPositions())
+                    AddCanvasPoint(position);
                 ResizeCanvas();
             }
         }
-
         private void ResizeCanvas()
         {
-            var height = initialCanvasSize;
-            var width = initialCanvasSize;
-            if (allPositions.Positions.Count > 0)
+            var height = svc.InitialCanvasSize;
+            var width = svc.InitialCanvasSize;
+            if (svc.AllPositions.Positions.Count > 0)
             {
-                var tmp = allPositions.GetAdjustedPositions();
+                var tmp = svc.AllPositions.Positions;
                 if (tmp != null && tmp.Count < 0)
                 {
                     float minX = tmp.Min(x => x.X);
                     float minZ = tmp.Min(x => x.Z);
                     float maxX = tmp.Max(x => x.X);
                     float maxZ = tmp.Max(x => x.Z);
-                    height = maxZ - minZ * mapScale * 4;
-                    width = maxX - minX * mapScale * 4;
-                    if (height > initialCanvasSize)
+                    height = maxZ - minZ * 4;
+                    width = maxX - minX * 4;
+                    if (height > svc.InitialCanvasSize)
                         cMapPlot.Height = height;
-                    if (width > initialCanvasSize)
+                    if (width > svc.InitialCanvasSize)
                         cMapPlot.Width = width;
                 }
             }
             else
             {
-                var tmp = positions.GetAdjustedPositions();
+                var tmp = svc.Positions.Positions;
                 if (tmp != null && tmp.Count < 0)
                 {
                     float minX = tmp.Min(x => x.X);
                     float minZ = tmp.Min(x => x.Z);
                     float maxX = tmp.Max(x => x.X);
                     float maxZ = tmp.Max(x => x.Z);
-                    height = maxZ - minZ * mapScale * 4;
-                    width = maxX - minX * mapScale * 4;
-                    if (height > initialCanvasSize)
+                    height = maxZ - minZ * 4;
+                    width = maxX - minX * 4;
+                    if (height > svc.InitialCanvasSize)
                         cMapPlot.Height = height;
-                    if (width > initialCanvasSize)
+                    if (width > svc.InitialCanvasSize)
                         cMapPlot.Width = width;
                 }
             }
         }
-
         private void btnCommit_Click(object sender, RoutedEventArgs e)
         {
-            if (positions.Positions.Count > 0)
+            var result = svc.CommitPositions();
+            if (result > 0)
             {
-                allPositions.Positions.AddRange(positions.Positions);
-                MessageBox.Show($"Committed {positions.Positions.Count} Row(s)");
-                positions.ResetPositions();
+                MessageBox.Show($"Committed {result} Row(s)");
                 ReplotPoints();
                 btnCommit.IsEnabled = false;
                 btnSave.IsEnabled = true;
             }
-            else { MessageBox.Show("No Positions have been tracked", "No Positions Tracked"); }
+            else
+                MessageBox.Show("No Positions have been tracked", "No Positions Tracked");
         }
-
         private void btnResetLatest_Click(object sender, RoutedEventArgs e)
         {
-            positions.Positions.Clear();
+            svc.Positions.Positions.Clear();
             ReplotPoints();
         }
         private void btnReduceMap_Click(object sender, RoutedEventArgs e)
@@ -359,17 +220,13 @@ namespace ForzaAnalytics.Modules
                 var deltaX = (int)mousePressedInitialX - (int)e.GetPosition(this).X;
                 var deltaZ = (int)mousePressedInitialY - (int)e.GetPosition(this).Y;
                 // once mouse has been lifted, adjust position based on end.
-                positions.XOffset = positions.XOffset - deltaX;
-                positions.ZOffset = positions.ZOffset + deltaZ;
-                allPositions.XOffset = positions.XOffset;
-                allPositions.ZOffset = positions.ZOffset;
+                svc.HandleMapPan(deltaX, deltaZ);
 
-                tbXOffset.Text = positions.XOffset.ToString();
-                tbZOffset.Text = positions.ZOffset.ToString();
+                tbXOffset.Text = svc.Positions.XOffset.ToString();
+                tbZOffset.Text = svc.Positions.ZOffset.ToString();
                 wasDragged = false;
                 ReplotPoints();
             }
-
         }
         private void CoreMap_MouseMove(object sender, MouseEventArgs e)
         {
@@ -379,28 +236,7 @@ namespace ForzaAnalytics.Modules
         private void cbMapScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             var action = (cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString();
-            switch (action)
-            {
-                case "Massive (400%)":
-                    mapScale = 4.0;
-                    break;
-                case "Double (200%)":
-                    mapScale = 2.0;
-                    break;
-                case "Half Bigger (150%)":
-                    mapScale = 1.5;
-                    break;
-                case "Default (100%)":
-                    mapScale = 1;
-                    break;
-                case "Three Quarters (75%)":
-                    mapScale = 0.75;
-                    break;
-                case "Half (50%)":
-                    mapScale = 0.5;
-                    break;
-            }
-
+            svc.SetMapScale(action);
             ReplotPoints();
         }
     }

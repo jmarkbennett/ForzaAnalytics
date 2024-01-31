@@ -4,7 +4,6 @@ namespace ForzaAnalytics.Services.Helpers
 {
     public static class ColourHelper
     {
-
         public static string GetCarClassColour(CarClass carClass)
         {
             switch (carClass)

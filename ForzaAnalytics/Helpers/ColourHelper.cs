@@ -3,9 +3,9 @@ using System.Windows.Media;
 
 namespace ForzaAnalytics.Helpers
 {
-    public static class ColourHelper
+    internal static class ColourHelper
     {
-        public static SolidColorBrush GetColourFromString(string colorStr)
+        internal static SolidColorBrush GetColourFromString(string colorStr)
         {
             if (colorStr.Length == 6)
             {
