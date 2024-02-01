@@ -39,8 +39,8 @@ namespace ForzaAnalytics.Services.Service
         }
         public ExtendedPositionalData Update(Telemetry payload)
         {
-            if (payload.Speed_Mph > MaxSpeed)
-                MaxSpeed = payload.Speed_Mph;
+            if (payload.Speed_Mps > MaxSpeed)
+                MaxSpeed = payload.Speed_Mps;
 
             var result = new ExtendedPositionalData(
             payload.Position.PositionX,
@@ -167,7 +167,7 @@ namespace ForzaAnalytics.Services.Service
                 LapToPlot = -2;
             else if (option == "Current Lap")
                 LapToPlot = -1;
-            else if (option == null)
+            else if (option != null)
             {
                 LapToPlot = int.Parse(option);
             }

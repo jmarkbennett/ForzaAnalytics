@@ -10,6 +10,7 @@ namespace ForzaAnalytics.Services.Service
         private const double initialCanvasSize = 8000;
         public int CurrentLapNumber;
         public bool IsTracking = false;
+        public bool HasLapChanged = false;
         public GroupedPositionalData Positions;
         public GroupedPositionalData AllPositions;
         public double InitialCanvasSize { get { return initialCanvasSize; } }
@@ -32,39 +33,45 @@ namespace ForzaAnalytics.Services.Service
             );
             Positions.TrackId = payload.Race.TrackIdentifier;
             AllPositions.TrackId = payload.Race.TrackIdentifier;
-            if (IsTracking)
-            {
-                if (MaxX == null)
-                    MaxX = payload.Position.PositionX;
-                else
-                    if (MaxX < payload.Position.PositionX)
-                        MaxX = payload.Position.PositionX;
-                if (MaxZ == null)
-                    MaxZ = payload.Position.PositionZ;
-                else
-                    if (MaxZ < payload.Position.PositionZ)
-                        MaxZ = payload.Position.PositionZ;
 
-                if (MinX == null)
-                    MinX = payload.Position.PositionX;
-                else
-                    if (MinX > payload.Position.PositionX)
-                        MinX = payload.Position.PositionX;
-                if (MinZ == null)
-                    MinZ = payload.Position.PositionZ;
-                else
-                    if (MinZ > payload.Position.PositionZ)
-                        MinZ = payload.Position.PositionZ;
-                }
+            if (MaxX == null)
+                MaxX = payload.Position.PositionX;
+            else
+                if (MaxX < payload.Position.PositionX)
+                MaxX = payload.Position.PositionX;
+            if (MaxZ == null)
+                MaxZ = payload.Position.PositionZ;
+            else
+                if (MaxZ < payload.Position.PositionZ)
+                MaxZ = payload.Position.PositionZ;
+
+            if (MinX == null)
+                MinX = payload.Position.PositionX;
+            else
+                if (MinX > payload.Position.PositionX)
+                MinX = payload.Position.PositionX;
+            if (MinZ == null)
+                MinZ = payload.Position.PositionZ;
+            else
+                if (MinZ > payload.Position.PositionZ)
+                MinZ = payload.Position.PositionZ;
+
             if (payload.Race.LapNumber == CurrentLapNumber)
                 Positions.Positions.Add(result);
             else
             {
-                
-                IsTracking = false;
-                CurrentLapNumber = payload.Race.LapNumber;
+                if (Positions.Positions.Count > 1)
+                {
+                    IsTracking = false;
+                    CurrentLapNumber = payload.Race.LapNumber;
+                    HasLapChanged = true;
+                }
+                else
+                {
+                    CurrentLapNumber = payload.Race.LapNumber;
+                }
             }
-            
+
             return Positions.GetAdjustedPosition(result);
         }
         public void ResetService()

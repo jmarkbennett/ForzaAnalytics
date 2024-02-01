@@ -19,7 +19,7 @@
                 <ColumnDefinition Width="4"></ColumnDefinition>
                 <ColumnDefinition Width="300"></ColumnDefinition>
                 <ColumnDefinition Width="4"></ColumnDefinition>
-                <ColumnDefinition Width="410"></ColumnDefinition>
+                <ColumnDefinition Width="420"></ColumnDefinition>
                 <ColumnDefinition Width="140"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Modules:SessionDetail Grid.Column="0" x:Name="sessionDetailsModule"></Modules:SessionDetail>
