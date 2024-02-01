@@ -55,6 +55,7 @@ namespace ForzaAnalytics.Modules
                 }
                 AddLapsToDropDown(ref payload);
                 svc.CurrentLapNumber = payload.Race.LapNumber;
+                btnExportData.IsEnabled = true;
             }
         }
         private void AddLapsToDropDown(ref Telemetry payload)
@@ -81,6 +82,7 @@ namespace ForzaAnalytics.Modules
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             ResetEvents();
+            btnExportData.IsEnabled = false;
         }
         private void btnLoadMap_Click(object sender, RoutedEventArgs e)
         {

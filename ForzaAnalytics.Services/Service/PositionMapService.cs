@@ -59,7 +59,7 @@ namespace ForzaAnalytics.Services.Service
                 GearNumber = payload.GearNumber
             };
             Positions.ExtendedPositions.Add(result);
-            return Positions.GetAdjustedPosition(result);
+            return result;
         }
         public void ResetService()
         {

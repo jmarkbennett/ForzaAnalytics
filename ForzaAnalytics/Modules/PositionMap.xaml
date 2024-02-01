@@ -42,6 +42,7 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <Label Grid.Row="0" Grid.Column="0" Content="Track ID" HorizontalContentAlignment="Center"></Label>
                 <TextBox Grid.Row="1" Grid.Column="1" Name="tbTrackId" IsEnabled="false"></TextBox>
@@ -72,16 +73,8 @@
 
                 <Button Grid.Row="8" Name="btnApplyOffset" Content="Apply Offsets" Click="btnApplyOffset_Click"></Button>
                 <Button Grid.Row="9" Name="btnSuggestOffset" Content="Suggest Offset" Click="btnSuggestOffset_Click"></Button>
-                <Label Grid.Row="10" Content="Visual Type:" HorizontalContentAlignment="Center"></Label>
-                <ComboBox Grid.Row="11" x:Name="cbChartType" SelectionChanged="cbChartType_SelectionChanged" Width="200">
-                    <ComboBoxItem Content="Default" IsSelected="True"></ComboBoxItem>
-                    <ComboBoxItem Content="Pedal Pressure"></ComboBoxItem>
-                    <ComboBoxItem Content="Speed Heatmap"></ComboBoxItem>
-                    <ComboBoxItem Content="Gear Number"></ComboBoxItem>
-                    <ComboBoxItem Content="Acceleration"></ComboBoxItem>
-                </ComboBox>
-                <Label Grid.Row="12" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
-                <ComboBox Grid.Row="13" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
+                <Label Grid.Row="10" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
+                <ComboBox Grid.Row="11" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
                     <ComboBoxItem Content="400%"></ComboBoxItem>
                     <ComboBoxItem Content="300%"></ComboBoxItem>
                     <ComboBoxItem Content="200%"></ComboBoxItem>
@@ -92,15 +85,25 @@
                     <ComboBoxItem Content="50%"></ComboBoxItem>
                     <ComboBoxItem Content="25%"></ComboBoxItem>
                 </ComboBox>
-                <Label Grid.Row="14" Content="Map Orientation:"></Label>
-                <ToggleButton Grid.Row="15" Content="Rotate" Name="tbnRotateMap" Checked="tbnRotateMap_Checked" Unchecked="tbnRotateMap_Unchecked" Height="30" VerticalAlignment="Top"></ToggleButton>
-                <Label Grid.Row="16" Content="Show Points:"></Label>
-                <ComboBox Grid.Row="17" x:Name="cbLapPoints" SelectionChanged="cbLapPoints_SelectionChanged">
+                <Label Grid.Row="12" Content="Map Orientation:"></Label>
+                <ToggleButton Grid.Row="13" Content="Rotate" Name="tbnRotateMap" Checked="tbnRotateMap_Checked" Unchecked="tbnRotateMap_Unchecked" Height="30" VerticalAlignment="Top"></ToggleButton>
+
+                <Label Grid.Row="15" Content="Visual Type:"></Label>
+                <ComboBox Grid.Row="16" x:Name="cbChartType" SelectionChanged="cbChartType_SelectionChanged" Width="200">
+                    <ComboBoxItem Content="Default" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="Pedal Pressure"></ComboBoxItem>
+                    <ComboBoxItem Content="Speed Heatmap"></ComboBoxItem>
+                    <ComboBoxItem Content="Gear Number"></ComboBoxItem>
+                    <ComboBoxItem Content="Acceleration"></ComboBoxItem>
+                </ComboBox>
+
+                 <Label Grid.Row="17" Content="Show Points:"></Label>
+                <ComboBox Grid.Row="18" x:Name="cbLapPoints" SelectionChanged="cbLapPoints_SelectionChanged">
                     <ComboBoxItem Content="All Laps" IsSelected="True"></ComboBoxItem>
                     <ComboBoxItem Content="Current Lap"></ComboBoxItem>
                 </ComboBox>
-                <Label Grid.Row="19" Content="Show Lap Times:"></Label>
-                <CheckBox Grid.Row="19" Name="cbIncludeLapTimes" IsChecked="True" HorizontalAlignment="Left" Margin="154,8,0,7" Unchecked="cbIncludeLapTimes_Changed" Checked="cbIncludeLapTimes_Changed"/>
+                <Label Grid.Row="20" Content="Show Lap Times:"></Label>
+                <CheckBox Grid.Row="20" Name="cbIncludeLapTimes" IsChecked="True" HorizontalAlignment="Left" Margin="154,8,0,7" Unchecked="cbIncludeLapTimes_Changed" Checked="cbIncludeLapTimes_Changed"/>
             </Grid>
             <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
                 <Border BorderThickness="2" BorderBrush="#DDDDDD">
@@ -130,10 +133,10 @@
                 <ToggleButton Name="tglTrackData" Content="Start Tracking" Grid.Row="0" Grid.RowSpan="2"  Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked" Margin="4"></ToggleButton>
                 <Button Name="btnReset" Content="Reset" Grid.Row="3" Click="btnReset_Click"></Button>
                 <Button Name="btnLoadMap" Content="Load Map" Grid.Row="5" Grid.Column="2" Click="btnLoadMap_Click"></Button>
-                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="7" Grid.Column="2" Click="btnReduceMap_Click"></Button>
+                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="7" Grid.Column="2" Click="btnReduceMap_Click" IsEnabled="False"></Button>
                 <Button Name="btnLoadAndReduceMap" Content="Load Reduced Map" Grid.Row="9" Grid.Column="2" Click="btnLoadAndReduceMap_Click"></Button>
                 <Button Name="btnImportData" Content="Import Data" Grid.Row="11" Grid.Column="2" Click="btnImportData_Click"></Button>
-                <Button Name="btnExportData" Content="Export Data" Grid.Row="13" Grid.Column="2" Click="btnExportData_Click"></Button>
+                <Button Name="btnExportData" Content="Export Data" Grid.Row="13" Grid.Column="2" Click="btnExportData_Click" IsEnabled="False"></Button>
             </Grid>
         </Grid>
     </Grid>
