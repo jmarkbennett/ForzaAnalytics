@@ -93,6 +93,16 @@ namespace ForzaAnalytics.Services.Service
 
             return result;
         }
+
+        public double GetPreviousSpeed(int ordinal)
+        {
+            double result = 0;
+            if (Positions.ExtendedPositions != null && Positions.ExtendedPositions.Count > 10 && ordinal > 10)
+                result = Positions.ExtendedPositions[ordinal - 10].Speed_Mps;
+
+            return result;
+        }
+
         public bool HasGearNumberChanged(Telemetry currentRow)
         {
             if (
