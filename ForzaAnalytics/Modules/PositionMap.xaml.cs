@@ -268,7 +268,7 @@ namespace ForzaAnalytics.Modules
         }
         private void AddCanvasPoint(ExtendedPositionalData position)
         {
-            double prevSpeed = svc.GetPreviousSpeed();
+            double prevSpeed =  isReplaying ? svc.GetPreviousSpeed(CurrentOrdinal) : svc.GetPreviousSpeed();
             Ellipse dot = new Ellipse
             {
                 Width = 2,
