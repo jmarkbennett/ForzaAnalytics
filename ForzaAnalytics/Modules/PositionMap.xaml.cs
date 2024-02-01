@@ -151,11 +151,11 @@ namespace ForzaAnalytics.Modules
             {
                 if (svc.IsPlottedLap(adjustedPositions[i].LapNumber))
                 {
-                    if (adjustedPositions[i].Speed_Mph > svc.MaxSpeed)
-                        svc.MaxSpeed = adjustedPositions[i].Speed_Mph;
+                    if (adjustedPositions[i].Speed_Mps > svc.MaxSpeed)
+                        svc.MaxSpeed = adjustedPositions[i].Speed_Mps;
                     double prevSpeed = 0;
                     if (i > 10)
-                        prevSpeed = adjustedPositions[i - 10].Speed_Mph;
+                        prevSpeed = adjustedPositions[i - 10].Speed_Mps;
                     AddCanvasPoint(adjustedPositions[i], prevSpeed);
                     AddPlotLabels(i > 0, adjustedPositions[i], i > 0 ? adjustedPositions[i - 1] : null);
                     if(i < (adjustedPositions.Count - 1))
@@ -453,7 +453,7 @@ namespace ForzaAnalytics.Modules
         private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
-            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString());
+            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? ((cbLapPoints.SelectedItem).ToString()));
             ReplotPoints();
         }
         private void btnLoadAndReduceMap_Click(object sender, RoutedEventArgs e)

@@ -33,15 +33,22 @@ namespace ForzaAnalytics.Modules
         public void ReceiveEvents(Telemetry payload)
         {
             tbTrackId.Text = payload.Race.TrackIdentifier.ToString();
-            var position = svc.Update(payload);
-            tbMaxX.Text = svc.MaxX.ToString();
-            tbMaxZ.Text = svc.MaxZ.ToString();
-            tbMinX.Text = svc.MinX.ToString();
-            tbMinZ.Text = svc.MinZ.ToString();
-            if (svc.CurrentLapNumber != payload.Race.LapNumber)
+            if (svc.IsTracking)
+            {
+                var position = svc.Update(payload);
+                tbMaxX.Text = svc.MaxX.ToString();
+                tbMaxZ.Text = svc.MaxZ.ToString();
+                tbMinX.Text = svc.MinX.ToString();
+                tbMinZ.Text = svc.MinZ.ToString();
+
+                AddCanvasPoint(position);
+                btnCommit.IsEnabled = true;
+            }
+            if (svc.HasLapChanged)
+            {
                 tglTrackData.IsChecked = false;
-            AddCanvasPoint(position);
-            btnCommit.IsEnabled = true;        
+                svc.HasLapChanged = false;
+            }
         }
         private void AddCanvasPoint(Models.Core.PositionalData position)
         {
