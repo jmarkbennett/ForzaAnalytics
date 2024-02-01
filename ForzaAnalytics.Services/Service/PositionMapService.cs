@@ -61,6 +61,15 @@ namespace ForzaAnalytics.Services.Service
             Positions.ExtendedPositions.Add(result);
             return result;
         }
+
+        public ExtendedPositionalData Replay(ExtendedPositionalData row)
+        {
+            if (row.Speed_Mps > MaxSpeed)
+                MaxSpeed = row.Speed_Mps;
+
+            return row;
+        }
+
         public void ResetService()
         {
             Positions.ResetPositions();
@@ -169,5 +178,6 @@ namespace ForzaAnalytics.Services.Service
         {
             return MapPositions.Positions.Min(x => x.Z) - 40;
         }
+
     }
 }

@@ -50,6 +50,7 @@ namespace ForzaAnalytics.Services.Service
                 {
                     IsTracking = false;
                     CurrentLapNumber = payload.Race.LapNumber;
+                    HasLapChanged = true;
                 }
                 else
                 {

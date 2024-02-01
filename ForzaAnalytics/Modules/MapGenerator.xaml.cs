@@ -251,6 +251,8 @@ namespace ForzaAnalytics.Modules
 
                 svc.Positions.XOffset = (int)x;
                 svc.AllPositions.XOffset = (int)x;
+                tbXOffset.Text = svc.Positions.XOffset.ToString();
+
             }
             if (!string.IsNullOrEmpty(tbSuggestedZ.Text))
             {
@@ -258,6 +260,7 @@ namespace ForzaAnalytics.Modules
 
                 svc.Positions.ZOffset = (int)z;
                 svc.AllPositions.ZOffset = (int)z;
+                tbZOffset.Text = svc.Positions.ZOffset.ToString();
             }
             ReplotPoints();
         }
