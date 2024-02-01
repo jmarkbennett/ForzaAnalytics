@@ -51,22 +51,22 @@
                 <Label Grid.Row="6" Content="Z Offset:" HorizontalContentAlignment="Center"></Label>
                 <TextBox  Grid.Row="7" Name="tbZOffset" Text="0"></TextBox>
                 <Button Grid.Row="8" Name="btnApplyOffset" Content="Apply Offsets" Click="btnApplyOffset_Click"></Button>
-                <Label Grid.Row="9" Content="Current Min X:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="10" Grid.Column="1" Name="tbMinX" IsEnabled="false"></TextBox>
-                <Label Grid.Row="11" Content="Current Max X:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="12" Grid.Column="1" Name="tbMaxX" IsEnabled="false"></TextBox>
-                <Label Grid.Row="13" Content="Current Min Z:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="14" Grid.Column="1" Name="tbMinZ" IsEnabled="false"></TextBox>
-                <Label Grid.Row="15" Content="Current Max Z:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="16" Grid.Column="1" Name="tbMaxZ" IsEnabled="false"></TextBox>
-                <Label Grid.Row="17" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
-                <ComboBox Grid.Row="18" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
-                    <ComboBoxItem Content="Massive (400%)"></ComboBoxItem>
-                    <ComboBoxItem Content="Double (200%)"></ComboBoxItem>
-                    <ComboBoxItem Content="Half Bigger (150%)"></ComboBoxItem>
-                    <ComboBoxItem Content="Default (100%)" IsSelected="True"></ComboBoxItem>
-                    <ComboBoxItem Content="Three Quarters (75%)"></ComboBoxItem>
-                    <ComboBoxItem Content="Half (50%)"></ComboBoxItem>
+                <Label Grid.Row="10" Content="Suggested X Offset:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="11" Grid.Column="1" Name="tbSuggestedX" IsEnabled="false"></TextBox>
+                <Label Grid.Row="12" Content="Suggested Z Offset:" HorizontalContentAlignment="Center"></Label>
+                <TextBox Grid.Row="13" Grid.Column="1" Name="tbSuggestedZ" IsEnabled="false"></TextBox>
+                <Button Grid.Row="14" Name="btnApplySuggestedOffset" Content="Apply Suggested" Click="btnApplySuggestedOffset_Click"></Button>
+                <Label Grid.Row="16" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
+                <ComboBox Grid.Row="17" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
+                    <ComboBoxItem Content="400%"></ComboBoxItem>
+                    <ComboBoxItem Content="300%"></ComboBoxItem>
+                    <ComboBoxItem Content="200%"></ComboBoxItem>
+                    <ComboBoxItem Content="150%"></ComboBoxItem>
+                    <ComboBoxItem Content="125%"></ComboBoxItem>
+                    <ComboBoxItem Content="100%" IsSelected="True"></ComboBoxItem>
+                    <ComboBoxItem Content="75%"></ComboBoxItem>
+                    <ComboBoxItem Content="50%"></ComboBoxItem>
+                    <ComboBoxItem Content="25%"></ComboBoxItem>
                 </ComboBox>
             </Grid>
             <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">

@@ -30,7 +30,7 @@ namespace ForzaAnalytics.Modules
         public PositionMap()
         {
             svc = new PositionMapService();
-            InitializeComponent();   
+            InitializeComponent();
             mapTransformGroup = new TransformGroup();
             mapTransformGroup.Children.Add(new RotateTransform(180, 0, 0));
             mapTransformGroup.Children.Add(new ScaleTransform(-1, 1));
@@ -55,6 +55,7 @@ namespace ForzaAnalytics.Modules
                 }
                 AddLapsToDropDown(ref payload);
                 svc.CurrentLapNumber = payload.Race.LapNumber;
+                btnExportData.IsEnabled = true;
             }
         }
         private void AddLapsToDropDown(ref Telemetry payload)
@@ -81,6 +82,7 @@ namespace ForzaAnalytics.Modules
         private void btnReset_Click(object sender, RoutedEventArgs e)
         {
             ResetEvents();
+            btnExportData.IsEnabled = false;
         }
         private void btnLoadMap_Click(object sender, RoutedEventArgs e)
         {
@@ -97,13 +99,23 @@ namespace ForzaAnalytics.Modules
             if (dialog.ShowDialog() == true)
             {
                 svc.LoadMap(dialog.FileName);
-                ReplotPoints();
+
                 if (!string.IsNullOrEmpty(svc.MapPositions.TrackName))
                     tbTrackName.Text = svc.MapPositions.TrackName;
 
                 tbTrackId.Text = svc.MapPositions.TrackId.ToString();
                 tbXOffset.Text = svc.MapPositions.XOffset.ToString();
                 tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+                var scale = $"{(svc.MapPositions.MapScale * 100).ToString()}%";
+                foreach (ComboBoxItem item in cbMapScale.Items)
+                {
+                    if (item.Content.ToString() == scale)
+                    {
+                        item.IsSelected = true;
+                        break;
+                    }
+                }
+                ReplotPoints();
                 result = true;
             }
             return result;
@@ -132,8 +144,13 @@ namespace ForzaAnalytics.Modules
         {
             var points = new List<Point>();
 
-            foreach (var position in svc.MapPositions.GetAdjustedPositions())
-                points.Add(new Point(position.X, position.Z));
+            foreach (var position in svc.MapPositions.Positions)
+                points.Add(
+                    new Point(
+                        svc.MapPositions.GetAdjustedXCoordinate(position.X, position.Z),
+                        svc.MapPositions.GetAdjustedZCoordinate(position.X, position.Z)
+                    )
+                );
 
             Polygon polygon = new Polygon();
             polygon.Points = new PointCollection(points);
@@ -146,20 +163,20 @@ namespace ForzaAnalytics.Modules
         private void ReplotPositions()
         {
             svc.MaxSpeed = 0;
-            var adjustedPositions = svc.Positions.GetAdjustedPositions();
-            for (var i = 0; i < adjustedPositions.Count; i++)
+            var positions = svc.Positions.ExtendedPositions;
+            for (var i = 0; i < positions.Count; i++)
             {
-                if (svc.IsPlottedLap(adjustedPositions[i].LapNumber))
+                if (svc.IsPlottedLap(positions[i].LapNumber))
                 {
-                    if (adjustedPositions[i].Speed_Mps > svc.MaxSpeed)
-                        svc.MaxSpeed = adjustedPositions[i].Speed_Mps;
+                    if (positions[i].Speed_Mph > svc.MaxSpeed)
+                        svc.MaxSpeed = positions[i].Speed_Mph;
                     double prevSpeed = 0;
                     if (i > 10)
-                        prevSpeed = adjustedPositions[i - 10].Speed_Mps;
-                    AddCanvasPoint(adjustedPositions[i], prevSpeed);
-                    AddPlotLabels(i > 0, adjustedPositions[i], i > 0 ? adjustedPositions[i - 1] : null);
-                    if(i < (adjustedPositions.Count - 1))
-                        AddLapTimePlotLabels(true, adjustedPositions[i], adjustedPositions[i + 1]);
+                        prevSpeed = positions[i - 10].Speed_Mph;
+                    AddCanvasPoint(positions[i], prevSpeed);
+                    AddPlotLabels(i > 0, positions[i], i > 0 ? positions[i - 1] : null);
+                    if (i < (positions.Count - 1))
+                        AddLapTimePlotLabels(true, positions[i], positions[i + 1]);
                 }
             }
         }
@@ -185,8 +202,8 @@ namespace ForzaAnalytics.Modules
                 BorderThickness = new Thickness(1),
                 Margin =
                 new Thickness(
-                        x,
-                        z,
+                        svc.Positions.GetAdjustedXCoordinate((float)x, (float)z),
+                        svc.Positions.GetAdjustedZCoordinate((float)x, (float)z),
                         0.0,
                         0.0
                     )
@@ -216,8 +233,8 @@ namespace ForzaAnalytics.Modules
                 BorderThickness = new Thickness(1),
                 Margin =
                 new Thickness(
-                        x,
-                        z,
+                        svc.Positions.GetAdjustedXCoordinate((float)x, (float)z),
+                        svc.Positions.GetAdjustedZCoordinate((float)x, (float)z),
                         0.0,
                         0.0
                     )
@@ -235,8 +252,8 @@ namespace ForzaAnalytics.Modules
             };
 
             Point canvasPoint = new Point(
-                position.X,
-                position.Z
+                svc.MapPositions.GetAdjustedXCoordinate(position.X, position.Z),
+                svc.MapPositions.GetAdjustedZCoordinate(position.X, position.Z)
             );
 
             Canvas.SetLeft(dot, canvasPoint.X);
@@ -253,7 +270,10 @@ namespace ForzaAnalytics.Modules
                 Fill = Helpers.ColourHelper.GetColourFromString(ColourHelper.GetColourForMapMode(position, svc.MapMode, svc.MaxSpeed, prevSpeed)),
             };
 
-            Point canvasPoint = new Point(position.X, position.Z);
+            Point canvasPoint = new Point(
+                svc.MapPositions.GetAdjustedXCoordinate(position.X, position.Z),
+                svc.MapPositions.GetAdjustedZCoordinate(position.X, position.Z)
+            );
             Canvas.SetLeft(dot, canvasPoint.X);
             Canvas.SetTop(dot, canvasPoint.Y);
             cMapPlot.Children.Add(dot);
@@ -265,11 +285,10 @@ namespace ForzaAnalytics.Modules
                 case MapModeOptions.GearNumber:
                     if (svc.HasGearNumberChanged(currentRow))
                     {
-                        var position = svc.Positions.GetAdjustedPosition(currentRow);
                         cMapPlot.Children.Add(
                             GeneratePlotLabel(
-                                position.X,
-                                position.Z,
+                                currentRow.Position.PositionX,
+                                currentRow.Position.PositionZ,
                                 currentRow.GearNumber)
                         );
                     }
@@ -291,16 +310,14 @@ namespace ForzaAnalytics.Modules
             if (cbIncludeLapTimes.IsChecked ?? false)
                 if (hasNext && currentRow.LapNumber != nextRow.LapNumber)
                 {
-                    var position = svc.Positions.GetAdjustedPosition(currentRow);
-                    cMapPlot.Children.Add(GenerateLapTimePlotLabel(position.X, position.Z, currentRow.LapNumber, currentRow.LapTime));
+                    cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.X, currentRow.Z, currentRow.LapNumber, currentRow.LapTime));
                 }
         }
         private void AddLapTimePlotLabels(Telemetry currentRow)
         {
             if (cbIncludeLapTimes.IsChecked ?? false)
             {
-                var position = svc.Positions.GetAdjustedPosition(currentRow);
-                cMapPlot.Children.Add(GenerateLapTimePlotLabel(position.X, position.Z, currentRow.Race.LapNumber - 1, currentRow.Race.LastLapTime));
+                cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.Position.PositionX, currentRow.Position.PositionZ, currentRow.Race.LapNumber - 1, currentRow.Race.LastLapTime));
             }
         }
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
@@ -376,7 +393,9 @@ namespace ForzaAnalytics.Modules
             if (dialog.ShowDialog() == true)
             {
                 svc.ImportTelemetry(dialog.FileName);
-                
+                tbXOffset.Text = svc.MapPositions.XOffset.ToString();
+                tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+
                 ReplotPoints();
                 var laps = new List<int>();
                 foreach (var position in svc.Positions.ExtendedPositions)
@@ -452,8 +471,7 @@ namespace ForzaAnalytics.Modules
         }
         private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-
-            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? ((cbLapPoints.SelectedItem).ToString()));
+            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? cbLapPoints.SelectedItem.ToString());
             ReplotPoints();
         }
         private void btnLoadAndReduceMap_Click(object sender, RoutedEventArgs e)
@@ -494,6 +512,16 @@ namespace ForzaAnalytics.Modules
         {
             if (mousePressed)
                 wasDragged = true;
+        }
+        private void btnSuggestOffset_Click(object sender, RoutedEventArgs e)
+        {
+            svc.Positions.XOffset = (int)svc.GetSuggestedXOffset();
+            svc.MapPositions.XOffset = (int)svc.GetSuggestedXOffset();
+            svc.Positions.ZOffset = (int)svc.GetSuggestedZOffset();
+            svc.MapPositions.ZOffset = (int)svc.GetSuggestedZOffset();
+            tbXOffset.Text = svc.MapPositions.XOffset.ToString();
+            tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+            ReplotPoints();
         }
     }
 }

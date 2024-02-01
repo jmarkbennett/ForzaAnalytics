@@ -70,7 +70,8 @@ namespace ForzaAnalytics.Models.Core
             return result;
         }
 
-        public PositionalData GetAdjustedPosition(Telemetry position){
+        public PositionalData GetAdjustedPosition(Telemetry position)
+        {
             var result = new PositionalData(
                 GetAdjustedXCoordinate(position.Position.PositionX, position.Position.PositionZ),
                 position.Position.PositionY,
@@ -79,14 +80,14 @@ namespace ForzaAnalytics.Models.Core
 
             return result;
         }
-        private float GetAdjustedXCoordinate(float x, float z)
+        public float GetAdjustedXCoordinate(float x, float z)
         {
             if (IsRotated)
                 return (z + ZOffset) * (float)MapScale;
             else
                 return (x + XOffset) * (float)MapScale;
         }
-        private float GetAdjustedZCoordinate(float x, float z)
+        public float GetAdjustedZCoordinate(float x, float z)
         {
             if (IsRotated)
                 return (x + XOffset) * (float)MapScale;

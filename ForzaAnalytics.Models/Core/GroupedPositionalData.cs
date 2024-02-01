@@ -1,6 +1,4 @@
-﻿using static System.Formats.Asn1.AsnWriter;
-
-namespace ForzaAnalytics.Models.Core
+﻿namespace ForzaAnalytics.Models.Core
 {
     public class GroupedPositionalData
     {
@@ -46,14 +44,14 @@ namespace ForzaAnalytics.Models.Core
                 GetAdjustedZCoordinate(Positions[ordinal].X, Positions[ordinal].Z)
             );
         }
-        private float GetAdjustedXCoordinate(float x,float z)
+        public float GetAdjustedXCoordinate(float x, float z)
         {
             if (IsRotated)
                 return (z + ZOffset) * (float)MapScale;
             else
                 return (x + XOffset) * (float)MapScale;
         }
-        private float GetAdjustedZCoordinate(float x,float z)
+        public float GetAdjustedZCoordinate(float x, float z)
         {
             if (IsRotated)
                 return (x + XOffset) * (float)MapScale;
