@@ -66,23 +66,23 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.GearShades[int.Parse(position.GearNumber)];
                     break;
                 case MapModeOptions.SpeedHeatmap:
-                    if (position.Speed_Mph > (maxSpeed * 0.9))
+                    if (position.Speed_Mps > (maxSpeed * 0.9))
                         return GlobalVariables.HeatmapColours[9];
-                    else if (position.Speed_Mph > (maxSpeed * 0.8))
+                    else if (position.Speed_Mps > (maxSpeed * 0.8))
                         return GlobalVariables.HeatmapColours[8];
-                    else if (position.Speed_Mph > (maxSpeed * 0.7))
+                    else if (position.Speed_Mps > (maxSpeed * 0.7))
                         return GlobalVariables.HeatmapColours[7];
-                    else if (position.Speed_Mph > (maxSpeed * 0.6))
+                    else if (position.Speed_Mps > (maxSpeed * 0.6))
                         return GlobalVariables.HeatmapColours[6];
-                    else if (position.Speed_Mph > (maxSpeed * 0.5))
+                    else if (position.Speed_Mps > (maxSpeed * 0.5))
                         return GlobalVariables.HeatmapColours[5];
-                    else if (position.Speed_Mph > (maxSpeed * 0.4))
+                    else if (position.Speed_Mps > (maxSpeed * 0.4))
                         return GlobalVariables.HeatmapColours[4];
-                    else if (position.Speed_Mph > (maxSpeed * 0.3))
+                    else if (position.Speed_Mps > (maxSpeed * 0.3))
                         return GlobalVariables.HeatmapColours[3];
-                    else if (position.Speed_Mph > (maxSpeed * 0.2))
+                    else if (position.Speed_Mps > (maxSpeed * 0.2))
                         return GlobalVariables.HeatmapColours[2];
-                    else if (position.Speed_Mph > (maxSpeed * 0.1))
+                    else if (position.Speed_Mps > (maxSpeed * 0.1))
                         return GlobalVariables.HeatmapColours[1];
                     break;
                 case MapModeOptions.Acceleration:

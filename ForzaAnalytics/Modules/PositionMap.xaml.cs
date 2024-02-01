@@ -12,7 +12,9 @@ using System.Windows.Input;
 using ForzaAnalytics.Services.Service;
 using ForzaAnalytics.Services.Helpers;
 using System.Windows.Media.Media3D;
-
+using System.Timers;
+using Timer = System.Timers.Timer;
+using System.Windows.Threading;
 namespace ForzaAnalytics.Modules
 {
     /// <summary>
@@ -26,7 +28,9 @@ namespace ForzaAnalytics.Modules
         private double mousePressedInitialY = 0;
         private TransformGroup mapTransformGroup;
         private PositionMapService svc;
-
+        private int CurrentOrdinal = 0;
+        private DispatcherTimer replayTimer;
+        private bool isReplaying = false;
         public PositionMap()
         {
             svc = new PositionMapService();
@@ -83,6 +87,7 @@ namespace ForzaAnalytics.Modules
         {
             ResetEvents();
             btnExportData.IsEnabled = false;
+            btnReset.IsEnabled = false;
         }
         private void btnLoadMap_Click(object sender, RoutedEventArgs e)
         {
@@ -124,6 +129,7 @@ namespace ForzaAnalytics.Modules
         {
             svc.IsTracking = true;
             tglTrackData.Content = "Stop Tracking";
+            btnReplayData.IsEnabled = false;
         }
         private void tglTrackData_Unchecked(object sender, RoutedEventArgs e)
         {
@@ -164,15 +170,15 @@ namespace ForzaAnalytics.Modules
         {
             svc.MaxSpeed = 0;
             var positions = svc.Positions.ExtendedPositions;
-            for (var i = 0; i < positions.Count; i++)
+            for (var i = 0; i < (isReplaying ? CurrentOrdinal : positions.Count); i++)
             {
                 if (svc.IsPlottedLap(positions[i].LapNumber))
                 {
-                    if (positions[i].Speed_Mph > svc.MaxSpeed)
-                        svc.MaxSpeed = positions[i].Speed_Mph;
+                    if (positions[i].Speed_Mps > svc.MaxSpeed)
+                        svc.MaxSpeed = positions[i].Speed_Mps;
                     double prevSpeed = 0;
                     if (i > 10)
-                        prevSpeed = positions[i - 10].Speed_Mph;
+                        prevSpeed = positions[i - 10].Speed_Mps;
                     AddCanvasPoint(positions[i], prevSpeed);
                     AddPlotLabels(i > 0, positions[i], i > 0 ? positions[i - 1] : null);
                     if (i < (positions.Count - 1))
@@ -414,6 +420,7 @@ namespace ForzaAnalytics.Modules
                     if (!existingLaps.Contains(item))
                         cbLapPoints.Items.Add(item);
                 }
+                btnReplayData.IsEnabled = true;
                 MessageBox.Show("Telemetry Loaded");
             }
         }
@@ -522,6 +529,47 @@ namespace ForzaAnalytics.Modules
             tbXOffset.Text = svc.MapPositions.XOffset.ToString();
             tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
             ReplotPoints();
+        }
+
+        private void btnReplayData_Click(object sender, RoutedEventArgs e)
+        {
+            cMapPlot.Children.Clear();
+            ReplotMap();
+            replayTimer = new DispatcherTimer();
+            replayTimer.Interval = TimeSpan.FromMilliseconds(16);
+            replayTimer.Tick += ReplayData;
+
+            // Start the timer
+            replayTimer.Start();
+            btnReplayData.IsEnabled = false;
+        }
+        private void ReplayData(object sender, EventArgs e)
+        {
+            if (CurrentOrdinal < (svc.Positions.ExtendedPositions.Count - 1))
+            {
+                var position = svc.Replay(svc.Positions.ExtendedPositions[CurrentOrdinal]);
+                if (svc.CurrentLapEnded(svc.Positions.ExtendedPositions[CurrentOrdinal].LapNumber)) // Current Lap and Lap Has Ended...
+                {
+                    cMapPlot.Children.Clear();
+                }
+
+                if (svc.IsPlottedLap(svc.Positions.ExtendedPositions[CurrentOrdinal].LapNumber)) // if its all/current OR the lap number from the options... show it..
+                {
+                    AddCanvasPoint(position);
+                    AddPlotLabels(CurrentOrdinal > 0, position, CurrentOrdinal > 0 ? svc.Positions.ExtendedPositions[CurrentOrdinal - 1] : null);
+                }
+
+                svc.CurrentLapNumber = svc.Positions.ExtendedPositions[CurrentOrdinal].LapNumber;
+                CurrentOrdinal = CurrentOrdinal + 1;
+                isReplaying = true;
+            }
+            else
+            {
+                replayTimer.Stop();
+                btnReplayData.IsEnabled = true;
+                isReplaying = false;
+            }
+
         }
     }
 }

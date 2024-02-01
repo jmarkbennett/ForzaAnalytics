@@ -129,6 +129,7 @@
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
                     <RowDefinition Height="30"/>
+                    <RowDefinition Height="30"/>
                 </Grid.RowDefinitions>
                 <ToggleButton Name="tglTrackData" Content="Start Tracking" Grid.Row="0" Grid.RowSpan="2"  Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked" Margin="4"></ToggleButton>
                 <Button Name="btnReset" Content="Reset" Grid.Row="3" Click="btnReset_Click"></Button>
@@ -137,6 +138,7 @@
                 <Button Name="btnLoadAndReduceMap" Content="Load Reduced Map" Grid.Row="9" Grid.Column="2" Click="btnLoadAndReduceMap_Click"></Button>
                 <Button Name="btnImportData" Content="Import Data" Grid.Row="11" Grid.Column="2" Click="btnImportData_Click"></Button>
                 <Button Name="btnExportData" Content="Export Data" Grid.Row="13" Grid.Column="2" Click="btnExportData_Click" IsEnabled="False"></Button>
+                <Button Name="btnReplayData" Content="Replay Imported" Grid.Row="15" Grid.Column="2" Click="btnReplayData_Click" IsEnabled="False"></Button>
             </Grid>
         </Grid>
     </Grid>
