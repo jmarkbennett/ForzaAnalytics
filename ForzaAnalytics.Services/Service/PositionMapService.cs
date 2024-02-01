@@ -73,7 +73,8 @@ namespace ForzaAnalytics.Services.Service
             MapPositions = MapSerializer.LoadMap(filename);
             Positions.XOffset = MapPositions.XOffset;
             Positions.ZOffset = MapPositions.ZOffset;
-            
+            if (MapPositions.MapScale != null)
+                Positions.MapScale = MapPositions.MapScale;
         }
         public double GetPreviousSpeed()
         {
@@ -129,37 +130,18 @@ namespace ForzaAnalytics.Services.Service
         }
         public void SetMapScale(string option)
         {
-            switch (option)
-            {
-                case "Massive (400%)":
-                    Positions.MapScale = 4;
-                    MapPositions.MapScale = 4;
-                    break;
-                case "Double (200%)":
-                    Positions.MapScale = 2.0;
-                    MapPositions.MapScale = 2.0;
-                    break;
-                case "Half Bigger (150%)":
-                    Positions.MapScale = 1.5;
-                    MapPositions.MapScale = 1.5;
-                    break;
-                case "Default (100%)":
-                    Positions.MapScale = 1;
-                    MapPositions.MapScale = 1;
-                    break;
-                case "Three Quarters (75%)":
-                    Positions.MapScale = 0.75;
-                    MapPositions.MapScale = 0.75;
-                    break;
-                case "Half (50%)":
-                    Positions.MapScale = 0.5;
-                    MapPositions.MapScale = 0.5;
-                    break;
-            }
+            double scale = double.Parse(option.Replace("%", ""));
+            Positions.MapScale = scale / 100.0;
+            MapPositions.MapScale = scale / 100.0;
         }
         public void ImportTelemetry(string filename)
         {
             Positions = MapSerializer.LoadPositionData(filename);
+            if (MapPositions != null)
+            {
+                Positions.ZOffset = MapPositions.ZOffset;
+                Positions.XOffset = MapPositions.XOffset;
+            }
         }
         public void SetLapsToPlot(string option)
         {
@@ -178,6 +160,14 @@ namespace ForzaAnalytics.Services.Service
             MapPositions.ZOffset = MapPositions.IsRotated ? MapPositions.ZOffset - deltaX : MapPositions.ZOffset + deltaZ;
             Positions.XOffset = Positions.IsRotated ? Positions.XOffset + deltaZ : Positions.XOffset - deltaX;
             Positions.ZOffset = Positions.IsRotated ? Positions.ZOffset - deltaX : Positions.ZOffset + deltaZ;
+        }
+        public float GetSuggestedXOffset()
+        {
+            return MapPositions.Positions.Max(x => x.X) + 40;
+        }
+        public float GetSuggestedZOffset()
+        {
+            return MapPositions.Positions.Min(x => x.Z) - 40;
         }
     }
 }

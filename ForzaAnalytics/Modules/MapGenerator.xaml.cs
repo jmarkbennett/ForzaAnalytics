@@ -36,11 +36,8 @@ namespace ForzaAnalytics.Modules
             if (svc.IsTracking)
             {
                 var position = svc.Update(payload);
-                tbMaxX.Text = svc.MaxX.ToString();
-                tbMaxZ.Text = svc.MaxZ.ToString();
-                tbMinX.Text = svc.MinX.ToString();
-                tbMinZ.Text = svc.MinZ.ToString();
-
+                tbSuggestedX.Text = (-svc.MaxX + 30).ToString();
+                tbSuggestedZ.Text = (-svc.MinZ - 30).ToString();
                 AddCanvasPoint(position);
                 btnCommit.IsEnabled = true;
             }
@@ -59,7 +56,9 @@ namespace ForzaAnalytics.Modules
                 Fill = Brushes.DarkGray
             };
 
-            Point canvasPoint = new Point(position.X,position.Z);
+            Point canvasPoint = new Point(
+                svc.Positions.GetAdjustedXCoordinate(position.X, position.Z),
+                svc.Positions.GetAdjustedZCoordinate(position.X, position.Z));
 
             Canvas.SetLeft(dot, canvasPoint.X);
             Canvas.SetTop(dot, canvasPoint.Y);
@@ -84,10 +83,8 @@ namespace ForzaAnalytics.Modules
                 svc.UpdateTrackName(tbTrackName.Text);
 
                 if (svc.Positions.Positions.Count > 0)
-                {
                     MessageBox.Show("You Have Uncommitted Positions. please either commit these or 'Recent Latest'");
-                }
-                else {
+                else{
                     SaveFileDialog dialog = new SaveFileDialog();
                     dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
                     dialog.Title = "Save Map";
@@ -101,7 +98,7 @@ namespace ForzaAnalytics.Modules
             }
             else
             {
-                if(svc.Positions.Positions.Count > 0)
+                if (svc.Positions.Positions.Count > 0)
                     MessageBox.Show("No Positions have been commited, but you have some uncommited. Please commit these first");
                 else
                     MessageBox.Show("No Positions have been commited to save!");
@@ -144,9 +141,9 @@ namespace ForzaAnalytics.Modules
             if (cMapPlot != null)
             {
                 cMapPlot.Children.Clear();
-                foreach (var position in svc.AllPositions.GetAdjustedPositions())
+                foreach (var position in svc.AllPositions.Positions)
                     AddCanvasPoint(position);
-                foreach (var position in svc.Positions.GetAdjustedPositions())
+                foreach (var position in svc.Positions.Positions)
                     AddCanvasPoint(position);
                 ResizeCanvas();
             }
@@ -244,6 +241,24 @@ namespace ForzaAnalytics.Modules
         {
             var action = (cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString();
             svc.SetMapScale(action);
+            ReplotPoints();
+        }
+        private void btnApplySuggestedOffset_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbSuggestedX.Text))
+            {
+                var x = Math.Round(double.Parse(tbSuggestedX.Text), 2) + 40;
+
+                svc.Positions.XOffset = (int)x;
+                svc.AllPositions.XOffset = (int)x;
+            }
+            if (!string.IsNullOrEmpty(tbSuggestedZ.Text))
+            {
+                var z = Math.Round(double.Parse(tbSuggestedZ.Text), 2) - 40;
+
+                svc.Positions.ZOffset = (int)z;
+                svc.AllPositions.ZOffset = (int)z;
+            }
             ReplotPoints();
         }
     }
