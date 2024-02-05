@@ -9,6 +9,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Resources\Icons\cog.png" />
+    <None Remove="Resources\Icons\compass.png" />
+    <None Remove="Resources\Icons\folder-download.png" />
+    <None Remove="Resources\Icons\folder-upload.png" />
+    <None Remove="Resources\Icons\map2.png" />
+    <None Remove="Resources\Icons\play3.png" />
+    <None Remove="Resources\Icons\podcast.png" />
+    <None Remove="Resources\Icons\reset.png" />
+    <None Remove="Resources\Icons\stats-dots.png" />
+    <None Remove="Resources\Icons\stopwatch.png" />
     <None Remove="Resources\Maps\1641.fzmap" />
     <None Remove="Resources\Maps\1660.fzmap" />
     <None Remove="Resources\Maps\252.fzmap" />
@@ -38,6 +48,36 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include="Resources\Icons\cog.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\compass.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\folder-download.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\folder-upload.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\map2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\play3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\podcast.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\reset.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\stats-dots.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Resources\Icons\stopwatch.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Resource Include="Resources\Maps\Catalunya Grand Prix.fzmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
@@ -80,6 +120,12 @@
     <Resource Include="Resources\Maps\Watkins Glen Full Circuit.fzmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Modules\ReplayMetrics.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
 
 </Project>

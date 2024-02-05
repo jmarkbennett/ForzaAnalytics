@@ -26,7 +26,6 @@
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Background" Value="Transparent"></Setter>
                             <Setter Property="FontSize" Value="18"></Setter>
-                            <Setter Property="FontFamily" Value="Global User Interface"></Setter>
                             <Setter Property="Foreground" Value="White"></Setter>
                             <Setter Property="BorderBrush" Value="Transparent"></Setter>
                             <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>

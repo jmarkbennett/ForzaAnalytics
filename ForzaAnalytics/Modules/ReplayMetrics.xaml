@@ -1,0 +1,20 @@
+﻿<UserControl x:Class="ForzaAnalytics.Modules.ReplayMetrics"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ForzaAnalytics.Modules"
+             xmlns:Controls="clr-namespace:ForzaAnalytics.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="120" d:DesignWidth="1080">
+    <StackPanel Orientation="Horizontal">
+        <Controls:CoreMetric Width="110" MetricTitle="Lap Number" x:Name="mLapNumber"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Race Time" x:Name="mRaceTime"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Lap Time" x:Name="mLapTime"></Controls:CoreMetric>
+        <Controls:SplitCoreMetric  Width="160" PrimaryMetricTitle="Speed" SecondaryMetricTitle="Gear" x:Name="mSpeed"></Controls:SplitCoreMetric>
+        <Controls:CoreMetric Width="140"  MetricTitle="Acceleration" x:Name="mAcc"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="140"  MetricTitle="Brake" x:Name="mBrake"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="140"  MetricTitle="Clutch" x:Name="mClutch"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="140" MetricTitle="Handbrake" x:Name="mHandBrake"></Controls:CoreMetric>
+    </StackPanel>
+</UserControl>

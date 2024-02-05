@@ -5,107 +5,99 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="640" d:DesignWidth="800">
-    <Grid Background="White">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
-        </Grid.RowDefinitions>
-        <Label Grid.Row="0"  Content="Map Generator" Style="{StaticResource HeaderLabel}"></Label>
+             d:DesignHeight="640" d:DesignWidth="1800">
+    <DockPanel Background="Transparent">
+        <Label Content="Map Generator" Style="{StaticResource HeaderLabel}" DockPanel.Dock="Top"></Label>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="40" Background="#444444">
+            <Ellipse Name="eIsListening"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
+            <Label Content="Track ID:" VerticalContentAlignment="Center"></Label>
+            <TextBox Name="tbTrackId" IsEnabled="false" Width="60" Margin="4"></TextBox>
+            <Label Content="Track Name:" VerticalContentAlignment="Center"></Label>
+            <TextBox Name="tbTrackName" Width="200" Margin="4"></TextBox>
+            <Label Content="Map Scale:" VerticalContentAlignment="Center" Width="100"/>
+            <ComboBox x:Name="cbMapScale" Width="80" Margin="4" SelectionChanged="cbMapScale_SelectionChanged">
+                <ComboBoxItem Content="400%"></ComboBoxItem>
+                <ComboBoxItem Content="300%"></ComboBoxItem>
+                <ComboBoxItem Content="200%"></ComboBoxItem>
+                <ComboBoxItem Content="150%"></ComboBoxItem>
+                <ComboBoxItem Content="125%"></ComboBoxItem>
+                <ComboBoxItem Content="100%" IsSelected="True"></ComboBoxItem>
+                <ComboBoxItem Content="75%"></ComboBoxItem>
+                <ComboBoxItem Content="50%"></ComboBoxItem>
+                <ComboBoxItem Content="25%"></ComboBoxItem>
+            </ComboBox>
+            <Label Content="Orientation:" VerticalContentAlignment="Center" Width="100"/>
+            <ToggleButton Content="Rotate" Name="tbnRotateMap" Width="80" Margin="4" FontSize="18" Click="tbnRotateMap_Toggle"></ToggleButton>
+        </StackPanel>
 
-        <Grid Grid.Row="1" Name="CoreContent">
+        <Grid Name="gOffsets" DockPanel.Dock="Bottom" Height="80" HorizontalAlignment="Center">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200"></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="60"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="160"/>
+                <ColumnDefinition Width="20"/>
+                <ColumnDefinition Width="260"/>
+                <ColumnDefinition />
             </Grid.ColumnDefinitions>
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Content="X Offsets:" HorizontalContentAlignment="Center"></Label>
+            <Button Name="btnXOffsetDown" Content="-10" Grid.Row="1" Grid.Column="0" Margin="4" Click="btnXOffsetDown_Click"></Button>
+            <TextBox Grid.Column="1" Name="tbXOffset" Grid.Row="1" Text="0" Margin="4"></TextBox>
+            <Button Name="btnXOffsetUp" Content="+10" Grid.Row="1" Grid.Column="2" Margin="4" Click="btnXOffsetUp_Click"></Button>
 
-            <Grid Grid.Column="0" Name="Variables">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30" />
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <Label Grid.Row="0" Grid.Column="0" Content="Track ID" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="1" Grid.Column="1" Name="tbTrackId" IsEnabled="false"></TextBox>
-                <Label Grid.Row="2" Grid.Column="2" Content="Track Name" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="3" Grid.Column="3" Name="tbTrackName"></TextBox>
-                <Label Grid.Row="4" Content="X Offset:" HorizontalContentAlignment="Center"></Label>
-                <TextBox  Grid.Row="5" Name="tbXOffset" Text="0"></TextBox>
-                <Label Grid.Row="6" Content="Z Offset:" HorizontalContentAlignment="Center"></Label>
-                <TextBox  Grid.Row="7" Name="tbZOffset" Text="0"></TextBox>
-                <Button Grid.Row="8" Name="btnApplyOffset" Content="Apply Offsets" Click="btnApplyOffset_Click"></Button>
-                <Label Grid.Row="10" Content="Suggested X Offset:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="11" Grid.Column="1" Name="tbSuggestedX" IsEnabled="false"></TextBox>
-                <Label Grid.Row="12" Content="Suggested Z Offset:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Grid.Row="13" Grid.Column="1" Name="tbSuggestedZ" IsEnabled="false"></TextBox>
-                <Button Grid.Row="14" Name="btnApplySuggestedOffset" Content="Apply Suggested" Click="btnApplySuggestedOffset_Click"></Button>
-                <Label Grid.Row="16" Content="Map Scale:" HorizontalContentAlignment="Center"></Label>
-                <ComboBox Grid.Row="17" x:Name="cbMapScale" SelectionChanged="cbMapScale_SelectionChanged">
-                    <ComboBoxItem Content="400%"></ComboBoxItem>
-                    <ComboBoxItem Content="300%"></ComboBoxItem>
-                    <ComboBoxItem Content="200%"></ComboBoxItem>
-                    <ComboBoxItem Content="150%"></ComboBoxItem>
-                    <ComboBoxItem Content="125%"></ComboBoxItem>
-                    <ComboBoxItem Content="100%" IsSelected="True"></ComboBoxItem>
-                    <ComboBoxItem Content="75%"></ComboBoxItem>
-                    <ComboBoxItem Content="50%"></ComboBoxItem>
-                    <ComboBoxItem Content="25%"></ComboBoxItem>
-                </ComboBox>
-            </Grid>
-            <Grid Grid.Column="1" Name="CoreMap" Background="#EEEEEE" Margin="2">
-                <Border BorderThickness="2" BorderBrush="#DDDDDD">
-                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto" MouseRightButtonDown="CoreMap_MouseDown" MouseRightButtonUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" >
-                        <Canvas Name="cMapPlot" RenderTransform="1 0 0 -1 0 0" MouseRightButtonDown="CoreMap_MouseDown" MouseRightButtonUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" ></Canvas>
-                    </ScrollViewer>
-                </Border>
-            </Grid>
-            <Grid Grid.Column="2" Name="CoreActions">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                    <RowDefinition Height="30"/>
-                </Grid.RowDefinitions>
-                <ToggleButton Name="tglTrackData" Content="Start Tracking" Margin="4" Grid.Row="0" Grid.RowSpan="2" Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked">
-                </ToggleButton>
-                <Label Grid.Row="3" Content="Reduce Map Precision:" HorizontalContentAlignment="Center"></Label>
-                <TextBox Name="tbReducePrecision" Grid.Row="4" Text="0"></TextBox>
-                <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="5"></Button>
+            <Label Grid.Row="0" Grid.Column="4" Grid.ColumnSpan="3" Content="Z Offsets:" HorizontalContentAlignment="Center" Margin="4"></Label>
+            <Button Name="btnZOffsetDown" Content="-10" Grid.Row="1" Grid.Column="4" Margin="4" Click="btnZOffsetDown_Click"></Button>
+            <TextBox Grid.Column="5"  Name="tbZOffset" Grid.Row="1" Text="0" Margin="4"></TextBox>
+            <Button Name="btnZOffsetUp" Content="+10" Grid.Row="1" Grid.Column="6" Margin="4" Click="btnZOffsetUp_Click"></Button>
 
-                <Button Name="btnResetLatest" Content="Reset Latest" Grid.Row="7" Click="btnResetLatest_Click"></Button>
-                <Button Name="btnReset" Content="Reset" Grid.Row="9" Click="btnReset_Click"></Button>
-                <Button Name="btnCommit" IsEnabled="False" Content="Commit Latest" Grid.Row="11" Height="26" Margin="4,2,4,0" VerticalAlignment="Top" Click="btnCommit_Click"></Button>
-                <Button Name="btnSave" IsEnabled="False" Content="Save Map" Grid.Row="13" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
-            </Grid>
+            <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="8" Margin="4 12" Name="btnApplyOffset" Content="Apply Offsets" Click="btnApplyOffset_Click"></Button>
+            <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="10" Margin="4 12" Name="btnSuggestOffset" Content="Apply Suggested Offsets" Click="btnSuggestOffset_Click"></Button>
         </Grid>
-    </Grid>
+
+        <Grid Name="CoreActions" DockPanel.Dock="Left">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="30"/>
+            </Grid.RowDefinitions>
+            <ToggleButton Name="tglTrackData" Content="Start Tracking" Margin="4" Grid.Row="0" Grid.RowSpan="2" Checked="tglTrackData_Checked" Unchecked="tglTrackData_Unchecked">
+            </ToggleButton>
+            <Label Grid.Row="3" Content="Reduce Map Precision:" HorizontalContentAlignment="Center"></Label>
+            <TextBox Name="tbReducePrecision" Grid.Row="4" Text="0"></TextBox>
+            <Button Name="btnReduceMap" Content="Reduce Map" Grid.Row="5"></Button>
+
+            <Button Name="btnResetLatest" Content="Reset Latest" Grid.Row="7" Click="btnResetLatest_Click"></Button>
+            <Button Name="btnReset" Content="Reset" Grid.Row="9" Click="btnReset_Click"></Button>
+            <Button Name="btnCommit" IsEnabled="False" Content="Commit Latest" Grid.Row="11" Height="26" Margin="4,2,4,0" VerticalAlignment="Top" Click="btnCommit_Click"></Button>
+            <Button Name="btnSave" IsEnabled="False" Content="Save Map" Grid.Row="13" Click="btnSave_Click" Height="26" Margin="4,2,4,0" VerticalAlignment="Top"></Button>
+        </Grid>
+
+        <Grid Name="CoreMap" Background="#EEEEEE" Margin="2">
+            <ScrollViewer MouseDown="CoreMap_MouseDown" MouseUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove">
+                <Canvas MouseDown="CoreMap_MouseDown" MouseUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" Name="cMapPlot" RenderTransform="1 0 0 -1 0 0"></Canvas>
+            </ScrollViewer>
+        </Grid>
+    </DockPanel>
 </UserControl>

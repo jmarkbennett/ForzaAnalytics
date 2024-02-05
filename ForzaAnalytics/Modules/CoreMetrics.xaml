@@ -6,34 +6,18 @@
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              xmlns:Controls="clr-namespace:ForzaAnalytics.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="1980">
-    <Grid>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition Width="160"></ColumnDefinition>
-            <ColumnDefinition></ColumnDefinition>
-        </Grid.ColumnDefinitions>
-
-        <Controls:SplitCoreMetric Grid.Column="0" PrimaryMetricTitle="Speed" SecondaryMetricTitle="Gear" x:Name="mSpeed"></Controls:SplitCoreMetric>
-        <Controls:SteeringAngle Grid.Column="1" x:Name="mSteeringAngle"></Controls:SteeringAngle>
-        <Controls:CoreMetric Grid.Column="2"  MetricTitle="RPMs" x:Name="mRpm"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="3"  MetricTitle="Power (HP)" x:Name="mPower"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="4"  MetricTitle="Boost (PSI)" x:Name="mBoost"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="5"  MetricTitle="Fuel %" x:Name="mFuel"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="6"  MetricTitle="Yaw" x:Name="mYaw"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="7"  MetricTitle="Pitch" x:Name="mPitch"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="8"  MetricTitle="Roll" x:Name="mRoll"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="9"  MetricTitle="Torque (lb-ft)" x:Name="mTorque"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="10"  MetricTitle="Distance Travelled (m)" x:Name="mDistanceTravelled"></Controls:CoreMetric>
-        
-    </Grid>
+             d:DesignHeight="140" d:DesignWidth="1980">
+    <StackPanel Orientation="Horizontal">
+        <Controls:SplitCoreMetric Width="160" PrimaryMetricTitle="Speed" SecondaryMetricTitle="Gear" x:Name="mSpeed"></Controls:SplitCoreMetric>
+        <Controls:SteeringAngle Width="160"  x:Name="mSteeringAngle"></Controls:SteeringAngle>
+        <Controls:CoreMetric Width="160" MetricTitle="RPMs" x:Name="mRpm"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Power (HP)" x:Name="mPower"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Boost (PSI)" x:Name="mBoost"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Fuel %" x:Name="mFuel"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Yaw" x:Name="mYaw"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Pitch" x:Name="mPitch"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Roll" x:Name="mRoll"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160" MetricTitle="Torque (lb-ft)" x:Name="mTorque"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="160"  MetricTitle="Distance Travelled (m)" x:Name="mDistanceTravelled"></Controls:CoreMetric>
+    </StackPanel>
 </UserControl>

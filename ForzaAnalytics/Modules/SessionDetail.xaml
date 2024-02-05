@@ -11,7 +11,7 @@
     <Grid Style="{StaticResource MainMenu}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition Height="40"></RowDefinition>
+            <RowDefinition></RowDefinition>
         </Grid.RowDefinitions>
         <Label Style="{StaticResource HeaderLabel}" Grid.Row="0" Grid.ColumnSpan="5" Content="Session Summary"></Label>
         <Grid Grid.Row="1">
@@ -36,6 +36,5 @@
             <Label Style="{StaticResource TitleLabel}" Grid.Column="6"  Content="Best Time:"></Label>
             <Label Grid.Column="7" Name="lBestTime" FontWeight="Bold" Margin="4 0"></Label>
         </Grid>
-        
     </Grid>
 </UserControl>

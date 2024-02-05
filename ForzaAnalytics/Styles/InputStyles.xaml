@@ -4,7 +4,6 @@
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
         <Setter Property="FontSize" Value="18"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
     </Style>
     <Style  TargetType="ComboBox">
         <Setter Property="FontSize" Value="18"></Setter>
