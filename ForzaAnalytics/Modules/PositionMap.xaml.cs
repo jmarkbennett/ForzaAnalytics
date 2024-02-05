@@ -81,6 +81,8 @@ namespace ForzaAnalytics.Modules
         public void ResetEvents()
         {
             svc.ResetService();
+            tbTrackId.Text = string.Empty;
+            tbTrackName.Text = string.Empty;
             ReplotPoints();
         }
         private void miResetAll_Click(object sender, RoutedEventArgs e)
@@ -289,30 +291,22 @@ namespace ForzaAnalytics.Modules
         }
         private void AddPlotLabels(Telemetry currentRow)
         {
-            switch (svc.MapMode)
-            {
-                case MapModeOptions.GearNumber:
-                    if (svc.HasGearNumberChanged(currentRow))
-                    {
-                        cMapPlot.Children.Add(
-                            GeneratePlotLabel(
-                                currentRow.Position.PositionX,
-                                currentRow.Position.PositionZ,
-                                currentRow.GearNumber)
-                        );
-                    }
-                    break;
-            }
+            if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
+                if (svc.HasGearNumberChanged(currentRow))
+                {
+                    cMapPlot.Children.Add(
+                        GeneratePlotLabel(
+                            currentRow.Position.PositionX,
+                            currentRow.Position.PositionZ,
+                            currentRow.GearNumber)
+                    );
+                }
         }
         private void AddPlotLabels(bool hasPrevious, ExtendedPositionalData currentRow, ExtendedPositionalData? previousRow = null)
         {
-            switch (svc.MapMode)
-            {
-                case MapModeOptions.GearNumber:
-                    if (!hasPrevious || currentRow.GearNumber != previousRow.GearNumber)
-                        cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
-                    break;
-            }
+            if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
+                if (!hasPrevious || currentRow.GearNumber != previousRow.GearNumber)
+                    cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
         }
         private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
         {
@@ -581,6 +575,10 @@ namespace ForzaAnalytics.Modules
             btnStopReplayData.IsEnabled = false;
             mReplayMetrics.Visibility = Visibility.Collapsed;
             btnStopReplayData.Visibility = Visibility.Collapsed;
+        }
+        private void miShowGearChanges_Click(object sender, RoutedEventArgs e)
+        {
+            ReplotPoints();
         }
     }
 }

@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              mc:Ignorable="d" 
              d:DesignHeight="640" d:DesignWidth="1800">
-    <DockPanel Background="Transparent">
+    <DockPanel Background="#CC444444">
         <Label Content="Map Generator" Style="{StaticResource HeaderLabel}" DockPanel.Dock="Top"></Label>
         <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="40" Background="#444444">
             <Ellipse Name="eIsListening"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
@@ -29,7 +29,6 @@
             <Label Content="Orientation:" VerticalContentAlignment="Center" Width="100"/>
             <ToggleButton Content="Rotate" Name="tbnRotateMap" Width="80" Margin="4" FontSize="18" Click="tbnRotateMap_Toggle"></ToggleButton>
         </StackPanel>
-
         <Grid Name="gOffsets" DockPanel.Dock="Bottom" Height="80" HorizontalAlignment="Center">
             <Grid.RowDefinitions>
                 <RowDefinition/>
