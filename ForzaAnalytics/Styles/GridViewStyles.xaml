@@ -8,7 +8,6 @@
 
     <Style TargetType="Label" x:Key="LeaderboardDefaultLabel">
         <Setter Property="FontSize" Value="18"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
@@ -26,7 +25,6 @@
             </DataTrigger>
         </Style.Triggers>
         <Setter Property="FontSize" Value="18"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="Padding" Value="6 0 0 0"></Setter>

@@ -6,94 +6,85 @@
         xmlns:local="clr-namespace:ForzaAnalytics"
         xmlns:Modules="clr-namespace:ForzaAnalytics.Modules" x:Class="ForzaAnalytics.MainWindow"
         mc:Ignorable="d"
-        Title="Forza Analytics" Height="1280" Width="1400">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="120"></RowDefinition>
-            <RowDefinition></RowDefinition>
-            <RowDefinition Height="140"></RowDefinition>
-        </Grid.RowDefinitions>
-        <Grid Grid.Row="0">
+        Title="Forza Analytics" Height="1280" Width="1800">
+    <DockPanel Background="#CC444444">
+        <Menu Background="White" FontSize="16" DockPanel.Dock="Top">
+            <MenuItem Header="Tracking" Background="White" Foreground="White" Padding="8 4">
+                <MenuItem Name="miIsListening" Header="Is Listening" IsCheckable="True" Click="IsListening_Click" Foreground="White" Padding="8 4">
+                    <MenuItem.Icon>
+                        <Image Source="Resources/Icons/compass.png"></Image>
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Reset All" Foreground="White" Padding="8 4"></MenuItem>
+            </MenuItem>
+            <MenuItem Header="Visuals" Foreground="White" Padding="8 4">
+                <MenuItem Header="Show Session Summary" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Show Core Metrics" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Show Car Summary" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Show Pedal Pressures" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <Separator/>
+                <MenuItem Header="Track Lap Times" Name="tLapTimes" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Track Car Positions" Name="tCarPositions" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Track All Metrics" Name="tAllMetrics" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Track Map Generator" Name="tMapGenerator" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+            </MenuItem>
+            <MenuItem Name="miConfigure" Header="Options" Foreground="White" Padding="8 4" Click="miConfigure_Click"></MenuItem>
+            <MenuItem Name="miAbout" Header="Options" Foreground="White" Padding="8 4" Click="miAbout_Click"></MenuItem>
+        </Menu>
+        <Grid x:Name="TopMenu" DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="4"></ColumnDefinition>
                 <ColumnDefinition Width="300"></ColumnDefinition>
                 <ColumnDefinition Width="4"></ColumnDefinition>
                 <ColumnDefinition Width="420"></ColumnDefinition>
-                <ColumnDefinition Width="140"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Modules:SessionDetail Grid.Column="0" x:Name="sessionDetailsModule"></Modules:SessionDetail>
-            <Modules:CarDetail Grid.Column="2" x:Name="carDetailsModule"></Modules:CarDetail>
-            <Modules:PedalPressures Grid.Column="4" x:Name="ppAbc" Margin="0,2,0,-2"></Modules:PedalPressures>
-            <Grid Grid.Column="5" >
-                <Grid.RowDefinitions>
-                    <RowDefinition></RowDefinition>
-                    <RowDefinition></RowDefinition>
-                </Grid.RowDefinitions>
-                <ToggleButton x:Name="tglTracking" Margin="8" Content="Start" Checked="tglTracking_Checked" Unchecked="tglTracking_Unchecked"></ToggleButton>
-                <Button x:Name="btnResetAll" Margin="8"  Grid.Row="2" Content="Reset All" Click="btnResetAll_Click"></Button>
-            </Grid>
+            <Modules:SessionDetail Grid.Column="0" x:Name="mSessionDetails"></Modules:SessionDetail>
+            <Modules:CarDetail Grid.Column="2" x:Name="mCarDetails"></Modules:CarDetail>
+            <Modules:PedalPressures Grid.Column="4" x:Name="mPedalPressures"></Modules:PedalPressures>
         </Grid>
-
-        <TabControl Grid.Row="1">
-            <TabItem Header="Core Metrics">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="20"/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Grid Grid.Row="0" x:Name="SummaryGrid">
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition/>
-                            <ColumnDefinition Width="80"/>
-                        </Grid.ColumnDefinitions>
-                    </Grid>
-
-                    <Grid Grid.Row="1" x:Name="CoreContainer">
-                        <TabControl Grid.Column="0">
-                            <TabItem Header="Lap Times">
-                                <Modules:LapDetail x:Name="ldlapDetail"/>
-                            </TabItem>
-                            <TabItem Header="Car Positions">
-                                <Modules:PositionMap x:Name="positionMap"></Modules:PositionMap>
-                            </TabItem>
-                        </TabControl>
-                    </Grid>
-                </Grid>
+        <Modules:CoreMetrics DockPanel.Dock="Bottom" Height="140" x:Name="mCoreMetrics" HorizontalAlignment="Center"></Modules:CoreMetrics>
+        <TabControl DockPanel.Dock="Top">
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="160">
+                        <Ellipse Name="eLapTimes"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
+                        <TextBlock Text="Lap Times"></TextBlock>
+                        <Image Source="/Resources/Icons/stopwatch.png" Margin="8 4" Height="16" Width="16"></Image>
+                    </StackPanel>
+                </TabItem.Header>
+                <Modules:LapDetail x:Name="mlapDetail"/>
             </TabItem>
-            <TabItem Header="All Metrics">
-                <Modules:AllMetrics x:Name="allMetrics"></Modules:AllMetrics>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="180">
+                        <Ellipse Name="ePositionMap"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
+                        <TextBlock Text="Car Positions"></TextBlock>
+                        <Image Source="/Resources/Icons/compass.png" Margin="8 4" Height="16" Width="16"></Image>
+                    </StackPanel>
+                </TabItem.Header>
+                <Modules:PositionMap x:Name="mPositionMap"></Modules:PositionMap>
             </TabItem>
-            <TabItem Header="Map Generator">
-                <Modules:MapGenerator x:Name="mapGenerator"></Modules:MapGenerator>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="160">
+                        <Ellipse Name="eAllMetrics"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
+                        <TextBlock Text="All Metrics"></TextBlock>
+                        <Image Source="/Resources/Icons/stats-dots.png" Margin="8 4" Height="16" Width="16"></Image>
+                    </StackPanel>
+                </TabItem.Header>
+                <Modules:AllMetrics x:Name="mAllMetrics"></Modules:AllMetrics>
             </TabItem>
-            <TabItem Header="Configure">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="200"></ColumnDefinition>
-                        <ColumnDefinition Width="300"></ColumnDefinition>
-                        <ColumnDefinition></ColumnDefinition>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition Height="60"></RowDefinition>
-                        <RowDefinition></RowDefinition>
-                    </Grid.RowDefinitions>
-                    <Label Content="IP Address:" Grid.Column="0" Grid.Row="0" VerticalAlignment="Center"></Label>
-                    <Label Content="Port:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></Label>
-                    <Label Content="Track On Open:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></Label>
-                    <Label Content="Use Metric:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></Label>
-                    <TextBox Name="tbIpAddress" Grid.Column="1" Grid.Row="0"></TextBox>
-                    <TextBox Name="tbPort" Grid.Column="1" Grid.Row="1"></TextBox>
-                    <CheckBox Name="cbTrackOnOpen" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Grid.Column="1" Grid.Row="2"></CheckBox>
-                    <CheckBox Name="cbUseMetric" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Grid.Column="1" Grid.Row="3"></CheckBox>
-                    <Button x:Name="btnUpdateSettings" Margin="8"  Grid.Row="4" Content="Update" Click="btnUpdateSettings_Click"></Button>
-                </Grid>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="200">
+                        <Ellipse Name="eMapGenerator"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
+                        <TextBlock Text="Map Generator"></TextBlock>
+                        <Image Source="/Resources/Icons/map2.png" Margin="8 4" Height="16" Width="16"></Image>
+                    </StackPanel>
+                </TabItem.Header>
+                <Modules:MapGenerator x:Name="mMapGenerator"></Modules:MapGenerator>
             </TabItem>
         </TabControl>
-        <Modules:CoreMetrics Grid.Row="2" x:Name="coreMetricsModule"></Modules:CoreMetrics>
-    </Grid>
+    </DockPanel>
 </Window>

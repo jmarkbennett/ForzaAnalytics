@@ -2,7 +2,6 @@
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Style TargetType="Label">
         <Setter Property="FontSize" Value="16"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
     </Style>
     <Style TargetType="Label" x:Key="HeaderLabel">
@@ -10,12 +9,10 @@
         <Setter Property="FontSize" Value="20"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Top"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
     </Style>
     <Style TargetType="Label" x:Key="TitleLabel">
         <Setter Property="FontSize" Value="16"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="FontWeight" Value="DemiBold"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
@@ -26,7 +23,6 @@
         <Setter Property="FontSize" Value="18"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="FontWeight" Value="Bold"></Setter>
     </Style>
 
@@ -36,7 +32,6 @@
         <Setter Property="FontSize" Value="18"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
     </Style>
 
     <Style x:Key="CylinderFont" TargetType="Label">
@@ -59,7 +54,6 @@
 
     <Style x:Key="PrimaryMetric" TargetType="Label">
         <Setter Property="FontSize" Value="32"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
@@ -67,7 +61,6 @@
 
     <Style x:Key="SecondaryMetric" TargetType="Label">
         <Setter Property="FontSize" Value="30"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
@@ -76,7 +69,6 @@
 
     <Style x:Key="SecondaryMetricDesc" TargetType="Label">
         <Setter Property="FontSize" Value="16"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="VerticalContentAlignment" Value="Top"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
@@ -84,7 +76,6 @@
     </Style>
     <Style x:Key="CoreMetricLabel" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="Background" Value="#5F5F5F"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
@@ -92,7 +83,6 @@
     </Style>
     <Style x:Key="GaugeTitle" TargetType="Label">
         <Setter Property="FontSize" Value="12"></Setter>
-        <Setter Property="FontFamily" Value="Global User Interface"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
         <Setter Property="HorizontalAlignment" Value="Center"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>

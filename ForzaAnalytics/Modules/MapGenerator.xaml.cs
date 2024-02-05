@@ -36,8 +36,6 @@ namespace ForzaAnalytics.Modules
             if (svc.IsTracking)
             {
                 var position = svc.Update(payload);
-                tbSuggestedX.Text = (-svc.MaxX + 30).ToString();
-                tbSuggestedZ.Text = (-svc.MinZ - 30).ToString();
                 AddCanvasPoint(position);
                 btnCommit.IsEnabled = true;
             }
@@ -84,7 +82,8 @@ namespace ForzaAnalytics.Modules
 
                 if (svc.Positions.Positions.Count > 0)
                     MessageBox.Show("You Have Uncommitted Positions. please either commit these or 'Recent Latest'");
-                else{
+                else
+                {
                     SaveFileDialog dialog = new SaveFileDialog();
                     dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
                     dialog.Title = "Save Map";
@@ -108,11 +107,13 @@ namespace ForzaAnalytics.Modules
         {
             svc.IsTracking = true;
             tglTrackData.Content = "Stop Tracking";
+            eIsListening.Fill = new SolidColorBrush(Colors.YellowGreen);
         }
         private void tglTrackData_Unchecked(object sender, RoutedEventArgs e)
         {
             svc.IsTracking = false;
             tglTrackData.Content = "Start Tracking";
+            eIsListening.Fill = new SolidColorBrush(Colors.Red);
         }
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
         {
@@ -145,46 +146,6 @@ namespace ForzaAnalytics.Modules
                     AddCanvasPoint(position);
                 foreach (var position in svc.Positions.Positions)
                     AddCanvasPoint(position);
-                ResizeCanvas();
-            }
-        }
-        private void ResizeCanvas()
-        {
-            var height = svc.InitialCanvasSize;
-            var width = svc.InitialCanvasSize;
-            if (svc.AllPositions.Positions.Count > 0)
-            {
-                var tmp = svc.AllPositions.Positions;
-                if (tmp != null && tmp.Count < 0)
-                {
-                    float minX = tmp.Min(x => x.X);
-                    float minZ = tmp.Min(x => x.Z);
-                    float maxX = tmp.Max(x => x.X);
-                    float maxZ = tmp.Max(x => x.Z);
-                    height = maxZ - minZ * 4;
-                    width = maxX - minX * 4;
-                    if (height > svc.InitialCanvasSize)
-                        cMapPlot.Height = height;
-                    if (width > svc.InitialCanvasSize)
-                        cMapPlot.Width = width;
-                }
-            }
-            else
-            {
-                var tmp = svc.Positions.Positions;
-                if (tmp != null && tmp.Count < 0)
-                {
-                    float minX = tmp.Min(x => x.X);
-                    float minZ = tmp.Min(x => x.Z);
-                    float maxX = tmp.Max(x => x.X);
-                    float maxZ = tmp.Max(x => x.Z);
-                    height = maxZ - minZ * 4;
-                    width = maxX - minX * 4;
-                    if (height > svc.InitialCanvasSize)
-                        cMapPlot.Height = height;
-                    if (width > svc.InitialCanvasSize)
-                        cMapPlot.Width = width;
-                }
             }
         }
         private void btnCommit_Click(object sender, RoutedEventArgs e)
@@ -243,24 +204,67 @@ namespace ForzaAnalytics.Modules
             svc.SetMapScale(action);
             ReplotPoints();
         }
-        private void btnApplySuggestedOffset_Click(object sender, RoutedEventArgs e)
+        private void btnXOffsetDown_Click(object sender, RoutedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(tbSuggestedX.Text))
+            if (!string.IsNullOrEmpty(tbXOffset.Text))
             {
-                var x = Math.Round(double.Parse(tbSuggestedX.Text), 2) + 40;
-
-                svc.Positions.XOffset = (int)x;
-                svc.AllPositions.XOffset = (int)x;
-                tbXOffset.Text = svc.Positions.XOffset.ToString();
-
+                tbXOffset.Text = (int.Parse(tbXOffset.Text) - 10).ToString();
+                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
+                svc.AllPositions.XOffset = int.Parse(tbXOffset.Text);
+                ReplotPoints();
             }
-            if (!string.IsNullOrEmpty(tbSuggestedZ.Text))
+        }
+        private void btnXOffsetUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbXOffset.Text))
             {
-                var z = Math.Round(double.Parse(tbSuggestedZ.Text), 2) - 40;
-
-                svc.Positions.ZOffset = (int)z;
-                svc.AllPositions.ZOffset = (int)z;
-                tbZOffset.Text = svc.Positions.ZOffset.ToString();
+                tbXOffset.Text = (int.Parse(tbXOffset.Text) + 10).ToString();
+                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
+                svc.AllPositions.XOffset = int.Parse(tbXOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnZOffsetDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbZOffset.Text))
+            {
+                tbZOffset.Text = (int.Parse(tbZOffset.Text) - 10).ToString();
+                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
+                svc.AllPositions.ZOffset = int.Parse(tbZOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnZOffsetUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbZOffset.Text))
+            {
+                tbZOffset.Text = (int.Parse(tbZOffset.Text) + 10).ToString();
+                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
+                svc.AllPositions.ZOffset = int.Parse(tbZOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnSuggestOffset_Click(object sender, RoutedEventArgs e)
+        {
+            svc.Positions.XOffset = (int)svc.GetSuggestedXOffset();
+            svc.AllPositions.XOffset = (int)svc.GetSuggestedXOffset();
+            svc.Positions.ZOffset = (int)svc.GetSuggestedZOffset();
+            svc.AllPositions.ZOffset = (int)svc.GetSuggestedZOffset();
+            tbXOffset.Text = svc.AllPositions.XOffset.ToString();
+            tbZOffset.Text = svc.AllPositions.ZOffset.ToString();
+            ReplotPoints();
+        }
+        private void tbnRotateMap_Toggle(object sender, RoutedEventArgs e)
+        {
+            if (tbnRotateMap.IsChecked == true)
+            {
+                svc.AllPositions.IsRotated = true;
+                svc.Positions.IsRotated = true;
+            }
+            else
+            {
+                svc.AllPositions.IsRotated = false;
+                svc.Positions.IsRotated = false;
             }
             ReplotPoints();
         }

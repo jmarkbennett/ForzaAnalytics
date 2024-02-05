@@ -43,13 +43,13 @@ namespace ForzaAnalytics.Modules
         public void ReceiveEvents(Telemetry payload)
         {
             tbTrackId.Text = payload.Race.TrackIdentifier.ToString();
-            if (svc.IsTracking) {
+            if (svc.IsTracking)
+            {
                 var position = svc.Update(payload);
                 if (svc.CurrentLapEnded(payload.Race.LapNumber)) // Current Lap and Lap Has Ended...
                 {
                     cMapPlot.Children.Clear();
                     ReplotMap();
-                    ResizeCanvas();
                 }
 
                 if (svc.IsPlottedLap(payload.Race.LapNumber)) // if its all/current OR the lap number from the options... show it..
@@ -59,7 +59,7 @@ namespace ForzaAnalytics.Modules
                 }
                 AddLapsToDropDown(ref payload);
                 svc.CurrentLapNumber = payload.Race.LapNumber;
-                btnExportData.IsEnabled = true;
+                miExport.IsEnabled = true;
             }
         }
         private void AddLapsToDropDown(ref Telemetry payload)
@@ -83,13 +83,13 @@ namespace ForzaAnalytics.Modules
             svc.ResetService();
             ReplotPoints();
         }
-        private void btnReset_Click(object sender, RoutedEventArgs e)
+        private void miResetAll_Click(object sender, RoutedEventArgs e)
         {
             ResetEvents();
-            btnExportData.IsEnabled = false;
-            btnReset.IsEnabled = false;
+            miExport.IsEnabled = false;
+            miResetAll.IsEnabled = false;
         }
-        private void btnLoadMap_Click(object sender, RoutedEventArgs e)
+        private void miLoadMap_Click(object sender, RoutedEventArgs e)
         {
             LoadMap();
         }
@@ -120,21 +120,25 @@ namespace ForzaAnalytics.Modules
                         break;
                     }
                 }
+                miReduceMap.IsEnabled = true;
                 ReplotPoints();
                 result = true;
             }
             return result;
         }
-        private void tglTrackData_Checked(object sender, RoutedEventArgs e)
+        private void miTrackData_Toggle(object sender, RoutedEventArgs e)
         {
-            svc.IsTracking = true;
-            tglTrackData.Content = "Stop Tracking";
-            btnReplayData.IsEnabled = false;
-        }
-        private void tglTrackData_Unchecked(object sender, RoutedEventArgs e)
-        {
-            svc.IsTracking = false;
-            tglTrackData.Content = "Start Tracking";
+            if (miIsListening.IsChecked)
+            {
+                svc.IsTracking = true;
+                btnReplayData.IsEnabled = false;
+                eIsListening.Fill = new SolidColorBrush(Colors.YellowGreen);
+            }
+            else
+            {
+                svc.IsTracking = false;
+                eIsListening.Fill = new SolidColorBrush(Colors.Red);
+            }
         }
         private void ReplotPoints()
         {
@@ -143,7 +147,6 @@ namespace ForzaAnalytics.Modules
                 cMapPlot.Children.Clear();
                 ReplotMap();
                 ReplotPositions();
-                ResizeCanvas();
             }
         }
         private void ReplotMap()
@@ -268,7 +271,7 @@ namespace ForzaAnalytics.Modules
         }
         private void AddCanvasPoint(ExtendedPositionalData position)
         {
-            double prevSpeed =  isReplaying ? svc.GetPreviousSpeed(CurrentOrdinal) : svc.GetPreviousSpeed();
+            double prevSpeed = isReplaying ? svc.GetPreviousSpeed(CurrentOrdinal) : svc.GetPreviousSpeed();
             Ellipse dot = new Ellipse
             {
                 Width = 2,
@@ -313,7 +316,7 @@ namespace ForzaAnalytics.Modules
         }
         private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
         {
-            if (cbIncludeLapTimes.IsChecked ?? false)
+            if (miShowLapTimes.IsChecked)
                 if (hasNext && currentRow.LapNumber != nextRow.LapNumber)
                 {
                     cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.X, currentRow.Z, currentRow.LapNumber, currentRow.LapTime));
@@ -321,7 +324,7 @@ namespace ForzaAnalytics.Modules
         }
         private void AddLapTimePlotLabels(Telemetry currentRow)
         {
-            if (cbIncludeLapTimes.IsChecked ?? false)
+            if (miShowLapTimes.IsChecked)
             {
                 cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.Position.PositionX, currentRow.Position.PositionZ, currentRow.Race.LapNumber - 1, currentRow.Race.LastLapTime));
             }
@@ -342,23 +345,7 @@ namespace ForzaAnalytics.Modules
 
             ReplotPoints();
         }
-        private void ResizeCanvas()
-        {
-            var tmp = svc.MapPositions.Positions;
-            if (tmp.Any())
-            {
-                float minX = tmp.Min(x => x.X);
-                float minZ = tmp.Min(x => x.Z);
-                float maxX = tmp.Max(x => x.X);
-                float maxZ = tmp.Max(x => x.Z);
-                var height = maxZ - minZ * 4;
-                var width = maxX - minX * 4;
-
-                cMapPlot.Height = svc.MapPositions.IsRotated ? width : height;
-                cMapPlot.Width = svc.MapPositions.IsRotated ? height : width;
-            }
-        }
-        private void btnReduceMap_Click(object sender, RoutedEventArgs e)
+        private void miReduceMap_Click(object sender, RoutedEventArgs e)
         {
             ReduceMap();
         }
@@ -377,7 +364,7 @@ namespace ForzaAnalytics.Modules
             svc.SetMapScale((cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString());
             ReplotPoints();
         }
-        private void btnExportData_Click(object sender, RoutedEventArgs e)
+        private void miExportData_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
             dialog.Filter = "FZTEL files (*.fztel)|*.fztel";
@@ -389,7 +376,7 @@ namespace ForzaAnalytics.Modules
                 MessageBox.Show("Telemetry Data Saved!");
             }
         }
-        private void btnImportData_Click(object sender, RoutedEventArgs e)
+        private void miImportData_Click(object sender, RoutedEventArgs e)
         {
             OpenFileDialog dialog = new();
             dialog.Filter = "FZTEL files (*.fztel)|*.fztel";
@@ -424,16 +411,18 @@ namespace ForzaAnalytics.Modules
                 MessageBox.Show("Telemetry Loaded");
             }
         }
-        private void tbnRotateMap_Checked(object sender, RoutedEventArgs e)
+        private void tbnRotateMap_Toggle(object sender, RoutedEventArgs e)
         {
-            svc.MapPositions.IsRotated = true;
-            svc.Positions.IsRotated = true;
-            ReplotPoints();
-        }
-        private void tbnRotateMap_Unchecked(object sender, RoutedEventArgs e)
-        {
-            svc.MapPositions.IsRotated = false;
-            svc.Positions.IsRotated = false;
+            if (tbnRotateMap.IsChecked == true)
+            {
+                svc.MapPositions.IsRotated = true;
+                svc.Positions.IsRotated = true;
+            }
+            else
+            {
+                svc.MapPositions.IsRotated = false;
+                svc.Positions.IsRotated = false;
+            }
             ReplotPoints();
         }
         private void btnXOffsetDown_Click(object sender, RoutedEventArgs e)
@@ -481,12 +470,12 @@ namespace ForzaAnalytics.Modules
             svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? cbLapPoints.SelectedItem.ToString());
             ReplotPoints();
         }
-        private void btnLoadAndReduceMap_Click(object sender, RoutedEventArgs e)
+        private void miLoadAndReduceMap_Click(object sender, RoutedEventArgs e)
         {
             if (LoadMap())
                 ReduceMap();
         }
-        private void cbIncludeLapTimes_Changed(object sender, RoutedEventArgs e)
+        private void miIncludeLapTimes_Toggle(object sender, RoutedEventArgs e)
         {
             if (cMapPlot != null)
                 cMapPlot.Children.Clear();
@@ -530,7 +519,6 @@ namespace ForzaAnalytics.Modules
             tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
             ReplotPoints();
         }
-
         private void btnReplayData_Click(object sender, RoutedEventArgs e)
         {
             cMapPlot.Children.Clear();
@@ -542,16 +530,19 @@ namespace ForzaAnalytics.Modules
             // Start the timer
             replayTimer.Start();
             btnReplayData.IsEnabled = false;
+            lReplayData.Content = "Replaying";
+            mReplayMetrics.Visibility = Visibility.Visible;
+            btnStopReplayData.IsEnabled = true;
+            btnStopReplayData.Visibility = Visibility.Visible;
         }
         private void ReplayData(object sender, EventArgs e)
         {
             if (CurrentOrdinal < (svc.Positions.ExtendedPositions.Count - 1))
             {
                 var position = svc.Replay(svc.Positions.ExtendedPositions[CurrentOrdinal]);
+                mReplayMetrics.ReceiveEvents(position);
                 if (svc.CurrentLapEnded(svc.Positions.ExtendedPositions[CurrentOrdinal].LapNumber)) // Current Lap and Lap Has Ended...
-                {
                     cMapPlot.Children.Clear();
-                }
 
                 if (svc.IsPlottedLap(svc.Positions.ExtendedPositions[CurrentOrdinal].LapNumber)) // if its all/current OR the lap number from the options... show it..
                 {
@@ -567,9 +558,29 @@ namespace ForzaAnalytics.Modules
             {
                 replayTimer.Stop();
                 btnReplayData.IsEnabled = true;
+                lReplayData.Content = "Replay";
                 isReplaying = false;
+                mReplayMetrics.Visibility = Visibility.Collapsed;
+                btnStopReplayData.IsEnabled = false;
+                btnStopReplayData.Visibility = Visibility.Collapsed;
             }
-
+        }
+        private void miShowOffsets_Click(object sender, RoutedEventArgs e)
+        {
+            if (miShowOffsets.IsChecked)
+                gOffsets.Visibility = Visibility.Visible;
+            else
+                gOffsets.Visibility = Visibility.Collapsed;
+        }
+        private void btnStopReplayData_Click(object sender, RoutedEventArgs e)
+        {
+            replayTimer.Stop();
+            btnReplayData.IsEnabled = true;
+            lReplayData.Content = "Replay";
+            isReplaying = false;
+            btnStopReplayData.IsEnabled = false;
+            mReplayMetrics.Visibility = Visibility.Collapsed;
+            btnStopReplayData.Visibility = Visibility.Collapsed;
         }
     }
 }

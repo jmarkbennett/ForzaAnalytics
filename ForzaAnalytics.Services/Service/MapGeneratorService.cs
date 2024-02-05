@@ -124,5 +124,14 @@ namespace ForzaAnalytics.Services.Service
             AllPositions.XOffset = AllPositions.XOffset - deltaX;
             AllPositions.ZOffset = AllPositions.ZOffset + deltaZ;
         }
+
+        public float GetSuggestedXOffset()
+        {
+            return AllPositions.Positions != null && AllPositions.Positions.Count > 0 ? AllPositions.Positions.Max(x => x.X) + 40 : Positions.Positions.Max(x => x.X) + 40;
+        }
+        public float GetSuggestedZOffset()
+        {
+            return AllPositions.Positions != null && AllPositions.Positions.Count > 0  ? AllPositions.Positions.Min(x => x.Z) - 40 : Positions.Positions.Min(x => x.Z) - 40;
+        }
     }
 }

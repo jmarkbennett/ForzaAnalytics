@@ -1,7 +1,10 @@
 ﻿using ForzaAnalytics.UdpReader.Service;
 using System.Configuration;
 using System.Net;
+using System.Reflection;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace ForzaAnalytics
 {
@@ -14,6 +17,7 @@ namespace ForzaAnalytics
         private System.Threading.Thread thread;
         private bool threadRunning = false;
         private Task task;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -21,13 +25,12 @@ namespace ForzaAnalytics
             var useMetric = true;
             bool.TryParse(ConfigurationManager.AppSettings["TrackOnOpen"].ToString(), out start);
             bool.TryParse(ConfigurationManager.AppSettings["UseMetric"].ToString(), out useMetric);
-            tbIpAddress.Text = ConfigurationManager.AppSettings["ListeningIpAddress"].ToString();
-            tbPort.Text = ConfigurationManager.AppSettings["ListeningPort"].ToString();
-            cbUseMetric.IsChecked = useMetric;
-            cbTrackOnOpen.IsChecked = start;
 
             if (start)
-                tglTracking.IsChecked = true;
+            {
+                miIsListening.IsChecked = true;
+                ToggleListen(true);
+            }
         }
 
         private void ReceiveEvents()
@@ -42,26 +45,25 @@ namespace ForzaAnalytics
                     // Update the UI from the UI thread using Dispatcher
                     Dispatcher.Invoke(() =>
                     {
-                        sessionDetailsModule.ReceiveEvents(payload);
-
                         if (payload.isReportingActive)
                         {
-                            ldlapDetail.ReceiveEvents(payload);
-                            ppAbc.ReceiveEvents(payload);
-                            carDetailsModule.ReceiveEvents(payload);
-                            mapGenerator.ReceiveEvents(payload);
-                            positionMap.ReceiveEvents(payload);
-                            coreMetricsModule.ReceiveEvents(payload);
-                            allMetrics.ReceiveEvents(payload);
-                        }
-                        else
-                        {
-                            //ldlapDetail.ResetEvents();
-                            //ppAbc.ResetEvents();
-                            //carDetailsModule.ResetEvents();
-                            //mapGenerator.ResetEvents();
-                            //positionMap.ResetEvents();
-                            //coreMetricsModule.ResetEvents();
+                            if (mSessionDetails.Visibility == Visibility.Visible)
+                                mSessionDetails.ReceiveEvents(payload);
+                            if (mPedalPressures.Visibility == Visibility.Visible)
+                                mPedalPressures.ReceiveEvents(payload);
+                            if (mCarDetails.Visibility == Visibility.Visible)
+                                mCarDetails.ReceiveEvents(payload);
+                            if (mCarDetails.Visibility == Visibility.Visible)
+                                mCoreMetrics.ReceiveEvents(payload);
+
+                            if (tLapTimes.IsChecked)
+                                mlapDetail.ReceiveEvents(payload);
+                            if (tMapGenerator.IsChecked)
+                                mMapGenerator.ReceiveEvents(payload);
+                            if (tCarPositions.IsChecked)
+                                mPositionMap.ReceiveEvents(payload);
+                            if (tAllMetrics.IsChecked)
+                                mAllMetrics.ReceiveEvents(payload);
                         }
                     });
                 }
@@ -71,54 +73,113 @@ namespace ForzaAnalytics
                 Console.WriteLine(e.ToString());
             }
         }
-        private void tglTracking_Checked(object sender, RoutedEventArgs e)
+
+        private void ToggleModuleVisibility(object sender, RoutedEventArgs e)
         {
-            tglTracking.Content = "Stop";
-            if (!threadRunning)
+            var module = (sender as MenuItem).Header;
+            switch (module)
             {
- 
-                if (svc == null)
-                    svc = new TelemetryService(
-                        ConfigurationManager.AppSettings["ListeningIpAddress"].ToString(), 
-                        int.Parse(ConfigurationManager.AppSettings["ListeningPort"].ToString())
-                        );
-                threadRunning = true;
-                thread = new Thread(ReceiveEvents);
-                thread.Start();
+                case "Show Session Summary":
+                    if (mSessionDetails.Visibility == Visibility.Visible)
+                        mSessionDetails.Visibility = Visibility.Collapsed;
+                    else
+                        mSessionDetails.Visibility = Visibility.Visible;
+                    break;
+                case "Show Core Metrics":
+                    if (mCoreMetrics.Visibility == Visibility.Visible)
+                        mCoreMetrics.Visibility = Visibility.Collapsed;
+                    else
+                        mCoreMetrics.Visibility = Visibility.Visible;
+                    break;
+                case "Show Car Summary":
+                    if (mCarDetails.Visibility == Visibility.Visible)
+                        mCarDetails.Visibility = Visibility.Collapsed;
+                    else
+                        mCarDetails.Visibility = Visibility.Visible;
+                    break;
+                case "Show Pedal Pressures":
+                    if (mPedalPressures.Visibility == Visibility.Visible)
+                        mPedalPressures.Visibility = Visibility.Collapsed;
+                    else
+                        mPedalPressures.Visibility = Visibility.Visible;
+                    break;
             }
+            // Handle Visibility of Rows based on whats hidden
+            if (
+                mSessionDetails.Visibility == Visibility.Collapsed &&
+                mPedalPressures.Visibility == Visibility.Collapsed &&
+                mCarDetails.Visibility == Visibility.Collapsed
+                )
+                TopMenu.Visibility = Visibility.Collapsed;
+            else
+                TopMenu.Visibility = Visibility.Visible;
+            RefreshIcons();
         }
-        private void tglTracking_Unchecked(object sender, RoutedEventArgs e)
+
+        private void IsListening_Click(object sender, RoutedEventArgs e)
         {
-            tglTracking.Content = "Start";
-            if (thread == null || thread.ThreadState == ThreadState.Running)
+            var isChecked = (sender as MenuItem).IsChecked;
+            ToggleListen(isChecked);
+        }
+
+        private void ToggleListen(bool isChecked)
+        {
+            if (isChecked)
             {
-                threadRunning = false;
+                if (!threadRunning)
+                {
+                    if (svc == null)
+                        svc = new TelemetryService(
+                            ConfigurationManager.AppSettings["ListeningIpAddress"].ToString(),
+                            int.Parse(ConfigurationManager.AppSettings["ListeningPort"].ToString())
+                            );
+                    threadRunning = true;
+                    thread = new Thread(ReceiveEvents);
+                    thread.Start();
+                }
             }
-        }
-        private void btnResetAll_Click(object sender, RoutedEventArgs e)
-        {
-           if(MessageBox.Show("Are you sure you want to Reset ALL controls? this removes any data currently loaded and should only be done on the start of a new session", "Confirm Reset", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            else
             {
-                ldlapDetail.ResetEvents();
-                ppAbc.ResetEvents();
-                carDetailsModule.ResetEvents();
-                mapGenerator.ResetEvents();
-                positionMap.ResetEvents();
-                coreMetricsModule.ResetEvents();
-                allMetrics.ResetEvents();
+                if (thread == null || thread.ThreadState == ThreadState.Running)
+                {
+                    threadRunning = false;
+                }
+            }
+            RefreshIcons();
+        }
+
+        private void RefreshIcons()
+        {
+            if (threadRunning)
+            {
+                eLapTimes.Fill = tLapTimes.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
+                eAllMetrics.Fill = tAllMetrics.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
+                eMapGenerator.Fill = tMapGenerator.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
+                ePositionMap.Fill = tCarPositions.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
+            }
+            else
+            {
+                eLapTimes.Fill = new SolidColorBrush(Colors.DarkGray);
+                eAllMetrics.Fill = new SolidColorBrush(Colors.DarkGray);
+                eMapGenerator.Fill = new SolidColorBrush(Colors.DarkGray);
+                ePositionMap.Fill = new SolidColorBrush(Colors.DarkGray);
             }
         }
 
-        private void btnUpdateSettings_Click(object sender, RoutedEventArgs e)
+        private void tToggleTrack_Click(object sender, RoutedEventArgs e)
         {
-            Configuration config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+            RefreshIcons();
+        }
 
-            config.AppSettings.Settings["UseMetric"].Value = cbUseMetric.IsChecked.ToString();
-            config.AppSettings.Settings["TrackOnOpen"].Value = cbTrackOnOpen.IsChecked.ToString();
-            config.AppSettings.Settings["ListeningIpAddress"].Value = tbIpAddress.Text;
-            config.AppSettings.Settings["ListeningPort"].Value = tbPort.Text;
-            config.Save(ConfigurationSaveMode.Modified);
-            ConfigurationManager.RefreshSection("appSettings");
+        private void miConfigure_Click(object sender, RoutedEventArgs e)
+        {
+            Modules.Configure configure = new Modules.Configure();
+            configure.Show();
+        }
+
+        private void miAbout_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
