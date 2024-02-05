@@ -6,9 +6,9 @@
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              mc:Ignorable="d" 
              d:DesignHeight="640" d:DesignWidth="1800">
-    <DockPanel Background="Transparent">
+    <DockPanel Background="#CC444444">
         <Label Content="Car Positioning" Style="{StaticResource HeaderLabel}" DockPanel.Dock="Top"></Label>
-        <Menu Background="White" FontSize="16" DockPanel.Dock="Top">
+        <Menu Background="#CC444444" FontSize="16" DockPanel.Dock="Top">
             <MenuItem Header="Tracking" Background="White" Foreground="White" Padding="8 4">
                 <MenuItem Name="miIsListening" IsCheckable="True" Click="miTrackData_Toggle" Foreground="White" Padding="8 4">
                     <MenuItem.Header>
@@ -31,12 +31,10 @@
             <MenuItem Header="Map" Foreground="White" Padding="8 4">
                 <MenuItem Name="miLoadMap" Foreground="White" Header="Load Map" Click="miLoadMap_Click"></MenuItem>
                 <MenuItem Name="miLoadReducedMap" Foreground="White" Header="Load Reduced Map" Click="miLoadAndReduceMap_Click"></MenuItem>
-                <Separator/>
+                <Separator Background="DarkGray" Margin="0"/>
                 <MenuItem Name="miReduceMap" Foreground="White" Header="Reduce Map" IsEnabled="False" Click="miReduceMap_Click"></MenuItem>
-                <Separator/>
+                <Separator Background="DarkGray" Margin="0"/>
                 <MenuItem Foreground="White" Name="miShowOffsets" Header="Show Offset Menu" IsCheckable="True" IsChecked="True" Click="miShowOffsets_Click"></MenuItem>
-                <MenuItem Foreground="White" Name="miShowLapTimes" Header="Show Lap Times" IsCheckable="True" IsChecked="True" Click="miIncludeLapTimes_Toggle"></MenuItem>
-                <MenuItem Foreground="White" Name="miShowGearChanges" Header="Show Gear Changes" IsCheckable="True" IsChecked="False"></MenuItem>
             </MenuItem>
             <MenuItem Header="Telemetry" Foreground="White" Padding="8 4">
                 <MenuItem Name="miImport" Foreground="White" Click="miImportData_Click">
@@ -55,10 +53,13 @@
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
+                <Separator Background="DarkGray" Margin="0"/>
+                <MenuItem Foreground="White" Name="miShowLapTimes" Header="Show Lap Times" IsCheckable="True" IsChecked="True" Click="miIncludeLapTimes_Toggle"></MenuItem>
+                <MenuItem Foreground="White" Name="miShowGearChanges" Header="Show Gear Changes" Click="miShowGearChanges_Click" IsCheckable="True" IsChecked="False"></MenuItem>
             </MenuItem>
         </Menu>
-        
-        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="40" Background="#444444">
+        <Separator DockPanel.Dock="Top"></Separator>
+        <StackPanel Orientation="Horizontal" DockPanel.Dock="Top" Height="40" Background="#CC444444">
             <Ellipse Name="eIsListening"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
             <Label Content="Track ID:" VerticalContentAlignment="Center"></Label>
             <TextBox Name="tbTrackId" IsEnabled="false" Width="60" Margin="4"></TextBox>
@@ -138,7 +139,7 @@
             <Button Grid.Row="0" Grid.RowSpan="2" Grid.Column="10" Margin="4 12" Name="btnSuggestOffset" Content="Apply Suggested Offsets" Click="btnSuggestOffset_Click"></Button>
         </Grid>
 
-        <local:ReplayMetrics Visibility="Collapsed" x:Name="mReplayMetrics" DockPanel.Dock="Bottom" HorizontalAlignment="Center" ></local:ReplayMetrics>
+        <local:ReplayMetrics Visibility="Collapsed" x:Name="mReplayMetrics" DockPanel.Dock="Bottom" HorizontalAlignment="Center" Background="#CC444444" ></local:ReplayMetrics>
         <Grid Name="CoreMap" Background="#EEEEEE" Margin="2">
             <ScrollViewer MouseDown="CoreMap_MouseDown" MouseUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove">
                 <Canvas MouseDown="CoreMap_MouseDown" MouseUp="CoreMap_MouseUp" MouseMove="CoreMap_MouseMove" Name="cMapPlot" RenderTransform="1 0 0 -1 0 0"></Canvas>

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1080">
+             d:DesignHeight="450" d:DesignWidth="1920">
     <UserControl.Resources>
         <Style x:Key="ImportantText" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12"></Setter>
@@ -34,14 +34,14 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridView.Columns>
-                        <GridViewColumn Header="Lap" Width="100">
+                        <GridViewColumn Header="Lap Number" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=LapNumber}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Time" Width="120">
+                        <GridViewColumn Header="Time" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedLapTime}" Style="{StaticResource LeaderboardLapTimeLabel}">
@@ -49,14 +49,14 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Fuel Remaining" Width="140">
+                        <GridViewColumn Header="Fuel Remaining" Width="160">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedFuelRemaining}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Avg. Speed" Width="110">
+                        <GridViewColumn Header="Avg. Speed" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedAverageSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -70,28 +70,28 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="% Brake" Width="90">
+                        <GridViewColumn Header="% Brake" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedPercentBrakeApplied}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Min Speed" Width="100">
+                        <GridViewColumn Header="Min Speed" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedMinSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Max Speed" Width="100">
+                        <GridViewColumn Header="Max Speed" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedMaxSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Fuel Used" Width="100">
+                        <GridViewColumn Header="Fuel Used" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedFuelUsed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -101,8 +101,6 @@
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
-         
-            
         </ListView>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>

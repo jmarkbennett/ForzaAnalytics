@@ -181,5 +181,17 @@ namespace ForzaAnalytics
         {
 
         }
+
+        private void ResetAll_Click(object sender, RoutedEventArgs e)
+        {
+            mSessionDetails.ResetEvents();
+            mPedalPressures.ResetEvents();
+            mCarDetails.ResetEvents();
+            mCoreMetrics.ResetEvents();
+            mlapDetail.ResetEvents();
+            mMapGenerator.ResetEvents();
+            mPositionMap.ResetEvents();
+            mAllMetrics.ResetEvents(); ;
+        }
     }
 }
