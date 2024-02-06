@@ -61,7 +61,6 @@ namespace ForzaAnalytics.Services.Service
             Positions.ExtendedPositions.Add(result);
             return result;
         }
-
         public ExtendedPositionalData Replay(ExtendedPositionalData row)
         {
             if (row.Speed_Mps > MaxSpeed)
@@ -69,7 +68,6 @@ namespace ForzaAnalytics.Services.Service
 
             return row;
         }
-
         public void ResetService()
         {
             Positions.ResetPositions();
@@ -93,7 +91,6 @@ namespace ForzaAnalytics.Services.Service
 
             return result;
         }
-
         public double GetPreviousSpeed(int ordinal)
         {
             double result = 0;
@@ -102,7 +99,6 @@ namespace ForzaAnalytics.Services.Service
 
             return result;
         }
-
         public bool HasGearNumberChanged(Telemetry currentRow)
         {
             if (
@@ -156,6 +152,7 @@ namespace ForzaAnalytics.Services.Service
         public void ImportTelemetry(string filename)
         {
             Positions = MapSerializer.LoadPositionData(filename);
+            Positions.MapScale = MapPositions.MapScale;
             if (MapPositions != null)
             {
                 Positions.ZOffset = MapPositions.ZOffset;

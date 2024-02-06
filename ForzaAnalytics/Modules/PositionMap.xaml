@@ -9,8 +9,8 @@
     <DockPanel Background="#CC444444">
         <Label Content="Car Positioning" Style="{StaticResource HeaderLabel}" DockPanel.Dock="Top"></Label>
         <Menu Background="#CC444444" FontSize="16" DockPanel.Dock="Top">
-            <MenuItem Header="Tracking" Background="White" Foreground="White" Padding="8 4">
-                <MenuItem Name="miIsListening" IsCheckable="True" Click="miTrackData_Toggle" Foreground="White" Padding="8 4">
+            <MenuItem Header="Tracking" Background="White" Style="{StaticResource MainMenuItem}">
+                <MenuItem Name="miIsListening" IsCheckable="True" Click="miTrackData_Toggle" Style="{StaticResource MainMenuItem}">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/compass.png" Margin="4" Height="16" Width="16"></Image>
@@ -18,7 +18,7 @@
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem Name="miResetAll" Click="miResetAll_Click" Foreground="White" Padding="8 4">
+                <MenuItem Name="miResetAll" Click="miResetAll_Click" Style="{StaticResource MainMenuItem}">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/reset.png" Margin="4" Height="16" Width="16"></Image>
@@ -29,15 +29,15 @@
                 </MenuItem>
             </MenuItem>
             <MenuItem Header="Map" Foreground="White" Padding="8 4">
-                <MenuItem Name="miLoadMap" Foreground="White" Header="Load Map" Click="miLoadMap_Click"></MenuItem>
-                <MenuItem Name="miLoadReducedMap" Foreground="White" Header="Load Reduced Map" Click="miLoadAndReduceMap_Click"></MenuItem>
+                <MenuItem Name="miLoadMap" Header="Load Map" Click="miLoadMap_Click" Style="{StaticResource MainMenuItem}"></MenuItem>
+                <MenuItem Name="miLoadReducedMap" Header="Load Reduced Map" Click="miLoadAndReduceMap_Click" Style="{StaticResource MainMenuItem}"></MenuItem>
                 <Separator Background="DarkGray" Margin="0"/>
-                <MenuItem Name="miReduceMap" Foreground="White" Header="Reduce Map" IsEnabled="False" Click="miReduceMap_Click"></MenuItem>
-                <Separator Background="DarkGray" Margin="0"/>
-                <MenuItem Foreground="White" Name="miShowOffsets" Header="Show Offset Menu" IsCheckable="True" IsChecked="True" Click="miShowOffsets_Click"></MenuItem>
+                <MenuItem Name="miReduceMap" Header="Reduce Map" IsEnabled="False" Click="miReduceMap_Click" Style="{StaticResource MainMenuItem}"></MenuItem>
+                <Separator Background="DarkGray" Margin="0" />
+                <MenuItem Name="miShowOffsets" Header="Show Offset Menu" IsCheckable="True" IsChecked="True" Click="miShowOffsets_Click" Style="{StaticResource MainMenuItem}"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Telemetry" Foreground="White" Padding="8 4">
-                <MenuItem Name="miImport" Foreground="White" Click="miImportData_Click">
+            <MenuItem Header="Telemetry" Style="{StaticResource MainMenuItem}">
+                <MenuItem Name="miImport" Foreground="White" Click="miImportData_Click" Style="{StaticResource MainMenuItem}">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/folder-download.png" Margin="4" Height="16" Width="16"></Image>
@@ -45,7 +45,7 @@
                         </StackPanel>
                     </MenuItem.Header>
                 </MenuItem>
-                <MenuItem Name="miExport" Foreground="White" IsEnabled="False" Click="miExportData_Click">
+                <MenuItem Name="miExport" IsEnabled="False" Click="miExportData_Click" Style="{StaticResource MainMenuItem}">
                     <MenuItem.Header>
                         <StackPanel Orientation="Horizontal">
                             <Image Source="/Resources/Icons/folder-upload.png" Margin="4" Height="16" Width="16"></Image>
@@ -54,8 +54,8 @@
                     </MenuItem.Header>
                 </MenuItem>
                 <Separator Background="DarkGray" Margin="0"/>
-                <MenuItem Foreground="White" Name="miShowLapTimes" Header="Show Lap Times" IsCheckable="True" IsChecked="True" Click="miIncludeLapTimes_Toggle"></MenuItem>
-                <MenuItem Foreground="White" Name="miShowGearChanges" Header="Show Gear Changes" Click="miShowGearChanges_Click" IsCheckable="True" IsChecked="False"></MenuItem>
+                <MenuItem Name="miShowLapTimes" Header="Show Lap Times" IsCheckable="True" IsChecked="True" Click="miIncludeLapTimes_Toggle" Style="{StaticResource MainMenuItem}"></MenuItem>
+                <MenuItem Name="miShowGearChanges" Header="Show Gear Changes" Click="miShowGearChanges_Click" IsCheckable="True" IsChecked="False" Style="{StaticResource MainMenuItem}"></MenuItem>
             </MenuItem>
         </Menu>
         <Separator DockPanel.Dock="Top"></Separator>

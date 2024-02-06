@@ -9,34 +9,34 @@
         Title="Forza Analytics" Height="1280" Width="1800">
     <DockPanel Background="#CC444444">
         <Menu Background="Transparent" FontSize="16" DockPanel.Dock="Top">
-            <MenuItem Header="Tracking" Background="White" Foreground="White" Padding="8 4">
+            <MenuItem Header="Tracking" Background="White" Style="{StaticResource MainMenuItem}">
                 <MenuItem.Icon>
                     <Image Source="Resources/Icons/compass.png" Margin="2"></Image>
                 </MenuItem.Icon>
-                <MenuItem Name="miIsListening" Header="Is Listening" IsCheckable="True" Click="IsListening_Click" Foreground="White" Padding="8 4">
+                <MenuItem Name="miIsListening" Header="Is Listening" IsCheckable="True" Click="IsListening_Click" Style="{StaticResource MainMenuItem}">
                 </MenuItem>
-                <MenuItem Header="Reset All" Foreground="White" Padding="8 4" Click="ResetAll_Click"></MenuItem>
+                <MenuItem Header="Reset All" Style="{StaticResource MainMenuItem}" Click="ResetAll_Click"></MenuItem>
             </MenuItem>
-            <MenuItem Header="Visuals" Foreground="White" Padding="8 4">
+            <MenuItem Header="Visuals" Style="{StaticResource MainMenuItem}">
                 <MenuItem.Icon>
                     <Image Source="Resources/Icons/stats-dots.png" Margin="2"></Image>
                 </MenuItem.Icon>
-                <MenuItem Header="Show Session Summary" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
-                <MenuItem Header="Show Core Metrics" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
-                <MenuItem Header="Show Car Summary" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
-                <MenuItem Header="Show Pedal Pressures" Click="ToggleModuleVisibility" Foreground="White" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Show Session Summary" Click="ToggleModuleVisibility" Style="{StaticResource MainMenuItem}" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Header="Show Core Metrics" Click="ToggleModuleVisibility" Style="{StaticResource MainMenuItem}" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Header="Show Car Summary" Click="ToggleModuleVisibility" Style="{StaticResource MainMenuItem}" IsCheckable="True" IsChecked="True"/>
+                <MenuItem Header="Show Pedal Pressures" Click="ToggleModuleVisibility" Style="{StaticResource MainMenuItem}" IsCheckable="True" IsChecked="True"/>
                 <Separator Background="DarkGray" Margin="0"/>
-                <MenuItem Header="Track Lap Times" Name="tLapTimes" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
-                <MenuItem Header="Track Car Positions" Name="tCarPositions" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
-                <MenuItem Header="Track All Metrics" Name="tAllMetrics" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
-                <MenuItem Header="Track Map Generator" Name="tMapGenerator" Foreground="White" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" Padding="8 4"/>
+                <MenuItem Header="Track Lap Times" Name="tLapTimes" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
+                <MenuItem Header="Track Car Positions" Name="tCarPositions" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
+                <MenuItem Header="Track All Metrics" Name="tAllMetrics" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
+                <MenuItem Header="Track Map Generator" Name="tMapGenerator" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
             </MenuItem>
-            <MenuItem Name="miConfigure" Header="Options" Foreground="White" Padding="8 4" Click="miConfigure_Click">
+            <MenuItem Name="miConfigure" Header="Options" Style="{StaticResource MainMenuItem}" Click="miConfigure_Click">
                 <MenuItem.Icon>
                     <Image Source="Resources/Icons/cog.png" Margin="2"></Image>
                 </MenuItem.Icon>
             </MenuItem>
-            <MenuItem Name="miAbout" Header="About" Foreground="White" Padding="8 4" Click="miAbout_Click"></MenuItem>
+            <MenuItem Name="miAbout" Header="About" Style="{StaticResource MainMenuItem}" Click="miAbout_Click"></MenuItem>
         </Menu>
         <Grid x:Name="TopMenu" DockPanel.Dock="Top">
             <Grid.ColumnDefinitions>

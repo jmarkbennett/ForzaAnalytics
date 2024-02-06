@@ -40,6 +40,7 @@ namespace ForzaAnalytics.Modules
             mapTransformGroup.Children.Add(new ScaleTransform(-1, 1));
         }
 
+        #region Receive, Reset Start & Stop
         public void ReceiveEvents(Telemetry payload)
         {
             tbTrackId.Text = payload.Race.TrackIdentifier.ToString();
@@ -62,22 +63,6 @@ namespace ForzaAnalytics.Modules
                 miExport.IsEnabled = true;
             }
         }
-        private void AddLapsToDropDown(ref Telemetry payload)
-        {
-            if (svc.CurrentLapNumber != payload.Race.LapNumber)
-            {
-                var existingLaps = new List<int>();
-                if (cbLapPoints.Items.Count > 2)
-                {
-                    for (var i = 2; i < cbLapPoints.Items.Count; i++)
-                        existingLaps.Add((int)cbLapPoints.Items[i]);
-                }
-                if (!existingLaps.Contains(payload.Race.LapNumber))
-                    cbLapPoints.Items.Add(payload.Race.LapNumber);
-
-                AddLapTimePlotLabels(payload);
-            }
-        }
         public void ResetEvents()
         {
             svc.ResetService();
@@ -90,43 +75,6 @@ namespace ForzaAnalytics.Modules
             ResetEvents();
             miExport.IsEnabled = false;
             miResetAll.IsEnabled = false;
-        }
-        private void miLoadMap_Click(object sender, RoutedEventArgs e)
-        {
-            LoadMap();
-        }
-        private bool LoadMap()
-        {
-            var result = false;
-            OpenFileDialog dialog = new();
-            dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
-            dialog.Title = "Load Map";
-            if (!string.IsNullOrEmpty(tbTrackId.Text))
-                dialog.FileName = $"{tbTrackId.Text}.fzmap";
-            if (dialog.ShowDialog() == true)
-            {
-                svc.LoadMap(dialog.FileName);
-
-                if (!string.IsNullOrEmpty(svc.MapPositions.TrackName))
-                    tbTrackName.Text = svc.MapPositions.TrackName;
-
-                tbTrackId.Text = svc.MapPositions.TrackId.ToString();
-                tbXOffset.Text = svc.MapPositions.XOffset.ToString();
-                tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
-                var scale = $"{(svc.MapPositions.MapScale * 100).ToString()}%";
-                foreach (ComboBoxItem item in cbMapScale.Items)
-                {
-                    if (item.Content.ToString() == scale)
-                    {
-                        item.IsSelected = true;
-                        break;
-                    }
-                }
-                miReduceMap.IsEnabled = true;
-                ReplotPoints();
-                result = true;
-            }
-            return result;
         }
         private void miTrackData_Toggle(object sender, RoutedEventArgs e)
         {
@@ -142,6 +90,9 @@ namespace ForzaAnalytics.Modules
                 eIsListening.Fill = new SolidColorBrush(Colors.Red);
             }
         }
+        #endregion
+
+        #region Re-plot Map Data
         private void ReplotPoints()
         {
             if (cMapPlot != null)
@@ -191,6 +142,9 @@ namespace ForzaAnalytics.Modules
                 }
             }
         }
+        #endregion
+
+        #region Plot Labels
         private Label GeneratePlotLabel(double x, double z, string content)
         {
             double width = 30;
@@ -253,6 +207,43 @@ namespace ForzaAnalytics.Modules
 
             return label;
         }
+        private void AddPlotLabels(Telemetry currentRow)
+        {
+            if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
+                if (svc.HasGearNumberChanged(currentRow))
+                {
+                    cMapPlot.Children.Add(
+                        GeneratePlotLabel(
+                            currentRow.Position.PositionX,
+                            currentRow.Position.PositionZ,
+                            currentRow.GearNumber)
+                    );
+                }
+        }
+        private void AddPlotLabels(bool hasPrevious, ExtendedPositionalData currentRow, ExtendedPositionalData? previousRow = null)
+        {
+            if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
+                if (!hasPrevious || currentRow.GearNumber != previousRow.GearNumber)
+                    cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
+        }
+        private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
+        {
+            if (miShowLapTimes.IsChecked)
+                if (hasNext && currentRow.LapNumber != nextRow.LapNumber)
+                {
+                    cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.X, currentRow.Z, currentRow.LapNumber, currentRow.LapTime));
+                }
+        }
+        private void AddLapTimePlotLabels(Telemetry currentRow)
+        {
+            if (miShowLapTimes.IsChecked)
+            {
+                cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.Position.PositionX, currentRow.Position.PositionZ, currentRow.Race.LapNumber - 1, currentRow.Race.LastLapTime));
+            }
+        }
+        #endregion
+
+        #region Add Canvas Points (lines)
         private void AddCanvasPoint(ExtendedPositionalData position, double? prevSpeed)
         {
             Ellipse dot = new Ellipse
@@ -289,39 +280,15 @@ namespace ForzaAnalytics.Modules
             Canvas.SetTop(dot, canvasPoint.Y);
             cMapPlot.Children.Add(dot);
         }
-        private void AddPlotLabels(Telemetry currentRow)
+        #endregion
+
+        #region Handle Offsets
+        private void miShowOffsets_Click(object sender, RoutedEventArgs e)
         {
-            if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
-                if (svc.HasGearNumberChanged(currentRow))
-                {
-                    cMapPlot.Children.Add(
-                        GeneratePlotLabel(
-                            currentRow.Position.PositionX,
-                            currentRow.Position.PositionZ,
-                            currentRow.GearNumber)
-                    );
-                }
-        }
-        private void AddPlotLabels(bool hasPrevious, ExtendedPositionalData currentRow, ExtendedPositionalData? previousRow = null)
-        {
-            if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
-                if (!hasPrevious || currentRow.GearNumber != previousRow.GearNumber)
-                    cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
-        }
-        private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
-        {
-            if (miShowLapTimes.IsChecked)
-                if (hasNext && currentRow.LapNumber != nextRow.LapNumber)
-                {
-                    cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.X, currentRow.Z, currentRow.LapNumber, currentRow.LapTime));
-                }
-        }
-        private void AddLapTimePlotLabels(Telemetry currentRow)
-        {
-            if (miShowLapTimes.IsChecked)
-            {
-                cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.Position.PositionX, currentRow.Position.PositionZ, currentRow.Race.LapNumber - 1, currentRow.Race.LastLapTime));
-            }
+            if (miShowOffsets.IsChecked)
+                gOffsets.Visibility = Visibility.Visible;
+            else
+                gOffsets.Visibility = Visibility.Collapsed;
         }
         private void btnApplyOffset_Click(object sender, RoutedEventArgs e)
         {
@@ -339,6 +306,96 @@ namespace ForzaAnalytics.Modules
 
             ReplotPoints();
         }
+        private void btnXOffsetDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbXOffset.Text))
+            {
+                tbXOffset.Text = (int.Parse(tbXOffset.Text) - 10).ToString();
+                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
+                svc.MapPositions.XOffset = int.Parse(tbXOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnXOffsetUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbXOffset.Text))
+            {
+                tbXOffset.Text = (int.Parse(tbXOffset.Text) + 10).ToString();
+                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
+                svc.MapPositions.XOffset = int.Parse(tbXOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnZOffsetDown_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbZOffset.Text))
+            {
+                tbZOffset.Text = (int.Parse(tbZOffset.Text) - 10).ToString();
+                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
+                svc.MapPositions.ZOffset = int.Parse(tbZOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnZOffsetUp_Click(object sender, RoutedEventArgs e)
+        {
+            if (!string.IsNullOrEmpty(tbZOffset.Text))
+            {
+                tbZOffset.Text = (int.Parse(tbZOffset.Text) + 10).ToString();
+                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
+                svc.MapPositions.ZOffset = int.Parse(tbZOffset.Text);
+                ReplotPoints();
+            }
+        }
+        private void btnSuggestOffset_Click(object sender, RoutedEventArgs e)
+        {
+            svc.Positions.XOffset = (int)svc.GetSuggestedXOffset();
+            svc.MapPositions.XOffset = (int)svc.GetSuggestedXOffset();
+            svc.Positions.ZOffset = (int)svc.GetSuggestedZOffset();
+            svc.MapPositions.ZOffset = (int)svc.GetSuggestedZOffset();
+            tbXOffset.Text = svc.MapPositions.XOffset.ToString();
+            tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+            ReplotPoints();
+        }
+        #endregion
+
+        #region Generic Map Actions
+        private void miLoadMap_Click(object sender, RoutedEventArgs e)
+        {
+            LoadMap();
+        }
+        private bool LoadMap()
+        {
+            var result = false;
+            OpenFileDialog dialog = new();
+            dialog.Filter = "FZMAP files (*.fzmap)|*.fzmap";
+            dialog.Title = "Load Map";
+            if (!string.IsNullOrEmpty(tbTrackId.Text))
+                dialog.FileName = $"{tbTrackId.Text}.fzmap";
+            if (dialog.ShowDialog() == true)
+            {
+                svc.LoadMap(dialog.FileName);
+
+                if (!string.IsNullOrEmpty(svc.MapPositions.TrackName))
+                    tbTrackName.Text = svc.MapPositions.TrackName;
+
+                tbTrackId.Text = svc.MapPositions.TrackId.ToString();
+                tbXOffset.Text = svc.MapPositions.XOffset.ToString();
+                tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+                var scale = $"{(svc.MapPositions.MapScale * 100).ToString()}%";
+                foreach (ComboBoxItem item in cbMapScale.Items)
+                {
+                    if (item.Content.ToString() == scale)
+                    {
+                        item.IsSelected = true;
+                        break;
+                    }
+                }
+                miReduceMap.IsEnabled = true;
+                ReplotPoints();
+                result = true;
+            }
+            return result;
+        }
         private void miReduceMap_Click(object sender, RoutedEventArgs e)
         {
             ReduceMap();
@@ -348,16 +405,28 @@ namespace ForzaAnalytics.Modules
             svc.ReduceMap();
             ReplotPoints();
         }
-        private void cbChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void tbnRotateMap_Toggle(object sender, RoutedEventArgs e)
         {
-            svc.SetChartType((cbChartType.SelectedItem as ComboBoxItem)?.Content.ToString());
+            if (tbnRotateMap.IsChecked == true)
+            {
+                svc.MapPositions.IsRotated = true;
+                svc.Positions.IsRotated = true;
+            }
+            else
+            {
+                svc.MapPositions.IsRotated = false;
+                svc.Positions.IsRotated = false;
+            }
             ReplotPoints();
         }
-        private void cbMapScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void miLoadAndReduceMap_Click(object sender, RoutedEventArgs e)
         {
-            svc.SetMapScale((cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString());
-            ReplotPoints();
+            if (LoadMap())
+                ReduceMap();
         }
+        #endregion
+
+        #region Import / Export Data
         private void miExportData_Click(object sender, RoutedEventArgs e)
         {
             SaveFileDialog dialog = new SaveFileDialog();
@@ -405,114 +474,9 @@ namespace ForzaAnalytics.Modules
                 MessageBox.Show("Telemetry Loaded");
             }
         }
-        private void tbnRotateMap_Toggle(object sender, RoutedEventArgs e)
-        {
-            if (tbnRotateMap.IsChecked == true)
-            {
-                svc.MapPositions.IsRotated = true;
-                svc.Positions.IsRotated = true;
-            }
-            else
-            {
-                svc.MapPositions.IsRotated = false;
-                svc.Positions.IsRotated = false;
-            }
-            ReplotPoints();
-        }
-        private void btnXOffsetDown_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tbXOffset.Text))
-            {
-                tbXOffset.Text = (int.Parse(tbXOffset.Text) - 10).ToString();
-                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
-                svc.MapPositions.XOffset = int.Parse(tbXOffset.Text);
-                ReplotPoints();
-            }
-        }
-        private void btnXOffsetUp_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tbXOffset.Text))
-            {
-                tbXOffset.Text = (int.Parse(tbXOffset.Text) + 10).ToString();
-                svc.Positions.XOffset = int.Parse(tbXOffset.Text);
-                svc.MapPositions.XOffset = int.Parse(tbXOffset.Text);
-                ReplotPoints();
-            }
-        }
-        private void btnZOffsetDown_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tbZOffset.Text))
-            {
-                tbZOffset.Text = (int.Parse(tbZOffset.Text) - 10).ToString();
-                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
-                svc.MapPositions.ZOffset = int.Parse(tbZOffset.Text);
-                ReplotPoints();
-            }
-        }
-        private void btnZOffsetUp_Click(object sender, RoutedEventArgs e)
-        {
-            if (!string.IsNullOrEmpty(tbZOffset.Text))
-            {
-                tbZOffset.Text = (int.Parse(tbZOffset.Text) + 10).ToString();
-                svc.Positions.ZOffset = int.Parse(tbZOffset.Text);
-                svc.MapPositions.ZOffset = int.Parse(tbZOffset.Text);
-                ReplotPoints();
-            }
-        }
-        private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? cbLapPoints.SelectedItem.ToString());
-            ReplotPoints();
-        }
-        private void miLoadAndReduceMap_Click(object sender, RoutedEventArgs e)
-        {
-            if (LoadMap())
-                ReduceMap();
-        }
-        private void miIncludeLapTimes_Toggle(object sender, RoutedEventArgs e)
-        {
-            if (cMapPlot != null)
-                cMapPlot.Children.Clear();
-            ReplotPoints();
-        }
-        private void CoreMap_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            mousePressed = true;
-            wasDragged = false;
-            mousePressedInitialX = e.GetPosition(this).X;
-            mousePressedInitialY = e.GetPosition(this).Y;
-        }
-        private void CoreMap_MouseUp(object sender, MouseButtonEventArgs e)
-        {
-            mousePressed = false;
-            if (wasDragged)
-            {
-                var deltaX = (int)mousePressedInitialX - (int)e.GetPosition(this).X;
-                var deltaZ = (int)mousePressedInitialY - (int)e.GetPosition(this).Y;
-                // once mouse has been lifted, adjust position based on end.
-                svc.HandleMapPan(deltaX, deltaZ);
+        #endregion
 
-                tbXOffset.Text = svc.MapPositions.XOffset.ToString();
-                tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
-                wasDragged = false;
-                ReplotPoints();
-            }
-        }
-        private void CoreMap_MouseMove(object sender, MouseEventArgs e)
-        {
-            if (mousePressed)
-                wasDragged = true;
-        }
-        private void btnSuggestOffset_Click(object sender, RoutedEventArgs e)
-        {
-            svc.Positions.XOffset = (int)svc.GetSuggestedXOffset();
-            svc.MapPositions.XOffset = (int)svc.GetSuggestedXOffset();
-            svc.Positions.ZOffset = (int)svc.GetSuggestedZOffset();
-            svc.MapPositions.ZOffset = (int)svc.GetSuggestedZOffset();
-            tbXOffset.Text = svc.MapPositions.XOffset.ToString();
-            tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
-            ReplotPoints();
-        }
+        #region Replay Data
         private void btnReplayData_Click(object sender, RoutedEventArgs e)
         {
             cMapPlot.Children.Clear();
@@ -528,6 +492,16 @@ namespace ForzaAnalytics.Modules
             mReplayMetrics.Visibility = Visibility.Visible;
             btnStopReplayData.IsEnabled = true;
             btnStopReplayData.Visibility = Visibility.Visible;
+        }
+        private void btnStopReplayData_Click(object sender, RoutedEventArgs e)
+        {
+            replayTimer.Stop();
+            btnReplayData.IsEnabled = true;
+            lReplayData.Content = "Replay";
+            isReplaying = false;
+            btnStopReplayData.IsEnabled = false;
+            mReplayMetrics.Visibility = Visibility.Collapsed;
+            btnStopReplayData.Visibility = Visibility.Collapsed;
         }
         private void ReplayData(object sender, EventArgs e)
         {
@@ -559,26 +533,81 @@ namespace ForzaAnalytics.Modules
                 btnStopReplayData.Visibility = Visibility.Collapsed;
             }
         }
-        private void miShowOffsets_Click(object sender, RoutedEventArgs e)
+        #endregion
+
+        #region Handle Map Panning
+        private void CoreMap_MouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (miShowOffsets.IsChecked)
-                gOffsets.Visibility = Visibility.Visible;
-            else
-                gOffsets.Visibility = Visibility.Collapsed;
+            mousePressed = true;
+            wasDragged = false;
+            mousePressedInitialX = e.GetPosition(this).X;
+            mousePressedInitialY = e.GetPosition(this).Y;
         }
-        private void btnStopReplayData_Click(object sender, RoutedEventArgs e)
+        private void CoreMap_MouseUp(object sender, MouseButtonEventArgs e)
         {
-            replayTimer.Stop();
-            btnReplayData.IsEnabled = true;
-            lReplayData.Content = "Replay";
-            isReplaying = false;
-            btnStopReplayData.IsEnabled = false;
-            mReplayMetrics.Visibility = Visibility.Collapsed;
-            btnStopReplayData.Visibility = Visibility.Collapsed;
+            mousePressed = false;
+            if (wasDragged)
+            {
+                var deltaX = (int)mousePressedInitialX - (int)e.GetPosition(this).X;
+                var deltaZ = (int)mousePressedInitialY - (int)e.GetPosition(this).Y;
+                // once mouse has been lifted, adjust position based on end.
+                svc.HandleMapPan(deltaX, deltaZ);
+
+                tbXOffset.Text = svc.MapPositions.XOffset.ToString();
+                tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+                wasDragged = false;
+                ReplotPoints();
+            }
+        }
+        private void CoreMap_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (mousePressed)
+                wasDragged = true;
+        }
+        #endregion
+
+        #region Alter Map Visuals
+        private void cbChartType_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            svc.SetChartType((cbChartType.SelectedItem as ComboBoxItem)?.Content.ToString());
+            ReplotPoints();
+        }
+        private void cbMapScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            svc.SetMapScale((cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString());
+            ReplotPoints();
+        }
+        private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? cbLapPoints.SelectedItem.ToString());
+            ReplotPoints();
+        }
+        private void miIncludeLapTimes_Toggle(object sender, RoutedEventArgs e)
+        {
+            if (cMapPlot != null)
+                cMapPlot.Children.Clear();
+            ReplotPoints();
         }
         private void miShowGearChanges_Click(object sender, RoutedEventArgs e)
         {
             ReplotPoints();
         }
+        private void AddLapsToDropDown(ref Telemetry payload)
+        {
+            if (svc.CurrentLapNumber != payload.Race.LapNumber)
+            {
+                var existingLaps = new List<int>();
+                if (cbLapPoints.Items.Count > 2)
+                {
+                    for (var i = 2; i < cbLapPoints.Items.Count; i++)
+                        existingLaps.Add((int)cbLapPoints.Items[i]);
+                }
+                if (!existingLaps.Contains(payload.Race.LapNumber))
+                    cbLapPoints.Items.Add(payload.Race.LapNumber);
+
+                AddLapTimePlotLabels(payload);
+            }
+        }
+        #endregion
     }
 }
