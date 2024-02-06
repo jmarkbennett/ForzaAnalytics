@@ -100,3 +100,13 @@ if you had it open or a previous session, hit 'Reset', otherwise load the map fi
 this will open the telemtry file and replot the positions on the map aligned, you can interact with this as you would when Forza was running - changing the zoom/rotation/visual type etc.
 
 So long as the map files are shared, the telemetry data can be shared with others who have the application to load/preview.
+
+# Replaying Telemetry Data
+Loaded data can be reloaded, data is served via Forza Motorsports 60x per second meaning we can infer a timeframe for data being displayed. the timeframes are an approximation due to any potential delays in reading, loading and displaying the data.
+On loading Telemetry, the 'Replay' button becomes active:
+ ![Reduced](README_Resources/ScreenShot-11.png)
+
+On replay a new metrics bar will appear that will show any telemetry data relating to that point as well as updating the chart with the positional data.
+this data relates to acceleration, speed, gear and so on as per normal tracking.
+chart metrics can be changed during this and reload will continue.
+ ![Reduced](README_Resources/ScreenShot-12.png)

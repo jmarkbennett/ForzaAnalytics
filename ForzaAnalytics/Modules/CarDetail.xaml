@@ -53,7 +53,7 @@
                 <RowDefinition Height="11"></RowDefinition>
             </Grid.RowDefinitions>
             <Rectangle Grid.RowSpan="2" Grid.Column="0" Grid.ColumnSpan="2" Style="{StaticResource CylinderContainer}"></Rectangle>
-            <Label Content="10" Grid.Column="1" Grid.Row="0" Name="lCarCylinders" Width="24" VerticalAlignment="Center" Height="20" Style="{StaticResource CylinderFont}"></Label>
+            <Label Grid.Column="1" Grid.Row="0" Name="lCarCylinders" Width="24" VerticalAlignment="Center" Height="20" Style="{StaticResource CylinderFont}"></Label>
             <Label Style="{StaticResource CylinderLabel}" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="1" Content="cylinders"></Label>
             <Ellipse Grid.RowSpan="2" Grid.Column="0" Height="8" Width="20" Fill="#444444" Margin="0 14 0 0"></Ellipse>
             <Ellipse Grid.RowSpan="2" Grid.Column="0" Height="8" Width="20" Fill="#555555" Margin="0 7 0 0"></Ellipse>

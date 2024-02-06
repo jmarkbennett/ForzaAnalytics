@@ -12,6 +12,7 @@
                 <ResourceDictionary Source="Styles/GridViewStyles.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Styles/ButtonStyles.xaml"></ResourceDictionary>
                 <ResourceDictionary Source="Styles/InputStyles.xaml"></ResourceDictionary>
+                <ResourceDictionary Source="Styles/MenuStyles.xaml"></ResourceDictionary>
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>
