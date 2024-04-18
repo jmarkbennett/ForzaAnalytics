@@ -1,0 +1,42 @@
+﻿@page
+@model ForzaAnalytics.Web.Pages.LapTimesModel
+@{
+}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm"><label for="mapScale" class="form-label">Map Scale:</label></div>
+        <div class="col-sm"></div>
+        <div class="col-sm"><label for="showLaps" class="form-label">Show Laps:</label></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <select name="mapScale" class="form-select" id="mapScale">
+                <option value="4.0">400%</option>
+                <option value="3.0">300%</option>
+                <option value="2.0">200%</option>
+                <option value="1.5">150%</option>
+                <option value="1.25">125%</option>
+                <option value="1.0" selected="selected">100%</option>
+                <option value="0.75">75%</option>
+                <option value="0.5">50%</option>
+                <option value="0.25">25%</option>
+            </select>
+        </div>
+        <div class="col-sm">
+            <div class="form-check form-switch">
+                <input type="checkbox" class="form-check-input" role="switch" id="mapOrientation" />
+                <label for="mapOrientation" class="form-label">Rotate</label>
+            </div>
+        </div>
+        <div class="col-sm">
+
+            <select class="form-select" id="showLaps">
+                <option value="All" selected="selected">All</option>
+            </select>
+        </div>
+    </div>
+
+
+    <button type="button" id="replay" class="btn btn-success">Replay Telemetry</button>
+    <button type="button" id="stop" class="btn btn-danger" disabled>Stop Telemetry</button>
+</div>

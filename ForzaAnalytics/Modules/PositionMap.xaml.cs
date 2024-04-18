@@ -46,6 +46,8 @@ namespace ForzaAnalytics.Modules
             tbTrackId.Text = payload.Race.TrackIdentifier.ToString();
             if (svc.IsTracking)
             {
+                var isNewSession = svc.SetupNewSession(payload);
+ 
                 var position = svc.Update(payload);
                 if (svc.CurrentLapEnded(payload.Race.LapNumber)) // Current Lap and Lap Has Ended...
                 {

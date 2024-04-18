@@ -37,6 +37,19 @@ namespace ForzaAnalytics.Services.Service
         {
             return CurrentLapNumber != payloadLap && LapToPlot == -1;
         }
+        public bool SetupNewSession(Telemetry payload)
+        {
+            var isNew = false;
+            if (Positions.TrackId == -1)
+                Positions.TrackId = payload.Race.TrackIdentifier;
+            else if (Positions.TrackId != payload.Race.TrackIdentifier)
+            {
+                isNew = true;
+                ResetService();
+                Positions.TrackId = payload.Race.TrackIdentifier;
+            }
+            return isNew;
+        }
         public ExtendedPositionalData Update(Telemetry payload)
         {
             if (payload.Speed_Mps > MaxSpeed)

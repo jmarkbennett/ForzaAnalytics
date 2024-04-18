@@ -3,7 +3,7 @@
     public enum CarClass { E, D, C, B, A, S, R, P, X }
     public enum MapModeOptions { DefaultPosition, SpeedHeatmap, GearNumber, AcceBrake, Acceleration }
     public enum DriveTrain { FWD, RWD, AWD }
-    public enum MovementType { None, Decelerating, MaintainingSpeed, Accelerating}
+    public enum MovementType { None, Decelerating, MaintainingSpeed, Accelerating }
 
     public static class GlobalVariables
     {
@@ -20,20 +20,19 @@
             "008000"
         };
         public static string[] GearShades = {
-    "000080",
-    "0000CD",
-    "0000FF",
-    "1E90FF",
-    "4169E1",
-    "6495ED",
-    "87CEEB",
-    "87CEFA",
-    "B0E0E6",
-    "F0F8FF"
+            "000080",
+            "0000CD",
+            "0000FF",
+            "1E90FF",
+            "4169E1",
+            "6495ED",
+            "87CEEB",
+            "87CEFA",
+            "B0E0E6",
+            "F0F8FF"
         };
 
-        public static string[] AccelerationColours =
-            {
+        public static string[] AccelerationColours = {
             "006400",
             "228B22",
             "008000",
@@ -57,6 +56,4 @@
         /* 100%  90%   80%   70%   60%   50%   40%   30%   20 or 10 (Only used with Gear Number) */
         public static string[] PercentColourGrades = ["FF", "DD", "BB", "99", "77", "55", "33", "11", "00"];
     }
-    
-
 }

@@ -9,6 +9,7 @@ namespace ForzaAnalytics.Models.Core
         public int ZOffset { get; set; }
         public double MapScale { get; set; }
         public bool IsRotated { get; set; }
+        public int TrackId { get; set; }
         public GroupedExtendedPositionalData()
         {
             ExtendedPositions = new List<ExtendedPositionalData>();
@@ -16,6 +17,7 @@ namespace ForzaAnalytics.Models.Core
             ZOffset = 0;
             MapScale = 1;
             IsRotated = false;
+            TrackId = -1;
         }
         public List<ExtendedPositionalData> GetAdjustedPositions()
         {

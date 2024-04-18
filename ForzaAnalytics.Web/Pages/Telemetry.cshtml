@@ -1,0 +1,173 @@
+﻿@page
+@model ForzaAnalytics.Web.Pages.TelemetryModel
+@{
+    ViewData["Title"] = "Telemetry";
+}
+
+<p>Please load a telemetry file</p>
+<hr />
+<form method="post" enctype="multipart/form-data" name="telemetryForm">
+    <div class="mb-3" name="formContainer">
+        <label for="telemtryFile" class="form-label">Telemetry File:</label>
+        <input type="file" class="form-control-sm" accept=".fztel" name="telemetryFile">
+        <button type="submit" class="btn btn-primary">Load</button>
+    </div>
+</form>
+<hr />
+<div class="container">
+    <div class="row">
+        <div class="col-sm"><label for="mapScale" class="form-label">Map Scale:</label></div>
+        <div class="col-sm"></div>
+        <div class="col-sm"><label for="visualType" class="form-label">Visual Type:</label></div>
+        <div class="col-sm"><label for="showLaps" class="form-label">Show Laps:</label></div>
+    </div>
+    <div class="row">
+        <div class="col-sm">
+            <select name="mapScale" class="form-select" id="mapScale">
+                <option value="4.0">400%</option>
+                <option value="3.0">300%</option>
+                <option value="2.0">200%</option>
+                <option value="1.5">150%</option>
+                <option value="1.25">125%</option>
+                <option value="1.0" selected="selected">100%</option>
+                <option value="0.75">75%</option>
+                <option value="0.5">50%</option>
+                <option value="0.25">25%</option>
+            </select>
+        </div>
+        <div class="col-sm">
+            <div class="form-check form-switch">
+                <input type="checkbox" class="form-check-input" role="switch" id="mapOrientation" />
+                <label for="mapOrientation" class="form-label">Rotate</label>
+            </div>
+        </div>
+
+        <div class="col-sm">
+            <select id="visualType" class="form-select">
+                <option value="default" selected="selected">Default</option>
+                <option value="pedalpressure">Pedal Pressure</option>
+                <option value="speedheatmap">Speed Heatmap</option>
+                <option value="gearnumber">Gear Number</option>
+                <option value="acceleration">Acceleration</option>
+            </select>
+        </div>
+
+        <div class="col-sm">
+            <select class="form-select" id="showLaps">
+                <option value="All" selected="selected">All</option>
+            </select>
+        </div>
+    </div>
+</div>
+<hr/>
+<div class="container">
+    <button type="button" id="replay" class="btn btn-success">Replay Telemetry</button>
+    <button type="button" id="stop" class="btn btn-danger" disabled>Stop Telemetry</button>
+</div>
+<hr />
+
+<table class="table">
+    <thead>
+        <tr>
+            <td scope="col">Track Id</td>
+            <td scope="col">Track Name</td>
+            <td scope="col">Car Id</td>
+            <td scope="col">Car Name</td>
+        </tr>
+    </thead>
+    <tr>
+        <td scope="row" id="trackId"></td>
+        <td id="trackName"></td>
+        <td id="carId"></td>
+        <td id="carName"></td>
+    </tr> 
+</table>
+<div style='max-width:100%; max-height:80%'>
+    <canvas id="mapCanvas" onmousedown=""> </canvas>
+</div>
+<hr/>
+<div class="container">
+    <div class="row">
+        <div class="col-sm">Lap Number</div>
+        <div class="col-sm">Race Time</div>
+        <div class="col-sm">Lap Time</div>
+        <div class="col-sm">Speed</div>
+        <div class="col-sm">Gear</div>
+        <div class="col-sm">Acceleration</div>
+        <div class="col-sm">Brake</div>
+        <div class="col-sm">Clutch</div>
+        <div class="col-sm">Handbrake </div>
+    </div>
+    <div class="row">
+        <div class="col-sm" id="lapNumber"></div>
+        <div class="col-sm" id="raceTime"></div>
+        <div class="col-sm" id="lapTime"></div>
+        <div class="col-sm" id="speed"></div>
+        <div class="col-sm" id="gear"></div>
+        <div class="col-sm" id="acceleration"></div>
+        <div class="col-sm" id="brake"></div>
+        <div class="col-sm" id="clutch"></div>
+        <div class="col-sm" id="handbrake"></div>
+    </div>
+</div>
+
+    <tr>
+        <td scope="row" id="lapNumber"></td>
+        <td id="raceTime"></td>
+        <td id="lapTime"></td>
+        <td id="speed"></td>
+        <td id="gear"></td>
+        <td id="acceleration"></td>
+        <td id="brake"></td>
+        <td id="clutch"></td>
+        <td id="handbrake"></td>
+    </tr>
+</table>
+
+<script>
+    document.getElementById("mapScale").addEventListener('change', function (event) {
+        HandleMapScaleChange(event);
+    });
+
+    document.getElementById("mapOrientation").addEventListener('change', function (event) {
+        HandleMapOrientationChange(event);
+    });
+
+    document.getElementById("showLaps").addEventListener('change', function (event) {
+        HandleShowLapsChange(event);
+    });
+
+    document.getElementById("visualType").addEventListener('change', function (event) {
+        HandleVisualTypeChange(event);
+    });
+
+    document.getElementById("replay").addEventListener('click', function (event) {
+        HandleReplayClick(event);
+    });
+
+    document.getElementById("stop").addEventListener('click', function (event) {
+        HandleStopReplayClick(event);
+    });
+</script>
+
+@if (Model.Map.Positions.Count > 0)
+{
+    <script>
+        canvas = document.getElementById("mapCanvas");
+        ClearMap(canvas);
+        LoadMap(@Html.Raw(Json.Serialize(Model.Map.Positions)));
+        document.getElementById("trackId").innerHTML = "@Model.Map.TrackId"
+        document.getElementById("trackName").innerHTML = "@Model.Map.TrackName"
+    </script>
+}
+@if (Model.Telemetry.ExtendedPositions.Count > 0)
+{
+    <script>
+        canvas = document.getElementById("mapCanvas");
+        //ClearMap(canvas);
+
+        LoadTelemetry(@Html.Raw(Json.Serialize(Model.Telemetry.ExtendedPositions)));
+
+
+    </script>
+}
