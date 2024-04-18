@@ -1,7 +1,27 @@
 ﻿@page
 @model ForzaAnalytics.Web.Pages.LapTimesModel
 @{
+    ViewData["Title"] = "Lap Times";
 }
+
+<p>Please load a telemetry file</p>
+<hr />
+<form method="post" enctype="multipart/form-data" name="telemetryForm">
+    <div class="mb-3" name="formContainer">
+        <label for="telemtryFile" class="form-label">Telemetry File:</label>
+        <input type="file" class="form-control-sm" accept=".fztel" name="telemetryFile">
+        <button type="submit" class="btn btn-primary">Load</button>
+    </div>
+</form>
+<hr />
+<div class="container">
+    <div class="row">
+    </div>
+</div>
+
+
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm"><label for="mapScale" class="form-label">Map Scale:</label></div>
@@ -35,8 +55,68 @@
             </select>
         </div>
     </div>
-
-
-    <button type="button" id="replay" class="btn btn-success">Replay Telemetry</button>
-    <button type="button" id="stop" class="btn btn-danger" disabled>Stop Telemetry</button>
 </div>
+<!--
+    <GridViewColumn Header="Lap Number" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=LapNumber}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="Time" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedLapTime}" Style="{StaticResource LeaderboardLapTimeLabel}">
+            </Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="Fuel Remaining" Width="160">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedFuelRemaining}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="Avg. Speed" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedAverageSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="% Full Throttle" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedPercentFullThrottle}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="% Brake" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedPercentBrakeApplied}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="Min Speed" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedMinSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="Max Speed" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedMaxSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+    </GridViewColumn.CellTemplate>
+</GridViewColumn>
+<GridViewColumn Header="Fuel Used" Width="140">
+    <GridViewColumn.CellTemplate>
+        <DataTemplate>
+            <Label Content="{Binding Path=FormattedFuelUsed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+        </DataTemplate>
+        -->
