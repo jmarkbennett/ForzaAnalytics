@@ -30,10 +30,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\js\lapdata\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Maps\110.fzmap">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Resource>

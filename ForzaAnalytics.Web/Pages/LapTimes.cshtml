@@ -15,108 +15,30 @@
 </form>
 <hr />
 <div class="container">
-    <div class="row">
-    </div>
+    <table class="table" id="lapTimesTable">
+        <thead>
+            <tr>
+                <td scope="col">Lap Number</td>
+                <td scope="col">Time</td>
+                <td scope="col">Fuel Remaining</td>
+                <td scope="col">Avg. Speed</td>
+                <td scope="col">% Full Throttle</td>
+                <td scope="col">% Brake</td>
+                <td scope="col">Min. Speed</td>
+                <td scope="col">Max. Speed</td>
+                <td scope="col">Fuel Used</td>
+                <td scope="col">Is Best Lap</td>
+            </tr>
+        </thead>
+    </table>
 </div>
 
-
-
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-sm"><label for="mapScale" class="form-label">Map Scale:</label></div>
-        <div class="col-sm"></div>
-        <div class="col-sm"><label for="showLaps" class="form-label">Show Laps:</label></div>
-    </div>
-    <div class="row">
-        <div class="col-sm">
-            <select name="mapScale" class="form-select" id="mapScale">
-                <option value="4.0">400%</option>
-                <option value="3.0">300%</option>
-                <option value="2.0">200%</option>
-                <option value="1.5">150%</option>
-                <option value="1.25">125%</option>
-                <option value="1.0" selected="selected">100%</option>
-                <option value="0.75">75%</option>
-                <option value="0.5">50%</option>
-                <option value="0.25">25%</option>
-            </select>
-        </div>
-        <div class="col-sm">
-            <div class="form-check form-switch">
-                <input type="checkbox" class="form-check-input" role="switch" id="mapOrientation" />
-                <label for="mapOrientation" class="form-label">Rotate</label>
-            </div>
-        </div>
-        <div class="col-sm">
-
-            <select class="form-select" id="showLaps">
-                <option value="All" selected="selected">All</option>
-            </select>
-        </div>
-    </div>
-</div>
-<!--
-    <GridViewColumn Header="Lap Number" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=LapNumber}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="Time" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedLapTime}" Style="{StaticResource LeaderboardLapTimeLabel}">
-            </Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="Fuel Remaining" Width="160">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedFuelRemaining}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="Avg. Speed" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedAverageSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="% Full Throttle" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedPercentFullThrottle}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="% Brake" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedPercentBrakeApplied}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="Min Speed" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedMinSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="Max Speed" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedMaxSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-    </GridViewColumn.CellTemplate>
-</GridViewColumn>
-<GridViewColumn Header="Fuel Used" Width="140">
-    <GridViewColumn.CellTemplate>
-        <DataTemplate>
-            <Label Content="{Binding Path=FormattedFuelUsed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-        </DataTemplate>
-        -->
+@section Scripts{
+    @if (Model.Telemetry.ExtendedPositions.Count > 0)
+    {
+        <script>
+            ClearLapTimeTable()
+            LoadLapTimes(@Html.Raw(Json.Serialize(Model.LapTimes)));
+        </script>
+    }
+}

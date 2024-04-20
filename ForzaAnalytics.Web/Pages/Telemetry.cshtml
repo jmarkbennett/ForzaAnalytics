@@ -124,50 +124,53 @@
     </tr>
 </table>
 
-<script>
-    document.getElementById("mapScale").addEventListener('change', function (event) {
-        HandleMapScaleChange(event);
-    });
-
-    document.getElementById("mapOrientation").addEventListener('change', function (event) {
-        HandleMapOrientationChange(event);
-    });
-
-    document.getElementById("showLaps").addEventListener('change', function (event) {
-        HandleShowLapsChange(event);
-    });
-
-    document.getElementById("visualType").addEventListener('change', function (event) {
-        HandleVisualTypeChange(event);
-    });
-
-    document.getElementById("replay").addEventListener('click', function (event) {
-        HandleReplayClick(event);
-    });
-
-    document.getElementById("stop").addEventListener('click', function (event) {
-        HandleStopReplayClick(event);
-    });
-</script>
-
-@if (Model.Map.Positions.Count > 0)
-{
+@section Scripts {
     <script>
-        canvas = document.getElementById("mapCanvas");
-        ClearMap(canvas);
-        LoadMap(@Html.Raw(Json.Serialize(Model.Map.Positions)));
-        document.getElementById("trackId").innerHTML = "@Model.Map.TrackId"
-        document.getElementById("trackName").innerHTML = "@Model.Map.TrackName"
+        document.getElementById("mapScale").addEventListener('change', function (event) {
+            HandleMapScaleChange(event);
+        });
+
+        document.getElementById("mapOrientation").addEventListener('change', function (event) {
+            HandleMapOrientationChange(event);
+        });
+
+        document.getElementById("showLaps").addEventListener('change', function (event) {
+            HandleShowLapsChange(event);
+        });
+
+        document.getElementById("visualType").addEventListener('change', function (event) {
+            HandleVisualTypeChange(event);
+        });
+
+        document.getElementById("replay").addEventListener('click', function (event) {
+            HandleReplayClick(event);
+        });
+
+        document.getElementById("stop").addEventListener('click', function (event) {
+            HandleStopReplayClick(event);
+        });
     </script>
+
+    @if (Model.Map.Positions.Count > 0)
+    {
+        <script>
+            canvas = document.getElementById("mapCanvas");
+            ClearMap(canvas);
+            LoadMap(@Html.Raw(Json.Serialize(Model.Map.Positions)));
+            document.getElementById("trackId").innerHTML = "@Model.Map.TrackId"
+            document.getElementById("trackName").innerHTML = "@Model.Map.TrackName"
+        </script>
+    }
+    @if (Model.Telemetry.ExtendedPositions.Count > 0)
+    {
+        <script>
+            canvas = document.getElementById("mapCanvas");
+            //ClearMap(canvas);
+
+            LoadTelemetry(@Html.Raw(Json.Serialize(Model.Telemetry.ExtendedPositions)));
+
+
+        </script>
+    }
 }
-@if (Model.Telemetry.ExtendedPositions.Count > 0)
-{
-    <script>
-        canvas = document.getElementById("mapCanvas");
-        //ClearMap(canvas);
 
-        LoadTelemetry(@Html.Raw(Json.Serialize(Model.Telemetry.ExtendedPositions)));
-
-
-    </script>
-}
