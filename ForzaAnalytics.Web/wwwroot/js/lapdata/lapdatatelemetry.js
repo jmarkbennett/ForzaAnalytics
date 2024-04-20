@@ -3,7 +3,6 @@
 }
 
 function LoadLapTimes(lapTimes) {
-    debugger;
     ClearLapTimeTable();
     for (var i = 0; i < lapTimes.length; i++) {
         var row = "<tr>";

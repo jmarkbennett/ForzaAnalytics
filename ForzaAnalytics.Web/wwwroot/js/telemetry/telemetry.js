@@ -261,7 +261,6 @@ function GetTelemetryColour(position, maxSpeed, prevSpeed) {
                 return "00FF00";
             else if (position.speed_Mps.toFixed(3) == prevSpeed.toFixed(3)) // Maintaining
             {
-                debugger;
                 return "0000FF";
             }
             else if (position.speed_Mps.toFixed(3) < prevSpeed.toFixed(3)) // Slowing
