@@ -69,7 +69,8 @@ namespace ForzaAnalytics.Services.Service
                 RaceTime = payload.Race.CurrentRaceTime,
                 LapTime = payload.Race.CurrentLapTime,
                 LapNumber = payload.Race.LapNumber,
-                GearNumber = payload.GearNumber
+                GearNumber = payload.GearNumber,
+                FuelRemaining = payload.Fuel
             };
             Positions.ExtendedPositions.Add(result);
             return result;

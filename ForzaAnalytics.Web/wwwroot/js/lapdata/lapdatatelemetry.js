@@ -6,7 +6,10 @@ function LoadLapTimes(lapTimes) {
     ClearLapTimeTable();
     for (var i = 0; i < lapTimes.length; i++) {
         var row = "<tr>";
-        row += "<td>"  + lapTimes[i].lapNumber  + "</td>";
+        if (lapTimes[i].isBestLap) {
+            row = "<tr class='table-primary'>";
+        }
+        row += "<th scope='row'>"  + lapTimes[i].lapNumber  + "</th>";
         row += "<td>" + lapTimes[i].formattedLapTime + "</td>";
         row += "<td>" + lapTimes[i].formattedFuelRemaining + "</td>";
         row += "<td>" + lapTimes[i].formattedAverageSpeed + "</td>";         
@@ -20,4 +23,4 @@ function LoadLapTimes(lapTimes) {
 
         $("#lapTimesTable").append(row);
     }
-}
+} 

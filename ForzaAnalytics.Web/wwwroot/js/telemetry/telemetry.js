@@ -10,6 +10,7 @@ currentTelemetry = null;
 currentMapScale = 1.0;
 currentShowLaps = -1; // -1 = ALL
 replayInterval = null;
+replayGap = 1.67 // default
 isRotated = false;
 isReplaying = false;
 currentOrdinal = 0;
@@ -38,7 +39,6 @@ gearShades = [
         "B0E0E6",
         "F0F8FF"
 ];
-
 accelerationColours =
         [
             "006400",
@@ -47,22 +47,20 @@ accelerationColours =
             "00FF00",
             "00FF7F"
         ];
-
-    brakeColours = [
+brakeColours = [
         "8B0000",
         "B22222",
         "FF0000",
         "DC143C",
         "CD5C5C"
     ];
-
-    baseAccelerationColor = "00AAFF";
-    baseBrakeColour = "FF0000";
-    baseGearNumberColour = "00FF00";
-    baseCoastingColour = "FFFF00";
-    baseSpeedColour = "FFFFFF";
-    /* 100%  90%   80%   70%   60%   50%   40%   30%   20 or 10 (Only used with Gear Number) */
-    percentColourGrades = ["FF", "DD", "BB", "99", "77", "55", "33", "11", "00"];
+baseAccelerationColor = "00AAFF";
+baseBrakeColour = "FF0000";
+baseGearNumberColour = "00FF00";
+baseCoastingColour = "FFFF00";
+baseSpeedColour = "FFFFFF";
+/* 100%  90%   80%   70%   60%   50%   40%   30%   20 or 10 (Only used with Gear Number) */
+percentColourGrades = ["FF", "DD", "BB", "99", "77", "55", "33", "11", "00"];
 function ClearMap(canvas) {
     context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -145,8 +143,10 @@ function HandleReplayClick(event) {
         var brake = document.getElementById("brake");
         var clutch = document.getElementById("clutch");
         var handbrake = document.getElementById("handbrake");
+        var fuel = document.getElementById("fuel");
         document.getElementById("replay").setAttribute("disabled", "true");
         document.getElementById("stop").removeAttribute("disabled");
+
 
         replayInterval = window.setInterval(function () {
             if (currentOrdinal < currentTelemetry.length) {
@@ -172,7 +172,7 @@ function HandleReplayClick(event) {
                     brake.innerHTML = currentTelemetry[currentOrdinal].brake.toFixed(2) + "%";
                     clutch.innerHTML = currentTelemetry[currentOrdinal].clutch.toFixed(2) + "%";
                     handbrake.innerHTML = currentTelemetry[currentOrdinal].handbrake.toFixed(2) + "%";
-
+                    fuel.innerHTML = (currentTelemetry[currentOrdinal].fuelRemaining * 100).toFixed(2) + "%";
                     currentOrdinal = currentOrdinal + 1;
 
                 }
@@ -184,7 +184,7 @@ function HandleReplayClick(event) {
                 document.getElementById("replay").removeAttribute("disabled");
                 document.getElementById("stop").setAttribute("disabled", "true");
             }
-        }, 16);
+        }, replayGap);
     }
 }
 function GetAdjustedX(x) {
@@ -379,6 +379,12 @@ function LoadTelemetry(payload) {
             }
         }
     }
+    if (!isReplaying) {
+        if (payload.length > 0) {
+            replayGap  = (payload[1].lapTime - payload[0].lapTime) * 100
+        }
+    }
+
 }
 function LoadMap(payload) {
     if (payload != null)

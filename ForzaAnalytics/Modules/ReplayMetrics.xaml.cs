@@ -26,6 +26,7 @@ namespace ForzaAnalytics.Modules
             mLapTime.Update(Models.Formatters.Formatting.FormattedTime(payload.LapTime));
             mRaceTime.Update(Models.Formatters.Formatting.FormattedTime(payload.RaceTime));
             mSpeed.Update(payload.Speed_Mph.ToString("N"), payload.GearNumber, "MPH");
+            mFuel.Update($"{(payload.FuelRemaining > 0.0 ? Math.Round(payload.FuelRemaining * 100.00, 2) : 0 ).ToString()}%");
         }
         public void ResetEvents()
         {
@@ -37,6 +38,7 @@ namespace ForzaAnalytics.Modules
             mLapTime.Update(string.Empty);
             mRaceTime.Update(string.Empty);
             mSpeed.Update(string.Empty, string.Empty, string.Empty);
+            mFuel.Update(string.Empty);
         }
     }
 }

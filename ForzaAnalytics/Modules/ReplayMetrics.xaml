@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              xmlns:Controls="clr-namespace:ForzaAnalytics.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="120" d:DesignWidth="1080">
+             d:DesignHeight="120" d:DesignWidth="1440">
     <StackPanel Orientation="Horizontal">
         <Controls:CoreMetric Width="110" MetricTitle="Lap Number" x:Name="mLapNumber"></Controls:CoreMetric>
         <Controls:CoreMetric Width="160" MetricTitle="Race Time" x:Name="mRaceTime"></Controls:CoreMetric>
@@ -16,5 +16,6 @@
         <Controls:CoreMetric Width="140"  MetricTitle="Brake" x:Name="mBrake"></Controls:CoreMetric>
         <Controls:CoreMetric Width="140"  MetricTitle="Clutch" x:Name="mClutch"></Controls:CoreMetric>
         <Controls:CoreMetric Width="140" MetricTitle="Handbrake" x:Name="mHandBrake"></Controls:CoreMetric>
+        <Controls:CoreMetric Width="140" MetricTitle="Fuel Remaining" x:Name="mFuel"></Controls:CoreMetric>
     </StackPanel>
 </UserControl>

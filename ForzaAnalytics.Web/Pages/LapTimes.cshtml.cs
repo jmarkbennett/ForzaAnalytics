@@ -46,6 +46,8 @@ namespace ForzaAnalytics.Web.Pages
                         row.TimeInSeconds = lapInfo.Max(i => i.LapTime);
                         row.PercentBrakeApplied = (double)lapInfo.Where(i => i.Brake > 0).Count() / (double)lapInfo.Count();
                         row.PercentFullThrottle = (double)lapInfo.Where(i => i.Acceleration == 100).Count() / (double)lapInfo.Count();
+                        row.FuelRemaining = (double)lapInfo.Min(i => i.FuelRemaining);
+                        row.FuelUsed = (double)lapInfo.Max(i => i.FuelRemaining) - (double)lapInfo.Min(i => i.FuelRemaining);
                         LapTimes.Add(row);
                     }
 
