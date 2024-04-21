@@ -106,5 +106,5 @@ jobs:
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: MSIX Package
+        name: Forza Analytics - Release
         path: ${{ env.Wap_Project_Directory }}\bin\Release\net8.0-windows

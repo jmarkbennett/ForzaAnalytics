@@ -16,7 +16,7 @@ namespace ForzaAnalytics.Services.Serializers
             {
                 return JsonSerializer.Deserialize<GroupedPositionalData>(File.ReadAllText(path)) ?? new GroupedPositionalData();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new GroupedPositionalData();
             }
@@ -32,7 +32,7 @@ namespace ForzaAnalytics.Services.Serializers
             {
                 return JsonSerializer.Deserialize<GroupedExtendedPositionalData>(File.ReadAllText(path)) ?? new GroupedExtendedPositionalData();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 return new GroupedExtendedPositionalData();
             }

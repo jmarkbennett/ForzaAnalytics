@@ -40,6 +40,7 @@ namespace ForzaAnalytics.Modules
             mapTransformGroup = new TransformGroup();
             mapTransformGroup.Children.Add(new RotateTransform(180, 0, 0));
             mapTransformGroup.Children.Add(new ScaleTransform(-1, 1));
+            replayTimer = new DispatcherTimer();
         }
 
         #region Receive, Reset Start & Stop
@@ -227,13 +228,13 @@ namespace ForzaAnalytics.Modules
         private void AddPlotLabels(bool hasPrevious, ExtendedPositionalData currentRow, ExtendedPositionalData? previousRow = null)
         {
             if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
-                if (!hasPrevious || currentRow.GearNumber != previousRow.GearNumber)
+                if (!hasPrevious || currentRow.GearNumber != previousRow?.GearNumber)
                     cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
         }
         private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
         {
             if (miShowLapTimes.IsChecked)
-                if (hasNext && currentRow.LapNumber != nextRow.LapNumber)
+                if (hasNext && currentRow.LapNumber != nextRow?.LapNumber)
                 {
                     cMapPlot.Children.Add(GenerateLapTimePlotLabel(currentRow.X, currentRow.Z, currentRow.LapNumber, currentRow.LapTime));
                 }
@@ -614,12 +615,12 @@ namespace ForzaAnalytics.Modules
         }
         private void cbMapScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            svc.SetMapScale((cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString());
+            svc.SetMapScale(((ComboBoxItem)cbMapScale.SelectedItem)?.Content.ToString() ?? string.Empty);
             ReplotPoints();
         }
         private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? cbLapPoints.SelectedItem.ToString());
+            svc.SetLapsToPlot(((ComboBoxItem)cbLapPoints.SelectedItem)?.Content.ToString() ?? cbLapPoints.SelectedItem?.ToString() ?? string.Empty);
             ReplotPoints();
         }
         private void miIncludeLapTimes_Toggle(object sender, RoutedEventArgs e)

@@ -19,6 +19,7 @@ namespace ForzaAnalytics.Web.Pages
         {
             _logger = logger;
             Telemetry = new GroupedExtendedPositionalData();
+            FileContent = string.Empty;
         }
 
         public void OnGet()

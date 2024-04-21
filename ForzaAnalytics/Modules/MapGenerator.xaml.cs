@@ -200,8 +200,7 @@ namespace ForzaAnalytics.Modules
         }
         private void cbMapScale_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            var action = (cbMapScale.SelectedItem as ComboBoxItem)?.Content.ToString();
-            svc.SetMapScale(action);
+            svc.SetMapScale(((ComboBoxItem)cbMapScale.SelectedItem)?.Content.ToString() ?? string.Empty);
             ReplotPoints();
         }
         private void btnXOffsetDown_Click(object sender, RoutedEventArgs e)

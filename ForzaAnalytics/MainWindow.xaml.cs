@@ -15,15 +15,12 @@ namespace ForzaAnalytics
         private TelemetryService svc;
         private System.Threading.Thread thread;
         private bool threadRunning = false;
-        private Task task;
 
         public MainWindow()
         {
             InitializeComponent();
-            var start = false;
-            var useMetric = true;
-            bool.TryParse(ConfigurationManager.AppSettings["TrackOnOpen"].ToString(), out start);
-            bool.TryParse(ConfigurationManager.AppSettings["UseMetric"].ToString(), out useMetric);
+            bool.TryParse(ConfigurationManager.AppSettings["TrackOnOpen"]?.ToString(), out bool start);
+            bool.TryParse(ConfigurationManager.AppSettings["UseMetric"]?.ToString(), out bool useMetric);
 
             if (start)
             {
@@ -75,7 +72,7 @@ namespace ForzaAnalytics
 
         private void ToggleModuleVisibility(object sender, RoutedEventArgs e)
         {
-            var module = (sender as MenuItem).Header;
+            var module = ((MenuItem)sender).Header;
             switch (module)
             {
                 case "Show Session Summary":
@@ -117,7 +114,7 @@ namespace ForzaAnalytics
 
         private void IsListening_Click(object sender, RoutedEventArgs e)
         {
-            var isChecked = (sender as MenuItem).IsChecked;
+            var isChecked = ((MenuItem)sender).IsChecked;
             ToggleListen(isChecked);
         }
 
@@ -129,8 +126,8 @@ namespace ForzaAnalytics
                 {
                     if (svc == null)
                         svc = new TelemetryService(
-                            ConfigurationManager.AppSettings["ListeningIpAddress"].ToString(),
-                            int.Parse(ConfigurationManager.AppSettings["ListeningPort"].ToString())
+                            ConfigurationManager.AppSettings["ListeningIpAddress"]?.ToString() ?? "127.0.0.1",
+                            int.Parse(ConfigurationManager.AppSettings["ListeningPort"]?.ToString() ?? "6969")
                             );
                     threadRunning = true;
                     thread = new Thread(ReceiveEvents);

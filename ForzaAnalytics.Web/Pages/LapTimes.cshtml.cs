@@ -17,6 +17,7 @@ namespace ForzaAnalytics.Web.Pages
         public LapTimesModel()
         {
             Telemetry = new GroupedExtendedPositionalData();
+            LapTimes = new List<LapTime>();
         }
 
         public void OnGet()
@@ -30,8 +31,6 @@ namespace ForzaAnalytics.Web.Pages
                 {
                     LapTimes = new List<LapTime>();
                     Telemetry = JsonSerializer.Deserialize<GroupedExtendedPositionalData>(await reader.ReadToEndAsync()) ?? new GroupedExtendedPositionalData();
-
-                    var initialFuel = -1;
 
                     var laps = Telemetry.ExtendedPositions.Select(i => i.LapNumber).Distinct().ToList();
                     foreach (var lap in laps)

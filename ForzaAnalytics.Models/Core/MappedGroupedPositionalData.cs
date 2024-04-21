@@ -8,11 +8,11 @@ namespace ForzaAnalytics.Models.Core
 {
     public class MappedGroupedPositionalData: GroupedPositionalData
     {
-        public double MapScale { get; set; }
+        public new double MapScale { get; set; }
         public MappedGroupedPositionalData() {
             MapScale = 1;
         }
-        public List<PositionalData> GetAdjustedPositions()
+        public new List<PositionalData> GetAdjustedPositions()
         {
             var result = new List<PositionalData>();
             foreach (var position in Positions)
@@ -21,7 +21,7 @@ namespace ForzaAnalytics.Models.Core
             return result;
         }
 
-        public PositionalData GetAdjustedPosition(PositionalData position)
+        public new PositionalData GetAdjustedPosition(PositionalData position)
         {
             return new PositionalData(
                 (position.X + XOffset) * (float)MapScale,
@@ -30,7 +30,7 @@ namespace ForzaAnalytics.Models.Core
             );
         }
 
-        public PositionalData GetAdjustedPosition(int ordinal)
+        public new PositionalData GetAdjustedPosition(int ordinal)
         {
             return new PositionalData(
                 (Positions[ordinal].X + XOffset) * (float)MapScale,

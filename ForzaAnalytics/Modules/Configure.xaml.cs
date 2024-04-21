@@ -25,8 +25,8 @@ namespace ForzaAnalytics.Modules
             var start = false;
             var useMetric = true;
             InitializeComponent();
-            tbIpAddress.Text = ConfigurationManager.AppSettings["ListeningIpAddress"].ToString();
-            tbPort.Text = ConfigurationManager.AppSettings["ListeningPort"].ToString();
+            tbIpAddress.Text = ConfigurationManager.AppSettings["ListeningIpAddress"]?.ToString();
+            tbPort.Text = ConfigurationManager.AppSettings["ListeningPort"]?.ToString();
             cbUseMetric.IsChecked = useMetric;
             cbTrackOnOpen.IsChecked = start;
         }

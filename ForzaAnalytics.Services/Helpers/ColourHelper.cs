@@ -116,7 +116,7 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[8];
                     else
                         return GlobalVariables.HeatmapColours[9];
-                    break;
+
                 case MapModeOptions.FuelDegredation:
                     if (position.FuelRemaining == 1)
                         return GlobalVariables.HeatmapColours[9];
@@ -138,7 +138,6 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[1];
                     else
                         return GlobalVariables.HeatmapColours[0];
-                    break;
 
                 default:
                     return "000000";
@@ -234,7 +233,6 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[1];
                     else
                         return GlobalVariables.HeatmapColours[0];
-                    break;
                 case MapModeOptions.FuelDegredation:
                     if (position.Fuel == 1)
                         return GlobalVariables.HeatmapColours[9];
@@ -256,7 +254,6 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[1];
                     else
                         return GlobalVariables.HeatmapColours[0];
-                    break;
             }
             return "000000";
         }
