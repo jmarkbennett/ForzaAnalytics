@@ -7,71 +7,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Maps\0.fzmap" />
-    <None Remove="Maps\110.fzmap" />
-    <None Remove="Maps\1110.fzmap" />
-    <None Remove="Maps\1590.fzmap" />
-    <None Remove="Maps\1630.fzmap" />
-    <None Remove="Maps\1641.fzmap" />
-    <None Remove="Maps\1660.fzmap" />
-    <None Remove="Maps\252.fzmap" />
-    <None Remove="Maps\37.fzmap" />
-    <None Remove="Maps\530.fzmap" />
-    <None Remove="Maps\68.fzmap" />
-    <None Remove="Maps\841.fzmap" />
-    <None Remove="Maps\870.fzmap" />
-    <None Remove="Maps\880.fzmap" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ForzaAnalytics.Models\ForzaAnalytics.Models.csproj" />
     <ProjectReference Include="..\ForzaAnalytics.Services\ForzaAnalytics.Services.csproj" />
     <ProjectReference Include="..\ForzaAnalytics.UdpReader\ForzaAnalytics.UdpReader.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Resource Include="Maps\110.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\841.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\1660.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\1630.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\1641.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\252.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\1110.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\1590.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\0.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\880.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\68.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\530.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\37.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Maps\870.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-  </ItemGroup>
+  <Import Project="..\ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems" Label="Shared" />
 
 </Project>

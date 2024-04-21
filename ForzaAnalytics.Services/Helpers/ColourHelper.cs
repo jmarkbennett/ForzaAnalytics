@@ -95,6 +95,51 @@ namespace ForzaAnalytics.Services.Helpers
                     else if (Math.Round(position.Speed_Mps, 3) < Math.Round(prevSpeed.Value, 3)) // Slowing
                         return "FF0000";
                     break;
+                case MapModeOptions.AvgTyreDegredation:
+                    if (position.AvgTireWear == 1)
+                        return GlobalVariables.HeatmapColours[0];
+                    else if (position.AvgTireWear >= 0.)
+                        return GlobalVariables.HeatmapColours[1];
+                    else if (position.AvgTireWear >= 0.8)
+                        return GlobalVariables.HeatmapColours[2];
+                    else if (position.AvgTireWear >= 0.7)
+                        return GlobalVariables.HeatmapColours[3];
+                    else if (position.AvgTireWear >= 0.6)
+                        return GlobalVariables.HeatmapColours[4];
+                    else if (position.AvgTireWear >= 0.5)
+                        return GlobalVariables.HeatmapColours[5];
+                    else if (position.AvgTireWear >= 0.4)
+                        return GlobalVariables.HeatmapColours[6];
+                    else if (position.AvgTireWear >= 0.3)
+                        return GlobalVariables.HeatmapColours[7];
+                    else if (position.AvgTireWear >= 0.2)
+                        return GlobalVariables.HeatmapColours[8];
+                    else
+                        return GlobalVariables.HeatmapColours[9];
+                    break;
+                case MapModeOptions.FuelDegredation:
+                    if (position.FuelRemaining == 1)
+                        return GlobalVariables.HeatmapColours[9];
+                    else if (position.FuelRemaining >= 0.9)
+                        return GlobalVariables.HeatmapColours[8];
+                    else if (position.FuelRemaining >= 0.8)
+                        return GlobalVariables.HeatmapColours[7];
+                    else if (position.FuelRemaining >= 0.7)
+                        return GlobalVariables.HeatmapColours[6];
+                    else if (position.FuelRemaining >= 0.6)
+                        return GlobalVariables.HeatmapColours[5];
+                    else if (position.FuelRemaining >= 0.5)
+                        return GlobalVariables.HeatmapColours[4];
+                    else if (position.FuelRemaining >= 0.4)
+                        return GlobalVariables.HeatmapColours[3];
+                    else if (position.FuelRemaining >= 0.3)
+                        return GlobalVariables.HeatmapColours[2];
+                    else if (position.FuelRemaining >= 0.2)
+                        return GlobalVariables.HeatmapColours[1];
+                    else
+                        return GlobalVariables.HeatmapColours[0];
+                    break;
+
                 default:
                     return "000000";
             }
@@ -168,6 +213,50 @@ namespace ForzaAnalytics.Services.Helpers
                     break;
                 default:
                     return "000000";
+                case MapModeOptions.AvgTyreDegredation:
+                    if (position.Tire.AvgTireWear == 1)
+                        return GlobalVariables.HeatmapColours[9];
+                    else if (position.Tire.AvgTireWear >= 0.9)
+                        return GlobalVariables.HeatmapColours[8];
+                    else if (position.Tire.AvgTireWear >= 0.8)
+                        return GlobalVariables.HeatmapColours[7];
+                    else if (position.Tire.AvgTireWear >= 0.7)
+                        return GlobalVariables.HeatmapColours[6];
+                    else if (position.Tire.AvgTireWear >= 0.6)
+                        return GlobalVariables.HeatmapColours[5];
+                    else if (position.Tire.AvgTireWear >= 0.5)
+                        return GlobalVariables.HeatmapColours[4];
+                    else if (position.Tire.AvgTireWear >= 0.4)
+                        return GlobalVariables.HeatmapColours[3];
+                    else if (position.Tire.AvgTireWear >= 0.3)
+                        return GlobalVariables.HeatmapColours[2];
+                    else if (position.Tire.AvgTireWear >= 0.2)
+                        return GlobalVariables.HeatmapColours[1];
+                    else
+                        return GlobalVariables.HeatmapColours[0];
+                    break;
+                case MapModeOptions.FuelDegredation:
+                    if (position.Fuel == 1)
+                        return GlobalVariables.HeatmapColours[9];
+                    else if (position.Fuel >= 0.9)
+                        return GlobalVariables.HeatmapColours[8];
+                    else if (position.Fuel >= 0.8)
+                        return GlobalVariables.HeatmapColours[7];
+                    else if (position.Fuel >= 0.7)
+                        return GlobalVariables.HeatmapColours[6];
+                    else if (position.Fuel >= 0.6)
+                        return GlobalVariables.HeatmapColours[5];
+                    else if (position.Fuel >= 0.5)
+                        return GlobalVariables.HeatmapColours[4];
+                    else if (position.Fuel >= 0.4)
+                        return GlobalVariables.HeatmapColours[3];
+                    else if (position.Fuel >= 0.3)
+                        return GlobalVariables.HeatmapColours[2];
+                    else if (position.Fuel >= 0.2)
+                        return GlobalVariables.HeatmapColours[1];
+                    else
+                        return GlobalVariables.HeatmapColours[0];
+                    break;
             }
             return "000000";
         }

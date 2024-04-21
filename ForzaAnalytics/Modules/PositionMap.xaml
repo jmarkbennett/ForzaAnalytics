@@ -86,6 +86,8 @@
                 <ComboBoxItem Content="Speed Heatmap"></ComboBoxItem>
                 <ComboBoxItem Content="Gear Number"></ComboBoxItem>
                 <ComboBoxItem Content="Acceleration"></ComboBoxItem>
+                <ComboBoxItem Content="Avg. Tyre Degradation"></ComboBoxItem>
+                <ComboBoxItem Content="Fuel Degradation"></ComboBoxItem>
             </ComboBox>
             <Label Content="Show Laps:" Margin="4"></Label>
             <ComboBox Name="cbLapPoints" Margin="4" Width="120" SelectionChanged="cbLapPoints_SelectionChanged">

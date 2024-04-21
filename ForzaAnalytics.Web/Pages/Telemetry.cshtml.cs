@@ -35,7 +35,7 @@ namespace ForzaAnalytics.Web.Pages
             }
             if(Telemetry?.TrackId != null)
             {
-                var path = Path.Combine("Maps", $"{Telemetry.TrackId}.fzmap");
+                var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Maps", $"{Telemetry.TrackId}.fzmap");
                 if (System.IO.File.Exists(path))
                 {
                     using (var reader = new StreamReader(path))

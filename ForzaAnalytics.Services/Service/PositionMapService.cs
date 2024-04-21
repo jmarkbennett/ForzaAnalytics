@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Metadata;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -70,7 +71,8 @@ namespace ForzaAnalytics.Services.Service
                 LapTime = payload.Race.CurrentLapTime,
                 LapNumber = payload.Race.LapNumber,
                 GearNumber = payload.GearNumber,
-                FuelRemaining = payload.Fuel
+                FuelRemaining = payload.Fuel,
+                AvgTireWear = payload.Tire.AvgTireWear
             };
             Positions.ExtendedPositions.Add(result);
             return result;
@@ -151,6 +153,12 @@ namespace ForzaAnalytics.Services.Service
                     break;
                 case "Acceleration":
                     MapMode = MapModeOptions.Acceleration;
+                    break;
+                case "Avg. Tyre Degradation":
+                    MapMode = MapModeOptions.AvgTyreDegredation;
+                    break;
+                case "Fuel Degradation":
+                    MapMode = MapModeOptions.FuelDegredation;
                     break;
                 default:
                     MapMode = MapModeOptions.DefaultPosition;

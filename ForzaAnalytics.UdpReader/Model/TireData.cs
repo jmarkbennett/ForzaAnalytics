@@ -35,5 +35,13 @@ namespace ForzaAnalytics.UdpReader.Model
         public float TireSlipRatioFrontRight { get { return raw_tireCombinedSlipFrontRight; } }
         public float TireSlipRatioRearLeft { get { return raw_tireCombinedSlipRearLeft; } }
         public float TireSlipRatioRearRight { get { return raw_tireCombinedSlipRearRight; } }
+
+        public float TireWearFrontLeft { get { return raw_tireWearFrontLeft; } }
+        public float TireWearFrontRight { get { return raw_tireWearFrontRight; } }
+        public float TireWearRearLeft { get { return raw_tireWearRearLeft; } }
+        public float TireWearRearRight { get { return raw_tireWearRearRight; } }
+
+        public float AvgTireWear { get { return (TireWearFrontLeft + TireWearFrontRight + TireWearRearLeft + TireWearRearRight) / 4.0f; } }
+
     }
 }

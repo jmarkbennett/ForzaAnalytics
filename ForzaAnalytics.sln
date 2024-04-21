@@ -13,6 +13,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForzaAnalytics.Services", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForzaAnalytics.Web", "ForzaAnalytics.Web\ForzaAnalytics.Web.csproj", "{6301041F-97E8-4C3C-BA88-FAE87D008EC0}"
 EndProject
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ForzaAnalytics.SharedResources", "ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.shproj", "{AD843816-EA85-4E3B-8ADB-298E7D49216F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,5 +47,10 @@ Global
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1AED340-9CBF-4C41-A93C-902C328A242B}
+	EndGlobalSection
+	GlobalSection(SharedMSBuildProjectFiles) = preSolution
+		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{0d9779f5-8210-4a90-af16-5b227d65daa4}*SharedItemsImports = 5
+		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{6301041f-97e8-4c3c-ba88-fae87d008ec0}*SharedItemsImports = 5
+		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{ad843816-ea85-4e3b-8adb-298e7d49216f}*SharedItemsImports = 13
 	EndGlobalSection
 EndGlobal

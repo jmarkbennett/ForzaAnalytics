@@ -15,6 +15,7 @@ using System.Windows.Media.Media3D;
 using System.Timers;
 using Timer = System.Timers.Timer;
 using System.Windows.Threading;
+using System.IO;
 namespace ForzaAnalytics.Modules
 {
     /// <summary>
@@ -31,6 +32,7 @@ namespace ForzaAnalytics.Modules
         private int CurrentOrdinal = 0;
         private DispatcherTimer replayTimer;
         private bool isReplaying = false;
+        private int currentTrackId = -1;
         public PositionMap()
         {
             svc = new PositionMapService();
@@ -47,7 +49,7 @@ namespace ForzaAnalytics.Modules
             if (svc.IsTracking)
             {
                 var isNewSession = svc.SetupNewSession(payload);
- 
+                AttemptAutoLoadMap(payload);
                 var position = svc.Update(payload);
                 if (svc.CurrentLapEnded(payload.Race.LapNumber)) // Current Lap and Lap Has Ended...
                 {
@@ -365,6 +367,30 @@ namespace ForzaAnalytics.Modules
         {
             LoadMap();
         }
+        private void AttemptAutoLoadMap(Telemetry payload)
+        {
+            if (payload.Race.TrackIdentifier != currentTrackId)
+            {
+                currentTrackId = payload.Race.TrackIdentifier;
+                var path = $"Resources\\Maps\\{currentTrackId}.fzmap";
+                if (File.Exists(path))
+                {
+                    LoadMapFile(path);
+                }
+            }
+        }
+        private void AttemptAutoLoadMap(GroupedExtendedPositionalData payload)
+        {
+            if (payload.TrackId != currentTrackId)
+            {
+                currentTrackId = payload.TrackId;
+                var path = $"Resources\\Maps\\{currentTrackId}.fzmap";
+                if (File.Exists(path))
+                {
+                    LoadMapFile(path);
+                }
+            }
+        }
         private bool LoadMap()
         {
             var result = false;
@@ -375,27 +401,35 @@ namespace ForzaAnalytics.Modules
                 dialog.FileName = $"{tbTrackId.Text}.fzmap";
             if (dialog.ShowDialog() == true)
             {
-                svc.LoadMap(dialog.FileName);
-
-                if (!string.IsNullOrEmpty(svc.MapPositions.TrackName))
-                    tbTrackName.Text = svc.MapPositions.TrackName;
-
-                tbTrackId.Text = svc.MapPositions.TrackId.ToString();
-                tbXOffset.Text = svc.MapPositions.XOffset.ToString();
-                tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
-                var scale = $"{(svc.MapPositions.MapScale * 100).ToString()}%";
-                foreach (ComboBoxItem item in cbMapScale.Items)
-                {
-                    if (item.Content.ToString() == scale)
-                    {
-                        item.IsSelected = true;
-                        break;
-                    }
-                }
-                miReduceMap.IsEnabled = true;
-                ReplotPoints();
-                result = true;
+                result = LoadMapFile(dialog.FileName);
+               
             }
+            return result;
+        }
+        private bool LoadMapFile(string path)
+        {
+            var result = false;
+            svc.LoadMap(path);
+
+            if (!string.IsNullOrEmpty(svc.MapPositions.TrackName))
+                tbTrackName.Text = svc.MapPositions.TrackName;
+
+            tbTrackId.Text = svc.MapPositions.TrackId.ToString();
+            tbXOffset.Text = svc.MapPositions.XOffset.ToString();
+            tbZOffset.Text = svc.MapPositions.ZOffset.ToString();
+            var scale = $"{(svc.MapPositions.MapScale * 100).ToString()}%";
+            foreach (ComboBoxItem item in cbMapScale.Items)
+            {
+                if (item.Content.ToString() == scale)
+                {
+                    item.IsSelected = true;
+                    break;
+                }
+            }
+            miReduceMap.IsEnabled = true;
+            ReplotPoints();
+            result = true;
+
             return result;
         }
         private void miReduceMap_Click(object sender, RoutedEventArgs e)
@@ -473,6 +507,10 @@ namespace ForzaAnalytics.Modules
                         cbLapPoints.Items.Add(item);
                 }
                 btnReplayData.IsEnabled = true;
+
+
+                AttemptAutoLoadMap(svc.Positions);
+
                 MessageBox.Show("Telemetry Loaded");
             }
         }

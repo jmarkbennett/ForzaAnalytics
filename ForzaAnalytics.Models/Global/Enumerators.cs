@@ -1,7 +1,7 @@
 ﻿namespace ForzaAnalytics.Models.Enumerators
 {
     public enum CarClass { E, D, C, B, A, S, R, P, X }
-    public enum MapModeOptions { DefaultPosition, SpeedHeatmap, GearNumber, AcceBrake, Acceleration }
+    public enum MapModeOptions { DefaultPosition, SpeedHeatmap, GearNumber, AcceBrake, Acceleration, AvgTyreDegredation, FuelDegredation }
     public enum DriveTrain { FWD, RWD, AWD }
     public enum MovementType { None, Decelerating, MaintainingSpeed, Accelerating }
 

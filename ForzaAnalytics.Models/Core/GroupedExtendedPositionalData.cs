@@ -51,6 +51,7 @@ namespace ForzaAnalytics.Models.Core
             result.RaceTime = position.RaceTime;
             result.GearNumber = position.GearNumber;
             result.FuelRemaining = position.FuelRemaining;
+            result.AvgTireWear = position.AvgTireWear;
             return result;
         }
         public ExtendedPositionalData GetAdjustedPosition(int ordinal)
@@ -71,6 +72,7 @@ namespace ForzaAnalytics.Models.Core
             result.RaceTime = ExtendedPositions[ordinal].RaceTime;
             result.GearNumber = ExtendedPositions[ordinal].GearNumber;
             result.FuelRemaining = ExtendedPositions[ordinal].FuelRemaining;
+            result.AvgTireWear = ExtendedPositions[ordinal].AvgTireWear;
             return result;
         }
 

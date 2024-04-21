@@ -9,117 +9,9 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Resources\Icons\cog.png" />
-    <None Remove="Resources\Icons\compass.png" />
-    <None Remove="Resources\Icons\folder-download.png" />
-    <None Remove="Resources\Icons\folder-upload.png" />
-    <None Remove="Resources\Icons\map2.png" />
-    <None Remove="Resources\Icons\play3.png" />
-    <None Remove="Resources\Icons\podcast.png" />
-    <None Remove="Resources\Icons\reset.png" />
-    <None Remove="Resources\Icons\stats-dots.png" />
-    <None Remove="Resources\Icons\stopwatch.png" />
-    <None Remove="Resources\Maps\1641.fzmap" />
-    <None Remove="Resources\Maps\1660.fzmap" />
-    <None Remove="Resources\Maps\252.fzmap" />
-    <None Remove="Resources\Maps\37.fzmap" />
-    <None Remove="Resources\Maps\68.fzmap" />
-    <None Remove="Resources\Maps\841.fzmap" />
-    <None Remove="Resources\Maps\Catalunya Grand Prix.fzmap" />
-    <None Remove="Resources\Maps\Daytona TriOval.fzmap" />
-    <None Remove="Resources\Maps\Eagle Rock Oval Circuit.fzmap" />
-    <None Remove="Resources\Maps\Grand Oak Raceway National Circuit.fzmap" />
-    <None Remove="Resources\Maps\Hakone Club Circuit.fzmap" />
-    <None Remove="Resources\Maps\Hockenheimring Short Circuit.fzmap" />
-    <None Remove="Resources\Maps\Homestead Miami Speedway Circuit.fzmap" />
-    <None Remove="Resources\Maps\Kyalami Grand Prix Circuit.fzmap" />
-    <None Remove="Resources\Maps\Laguna Seca Full Circuit.fzmap" />
-    <None Remove="Resources\Maps\Lime Rock Default.fzmap" />
-    <None Remove="Resources\Maps\Maple Valley Short Circuit.fzmap" />
-    <None Remove="Resources\Maps\Spa Full Circuit.fzmap" />
-    <None Remove="Resources\Maps\Suzuka Full Circuit.fzmap" />
-    <None Remove="Resources\Maps\Watkins Glen Full Circuit.fzmap" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\ForzaAnalytics.Models\ForzaAnalytics.Models.csproj" />
     <ProjectReference Include="..\ForzaAnalytics.Services\ForzaAnalytics.Services.csproj" />
     <ProjectReference Include="..\ForzaAnalytics.UdpReader\ForzaAnalytics.UdpReader.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Content Include="Resources\Icons\cog.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\compass.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\folder-download.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\folder-upload.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\map2.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\play3.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\podcast.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\reset.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\stats-dots.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Resources\Icons\stopwatch.png">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Resource Include="Resources\Maps\Catalunya Grand Prix.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Daytona TriOval.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Eagle Rock Oval Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Grand Oak Raceway National Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Hakone Club Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Hockenheimring Short Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Homestead Miami Speedway Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Kyalami Grand Prix Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Laguna Seca Full Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Lime Rock Default.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Maple Valley Short Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Spa Full Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Suzuka Full Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="Resources\Maps\Watkins Glen Full Circuit.fzmap">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Resource>
   </ItemGroup>
 
   <ItemGroup>
@@ -127,5 +19,7 @@
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
+
+  <Import Project="..\ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems" Label="Shared" />
 
 </Project>
