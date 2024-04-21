@@ -98,7 +98,7 @@ namespace ForzaAnalytics.Services.Helpers
                 case MapModeOptions.AvgTyreDegredation:
                     if (position.AvgTireWear == 1)
                         return GlobalVariables.HeatmapColours[0];
-                    else if (position.AvgTireWear >= 0.)
+                    else if (position.AvgTireWear >= 0.9)
                         return GlobalVariables.HeatmapColours[1];
                     else if (position.AvgTireWear >= 0.8)
                         return GlobalVariables.HeatmapColours[2];
