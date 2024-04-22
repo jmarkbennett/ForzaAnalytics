@@ -72,7 +72,8 @@ namespace ForzaAnalytics.Services.Service
                 LapNumber = payload.Race.LapNumber,
                 GearNumber = payload.GearNumber,
                 FuelRemaining = payload.Fuel,
-                AvgTireWear = payload.Tire.AvgTireWear
+                AvgTireWear = payload.Tire.AvgTireWear,
+                RacePosition = payload.Race.RacePosition
             };
             Positions.ExtendedPositions.Add(result);
             return result;
@@ -121,8 +122,22 @@ namespace ForzaAnalytics.Services.Service
                  Positions.ExtendedPositions == null ||
                  Positions.ExtendedPositions.Count == 0 ||
                  (
-                  Positions.ExtendedPositions.Count > 2 &&
-                  currentRow.GearNumber != Positions.ExtendedPositions[Positions.ExtendedPositions.Count - 2].GearNumber
+                    Positions.ExtendedPositions.Count > 2 &&
+                    currentRow.GearNumber != Positions.ExtendedPositions[Positions.ExtendedPositions.Count - 2].GearNumber
+                 )
+                )
+                return true;
+            return false;
+        }
+
+        public bool HasRacePositionChanged(Telemetry currentRow)
+        {
+            if (
+                Positions.ExtendedPositions == null ||
+                Positions.ExtendedPositions.Count == 0 ||
+                (
+                    Positions.ExtendedPositions.Count > 2 &&
+                    currentRow.Race.RacePosition != Positions.ExtendedPositions[Positions.ExtendedPositions.Count - 2].RacePosition
                  )
                 )
                 return true;
@@ -159,6 +174,9 @@ namespace ForzaAnalytics.Services.Service
                     break;
                 case "Fuel Degradation":
                     MapMode = MapModeOptions.FuelDegredation;
+                    break;
+                case "Race Position":
+                    MapMode = MapModeOptions.RacePosition;
                     break;
                 default:
                     MapMode = MapModeOptions.DefaultPosition;

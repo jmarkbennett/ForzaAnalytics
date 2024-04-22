@@ -10,7 +10,8 @@
     <div class="mb-3" name="formContainer">
         <label for="telemtryFile" class="form-label">Telemetry File:</label>
         <input type="file" class="form-control-sm" accept=".fztel" name="telemetryFile">
-        <button type="submit" class="btn btn-primary">Load</button>
+        <button value="load" name="loadTelemetry" type="submit" class="btn btn-primary">Load</button>
+        <button value="loadSample" name="loadTelemetry" type="submit" class="btn btn-secondary">Load Sample Telemetry</button>
     </div>
 </form>
 <hr />
@@ -27,7 +28,7 @@
                 <th scope="col">Min. Speed</th>
                 <th scope="col">Max. Speed</th>
                 <th scope="col">Fuel Used</th>
-                <th scope="col">Is Best Lap</th>
+                <th scope="col">Delta From Best</th>
             </tr>
         </thead>
         <tbody id="lapTimesTable">

@@ -2,8 +2,11 @@ using ForzaAnalytics.Models.Core;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
+using System.IO;
 using System;
 using ForzaAnalytics.Services.Service;
+using System.Reflection.PortableExecutable;
+using ForzaAnalytics.UdpReader.Model;
 namespace ForzaAnalytics.Web.Pages
 {
     public class LapTimesModel : PageModel
@@ -23,8 +26,20 @@ namespace ForzaAnalytics.Web.Pages
         public void OnGet()
         {
         }
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string loadTelemetry)
         {
+            var path = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SampleTelemetry", "kyalami_example_tel.fztel");
+            if(loadTelemetry == "loadSample")
+            {
+                using (var stream = new FileStream(path, FileMode.Open))
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    TelemetryFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(path));
+                }
+            }
+
             if (TelemetryFile != null && TelemetryFile.Length > 0)
             {
                 using (var reader = new StreamReader(TelemetryFile.OpenReadStream()))

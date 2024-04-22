@@ -22,9 +22,21 @@ namespace ForzaAnalytics.Web.Pages
         {
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string loadTelemetry)
         {
-            if(TelemetryFile != null && TelemetryFile.Length > 0)
+            var samplePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "SampleTelemetry", "kyalami_example_tel.fztel");
+            if (loadTelemetry == "loadSample")
+            {
+                using (var stream = new FileStream(samplePath, FileMode.Open))
+                {
+                    MemoryStream memoryStream = new MemoryStream();
+                    stream.CopyTo(memoryStream);
+                    memoryStream.Position = 0;
+                    TelemetryFile = new FormFile(memoryStream, 0, memoryStream.Length, null, Path.GetFileName(samplePath));
+                }
+            }
+
+            if (TelemetryFile != null && TelemetryFile.Length > 0)
             {
                 using (var reader = new StreamReader(TelemetryFile.OpenReadStream()))
                 {

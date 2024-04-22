@@ -224,12 +224,26 @@ namespace ForzaAnalytics.Modules
                             currentRow.GearNumber)
                     );
                 }
+            if (svc.MapMode == MapModeOptions.RacePosition || miShowRacePosition.IsChecked)
+                if (svc.HasRacePositionChanged(currentRow))
+                {
+                    cMapPlot.Children.Add(
+                        GeneratePlotLabel(
+                            currentRow.Position.PositionX,
+                            currentRow.Position.PositionZ,
+                            $"#{currentRow.Race.RacePosition.ToString()}")
+                    );
+                }
         }
         private void AddPlotLabels(bool hasPrevious, ExtendedPositionalData currentRow, ExtendedPositionalData? previousRow = null)
         {
             if (svc.MapMode == MapModeOptions.GearNumber || miShowGearChanges.IsChecked)
                 if (!hasPrevious || currentRow.GearNumber != previousRow?.GearNumber)
                     cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, currentRow.GearNumber));
+
+            if (svc.MapMode == MapModeOptions.RacePosition || miShowRacePosition.IsChecked)
+                if (!hasPrevious || currentRow.RacePosition != previousRow?.RacePosition)
+                    cMapPlot.Children.Add(GeneratePlotLabel(currentRow.X, currentRow.Z, $"#{currentRow.RacePosition.ToString()}"));
         }
         private void AddLapTimePlotLabels(bool hasNext, ExtendedPositionalData currentRow, ExtendedPositionalData? nextRow = null)
         {
@@ -620,7 +634,7 @@ namespace ForzaAnalytics.Modules
         }
         private void cbLapPoints_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            svc.SetLapsToPlot(((ComboBoxItem)cbLapPoints.SelectedItem)?.Content.ToString() ?? cbLapPoints.SelectedItem?.ToString() ?? string.Empty);
+            svc.SetLapsToPlot((cbLapPoints.SelectedItem as ComboBoxItem)?.Content.ToString() ?? cbLapPoints.SelectedItem.ToString());
             ReplotPoints();
         }
         private void miIncludeLapTimes_Toggle(object sender, RoutedEventArgs e)
@@ -633,6 +647,12 @@ namespace ForzaAnalytics.Modules
         {
             ReplotPoints();
         }
+
+        private void miShowRacePosition_Click(object sender, RoutedEventArgs e)
+        {
+            ReplotPoints();
+        }
+
         private void AddLapsToDropDown(ref Telemetry payload)
         {
             if (svc.CurrentLapNumber != payload.Race.LapNumber)
@@ -650,5 +670,6 @@ namespace ForzaAnalytics.Modules
             }
         }
         #endregion
+
     }
 }

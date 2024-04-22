@@ -1,7 +1,7 @@
 ﻿namespace ForzaAnalytics.Models.Enumerators
 {
     public enum CarClass { E, D, C, B, A, S, R, P, X }
-    public enum MapModeOptions { DefaultPosition, SpeedHeatmap, GearNumber, AcceBrake, Acceleration, AvgTyreDegredation, FuelDegredation }
+    public enum MapModeOptions { DefaultPosition, SpeedHeatmap, GearNumber, AcceBrake, Acceleration, AvgTyreDegredation, FuelDegredation, RacePosition }
     public enum DriveTrain { FWD, RWD, AWD }
     public enum MovementType { None, Decelerating, MaintainingSpeed, Accelerating }
 
@@ -47,6 +47,14 @@
             "FF0000",
             "DC143C",
             "CD5C5C"
+        };
+
+        public static string[] RacePositionColours =
+        {
+            "FFD700", // Gold
+            "C0C0C0", // Silver
+            "CD7F32", // Bronze
+            "000080" // All Others
         };
 
         public static string BaseAccelerationColor = "00AAFF";

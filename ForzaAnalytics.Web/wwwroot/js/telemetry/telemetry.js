@@ -61,6 +61,9 @@ baseCoastingColour = "FFFF00";
 baseSpeedColour = "FFFFFF";
 /* 100%  90%   80%   70%   60%   50%   40%   30%   20 or 10 (Only used with Gear Number) */
 percentColourGrades = ["FF", "DD", "BB", "99", "77", "55", "33", "11", "00"];
+racePositionColours = ["FFD700", "C0C0C0", "CD7F32", "000080"];
+
+
 function ClearMap(canvas) {
     context = canvas.getContext('2d');
     context.clearRect(0, 0, canvas.width, canvas.height);
@@ -160,8 +163,11 @@ function HandleReplayClick(event) {
 
                 if (currentShowLaps == -1 || currentTelemetry[currentOrdinal].lapNumber == currentShowLaps) {
                     AddTelemetryPoint(canvas, currentTelemetry[currentOrdinal], maxSpeed, prevSpeed);
-                    if (currentOrdinal > 0 && currentTelemetry[currentOrdinal].gearNumber != currentTelemetry[currentOrdinal - 1].gearNumber)
-                        AddGearNumberLabel(canvas, currentTelemetry[currentOrdinal].gearNumber, currentTelemetry[currentOrdinal].x, currentTelemetry[currentOrdinal].z);
+                    if (currentOrdinal > 0 && currentTelemetry[currentOrdinal].gearNumber != currentTelemetry[currentOrdinal - 1].gearNumber && currentTelemetry[currentOrdinal].gearNumber != "N")
+                        AddTextLabel(canvas, currentTelemetry[currentOrdinal].gearNumber, currentTelemetry[currentOrdinal].x, currentTelemetry[currentOrdinal].z);
+
+                    if (currentOrdinal > 0 && currentTelemetry[currentOrdinal].racePosition != currentTelemetry[currentOrdinal - 1].racePosition)
+                        AddTextLabel(canvas, "#" + currentTelemetry[currentOrdinal].racePosition, currentTelemetry[currentOrdinal].x, currentTelemetry[currentOrdinal].z);
 
                     lapNumber.innerHTML = currentTelemetry[currentOrdinal].lapNumber;
                     lapTime.innerHTML = formatTime(currentTelemetry[currentOrdinal].lapTime);
@@ -266,6 +272,57 @@ function GetTelemetryColour(position, maxSpeed, prevSpeed) {
             else if (position.speed_Mps.toFixed(3) < prevSpeed.toFixed(3)) // Slowing
                 return "FF0000";
             break;
+        case "tyredegradation":
+            if (position.avgTireWear == 1)
+                return heatmapColours[0];
+            else if (position.avgTireWear >= 0.9)
+                return heatmapColours[1];
+            else if (position.avgTireWear >= 0.8)
+                return heatmapColours[2];
+            else if (position.avgTireWear >= 0.7)
+                return heatmapColours[3];
+            else if (position.avgTireWear >= 0.6)
+                return heatmapColours[4];
+            else if (position.avgTireWear >= 0.5)
+                return heatmapColours[5];
+            else if (position.avgTireWear >= 0.4)
+                return heatmapColours[6];
+            else if (position.avgTireWear >= 0.3)
+                return heatmapColours[7];
+            else if (position.avgTireWear >= 0.2)
+                return heatmapColours[8];
+            else
+                return heatmapColours[9];
+        case "fueldegradation":
+            if (position.fuelRemaining == 1)
+                return heatmapColours[9];
+            else if (position.fuelRemaining >= 0.9)
+                return heatmapColours[8];
+            else if (position.fuelRemaining >= 0.8)
+                return heatmapColours[7];
+            else if (position.fuelRemaining >= 0.7)
+                return heatmapColours[6];
+            else if (position.fuelRemaining >= 0.6)
+                return heatmapColours[5];
+            else if (position.fuelRemaining >= 0.5)
+                return heatmapColours[4];
+            else if (position.fuelRemaining >= 0.4)
+                return heatmapColours[3];
+            else if (position.fuelRemaining >= 0.3)
+                return heatmapColours[2];
+            else if (position.fuelRemaining >= 0.2)
+                return heatmapColours[1];
+            else
+                return heatmapColours[0];
+        case "raceposition":
+            if (position.racePosition == 1)
+                return racePositionColours[0];
+            else if (position.racePosition == 2)
+                return racePositionColours[1];
+            else if (position.racePosition == 3)
+                return racePositionColours[2];
+            else
+                return racePositionColours[3];
         default:
             return "000000";
     }
@@ -278,10 +335,10 @@ function AddTelemetryPoint(canvas, position, maxSpeed, prevSpeed) {
         isRotated ? GetAdjustedY(position.z) : GetAdjustedX(position.x),
         isRotated ? GetAdjustedX(position.x) : GetAdjustedY(position.z), 1, 1);
 }
-function AddGearNumberLabel(canvas, gearNumber,x, y,) {
+function AddTextLabel(canvas, txt,x, y,) {
     context = canvas.getContext('2d')
     context.font = "10px Arial";
-    context.fillText(gearNumber,
+    context.fillText(txt,
         isRotated ? GetAdjustedY(y) : GetAdjustedX(x),
         isRotated ? GetAdjustedX(x) : GetAdjustedY(y)
     );
@@ -374,8 +431,11 @@ function LoadTelemetry(payload) {
                     prevSpeed = payload[i - 10].speed_Mps;
 
                 AddTelemetryPoint(canvas, payload[i], maxSpeed, prevSpeed);
-                if (i > 0 && payload[i].gearNumber != payload[i - 1].gearNumber)
-                    AddGearNumberLabel(canvas, payload[i].gearNumber, payload[i].x, payload[i].z);
+                if (i > 0 && payload[i].gearNumber != payload[i - 1].gearNumber && payload[i].gearNumber != "N")
+                    AddTextLabel(canvas, payload[i].gearNumber, payload[i].x, payload[i].z);
+
+                if (i > 0 && payload[i].racePosition != payload[i - 1].racePosition)
+                    AddTextLabel(canvas, "#" + payload[i].racePosition, payload[i].x, payload[i].z);
             }
         }
     }

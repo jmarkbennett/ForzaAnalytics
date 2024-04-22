@@ -138,7 +138,15 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[1];
                     else
                         return GlobalVariables.HeatmapColours[0];
-
+                case MapModeOptions.RacePosition:
+                    if (position.RacePosition == 1)
+                        return GlobalVariables.RacePositionColours[0];
+                    else if (position.RacePosition == 2)
+                        return GlobalVariables.RacePositionColours[1];
+                    else if (position.RacePosition == 3)
+                        return GlobalVariables.RacePositionColours[2];
+                    else
+                        return GlobalVariables.RacePositionColours[3];
                 default:
                     return "000000";
             }
@@ -254,6 +262,15 @@ namespace ForzaAnalytics.Services.Helpers
                         return GlobalVariables.HeatmapColours[1];
                     else
                         return GlobalVariables.HeatmapColours[0];
+                case MapModeOptions.RacePosition:
+                    if (position.Race.RacePosition == 1)
+                        return GlobalVariables.RacePositionColours[0];
+                    else if (position.Race.RacePosition == 2)
+                        return GlobalVariables.RacePositionColours[1];
+                    else if (position.Race.RacePosition == 3)
+                        return GlobalVariables.RacePositionColours[2];
+                    else
+                        return GlobalVariables.RacePositionColours[3];
             }
             return "000000";
         }

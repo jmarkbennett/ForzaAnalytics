@@ -10,7 +10,8 @@
     <div class="mb-3" name="formContainer">
         <label for="telemtryFile" class="form-label">Telemetry File:</label>
         <input type="file" class="form-control-sm" accept=".fztel" name="telemetryFile">
-        <button type="submit" class="btn btn-primary">Load</button>
+        <button value="load" type="submit" name="loadTelemetry" class="btn btn-primary">Load</button>
+        <button value="loadSample" name="loadTelemetry" type="submit" class="btn btn-secondary">Load Sample Telemetry</button>
     </div>
 </form>
 <hr />
@@ -49,6 +50,9 @@
                 <option value="speedheatmap">Speed Heatmap</option>
                 <option value="gearnumber">Gear Number</option>
                 <option value="acceleration">Acceleration</option>
+                <option value="raceposition">Race Position</option>
+                <option value="tyredegradation">Avg. Tyre Degradation</option>
+                <option value="fueldegradation">Fuel Degradation</option>
             </select>
         </div>
 
@@ -176,4 +180,3 @@
         </script>
     }
 }
-

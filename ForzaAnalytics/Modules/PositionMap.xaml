@@ -56,6 +56,7 @@
                 <Separator Background="DarkGray" Margin="0"/>
                 <MenuItem Name="miShowLapTimes" Header="Show Lap Times" IsCheckable="True" IsChecked="True" Click="miIncludeLapTimes_Toggle" Style="{StaticResource MainMenuItem}"></MenuItem>
                 <MenuItem Name="miShowGearChanges" Header="Show Gear Changes" Click="miShowGearChanges_Click" IsCheckable="True" IsChecked="False" Style="{StaticResource MainMenuItem}"></MenuItem>
+                <MenuItem Name="miShowRacePosition" Header="Show Race Position" Click="miShowRacePosition_Click" IsCheckable="True" IsChecked="True" Style="{StaticResource MainMenuItem}"></MenuItem>
             </MenuItem>
         </Menu>
         <Separator DockPanel.Dock="Top"></Separator>
@@ -86,6 +87,7 @@
                 <ComboBoxItem Content="Speed Heatmap"></ComboBoxItem>
                 <ComboBoxItem Content="Gear Number"></ComboBoxItem>
                 <ComboBoxItem Content="Acceleration"></ComboBoxItem>
+                <ComboBoxItem Content="Race Position"></ComboBoxItem>
                 <ComboBoxItem Content="Avg. Tyre Degradation"></ComboBoxItem>
                 <ComboBoxItem Content="Fuel Degradation"></ComboBoxItem>
             </ComboBox>
