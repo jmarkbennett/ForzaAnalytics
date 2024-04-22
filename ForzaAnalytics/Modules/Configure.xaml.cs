@@ -27,6 +27,15 @@ namespace ForzaAnalytics.Modules
             InitializeComponent();
             tbIpAddress.Text = ConfigurationManager.AppSettings["ListeningIpAddress"]?.ToString();
             tbPort.Text = ConfigurationManager.AppSettings["ListeningPort"]?.ToString();
+            var rate = ConfigurationManager.AppSettings["MessageRate"]?.ToString();
+            foreach (ComboBoxItem item in cbMessageRate.Items)
+            {
+                if (item.Content.ToString() == rate)
+                {
+                    item.IsSelected = true;
+                    break;
+                }
+            }
             cbUseMetric.IsChecked = useMetric;
             cbTrackOnOpen.IsChecked = start;
         }
@@ -39,6 +48,7 @@ namespace ForzaAnalytics.Modules
             config.AppSettings.Settings["TrackOnOpen"].Value = cbTrackOnOpen.IsChecked.ToString();
             config.AppSettings.Settings["ListeningIpAddress"].Value = tbIpAddress.Text;
             config.AppSettings.Settings["ListeningPort"].Value = tbPort.Text;
+            config.AppSettings.Settings["MessageRate"].Value = cbMessageRate.SelectionBoxItem.ToString();
             config.Save(ConfigurationSaveMode.Modified);
             ConfigurationManager.RefreshSection("appSettings");
         }

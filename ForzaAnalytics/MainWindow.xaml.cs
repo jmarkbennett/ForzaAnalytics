@@ -1,5 +1,6 @@
 ﻿using ForzaAnalytics.UdpReader.Service;
 using System.Configuration;
+using System.Diagnostics.Metrics;
 using System.Net;
 using System.Reflection;
 using System.Windows;
@@ -15,13 +16,16 @@ namespace ForzaAnalytics
         private TelemetryService svc;
         private System.Threading.Thread thread;
         private bool threadRunning = false;
-
+        private Models.Enumerators.MessageRate messageRate = Models.Enumerators.MessageRate.Full;
+        private int msgCounter = 0;
+        private int msgLimit = 0;
         public MainWindow()
         {
             InitializeComponent();
             bool.TryParse(ConfigurationManager.AppSettings["TrackOnOpen"]?.ToString(), out bool start);
             bool.TryParse(ConfigurationManager.AppSettings["UseMetric"]?.ToString(), out bool useMetric);
-
+            Enum.TryParse(ConfigurationManager.AppSettings["MessageRate"]?.ToString(), out Models.Enumerators.MessageRate messageRate);
+            SetMessageLimit(messageRate);
             if (start)
             {
                 miIsListening.IsChecked = true;
@@ -29,6 +33,27 @@ namespace ForzaAnalytics
             }
         }
 
+        private void SetMessageLimit(Models.Enumerators.MessageRate msgRate)
+        {
+            switch (msgRate)
+            {
+                case Models.Enumerators.MessageRate.Full:
+                    msgLimit = msgCounter = 0;
+                    break;
+                case Models.Enumerators.MessageRate.Medium:
+                    msgLimit = msgCounter = 2;
+                    break;
+                case Models.Enumerators.MessageRate.Low:
+                    msgLimit = msgCounter = 3;
+                    break;
+                case Models.Enumerators.MessageRate.Lower:
+                    msgLimit = msgCounter = 4;
+                    break;
+                case Models.Enumerators.MessageRate.Lowest:
+                    msgLimit = msgCounter = 5;
+                    break;
+            }
+        }
         private void ReceiveEvents()
         {
             try
@@ -41,26 +66,32 @@ namespace ForzaAnalytics
                     // Update the UI from the UI thread using Dispatcher
                     Dispatcher.Invoke(() =>
                     {
-                        if (payload.isReportingActive)
+                        if (msgCounter == 0)
                         {
-                            if (mSessionDetails.Visibility == Visibility.Visible)
-                                mSessionDetails.ReceiveEvents(payload);
-                            if (mPedalPressures.Visibility == Visibility.Visible)
-                                mPedalPressures.ReceiveEvents(payload);
-                            if (mCarDetails.Visibility == Visibility.Visible)
-                                mCarDetails.ReceiveEvents(payload);
-                            if (mCarDetails.Visibility == Visibility.Visible)
-                                mCoreMetrics.ReceiveEvents(payload);
+                            if (payload.isReportingActive)
+                            {
+                                if (mSessionDetails.Visibility == Visibility.Visible)
+                                    mSessionDetails.ReceiveEvents(payload);
+                                if (mPedalPressures.Visibility == Visibility.Visible)
+                                    mPedalPressures.ReceiveEvents(payload);
+                                if (mCarDetails.Visibility == Visibility.Visible)
+                                    mCarDetails.ReceiveEvents(payload);
+                                if (mCarDetails.Visibility == Visibility.Visible)
+                                    mCoreMetrics.ReceiveEvents(payload);
 
-                            if (tLapTimes.IsChecked)
-                                mlapDetail.ReceiveEvents(payload);
-                            if (tMapGenerator.IsChecked)
-                                mMapGenerator.ReceiveEvents(payload);
-                            if (tCarPositions.IsChecked)
-                                mPositionMap.ReceiveEvents(payload);
-                            if (tAllMetrics.IsChecked)
-                                mAllMetrics.ReceiveEvents(payload);
+                                if (tLapTimes.IsChecked)
+                                    mlapDetail.ReceiveEvents(payload);
+                                if (tMapGenerator.IsChecked)
+                                    mMapGenerator.ReceiveEvents(payload);
+                                if (tCarPositions.IsChecked)
+                                    mPositionMap.ReceiveEvents(payload);
+                                if (tAllMetrics.IsChecked)
+                                    mAllMetrics.ReceiveEvents(payload);
+                            }
+                            msgCounter = msgLimit;
                         }
+                        else
+                            msgCounter -= 1;
                     });
                 }
             }

@@ -5,6 +5,7 @@
     public enum DriveTrain { FWD, RWD, AWD }
     public enum MovementType { None, Decelerating, MaintainingSpeed, Accelerating }
 
+    public enum MessageRate { Full, Medium, Low, Lower, Lowest } // Full = 60 (All), Med = 30 (Half), Low = 15 - Lower = 7.5, Lowest = 3.25? Per Second
     public static class GlobalVariables
     {
         public static string[] HeatmapColours = {

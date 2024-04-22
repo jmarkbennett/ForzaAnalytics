@@ -21,6 +21,8 @@
                     <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="40"></RowDefinition>
                     <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="40"></RowDefinition>
+                    <RowDefinition Height="120"></RowDefinition>
                     <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
 
@@ -28,11 +30,27 @@
                 <Label Content="Port:" Grid.Column="0" Grid.Row="1" VerticalAlignment="Center"></Label>
                 <Label Content="Track On Open:" Grid.Column="0" Grid.Row="2" VerticalAlignment="Center"></Label>
                 <Label Content="Use Metric:" Grid.Column="0" Grid.Row="3" VerticalAlignment="Center"></Label>
+                <Label Content="Message Rate*:" Grid.Column="0" Grid.Row="4" VerticalAlignment="Center"></Label>
                 <TextBox Name="tbIpAddress" Grid.Column="1" Grid.Row="0"></TextBox>
                 <TextBox Name="tbPort" Grid.Column="1" Grid.Row="1"></TextBox>
                 <CheckBox Name="cbTrackOnOpen" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Grid.Column="1" Grid.Row="2"></CheckBox>
                 <CheckBox Name="cbUseMetric" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Grid.Column="1" Grid.Row="3"></CheckBox>
-                <Button x:Name="btnUpdateSettings" Margin="8"  Grid.Row="4" Content="Update" Click="btnUpdateSettings_Click"></Button>
+                <ComboBox Name="cbMessageRate" VerticalAlignment="Center" HorizontalContentAlignment="Center" Margin="2" Grid.Column="1" Grid.Row="4">
+                    <ComboBoxItem Content="Full"></ComboBoxItem>
+                    <ComboBoxItem Content="Medium"></ComboBoxItem>
+                    <ComboBoxItem Content="Low"></ComboBoxItem>
+                    <ComboBoxItem Content="Lower"></ComboBoxItem>
+                    <ComboBoxItem Content="Lowest"></ComboBoxItem>
+                </ComboBox>
+                <Button x:Name="btnUpdateSettings" Margin="8"  Grid.Row="5" Content="Update" Click="btnUpdateSettings_Click"></Button>
+                <TextBlock Grid.Row="6" Grid.ColumnSpan="3" Margin="8" Foreground="White">
+                    Please Note, Message Rate corresponds to the messages per second. <Bold>(Requires App Restart)</Bold><LineBreak/>
+                    <Bold>Full:</Bold> 60 Messages Per Second<LineBreak/>
+                    <Bold>Medium:</Bold> 30 Messages Per Second<LineBreak/>
+                    <Bold>Low:</Bold> 15 Messages Per Second<LineBreak/>
+                    <Bold>Lower:</Bold> 7 Messages Per Second<LineBreak/>
+                    <Bold>Lowest:</Bold> 3 Messages Per Second<LineBreak/>
+                </TextBlock>
             </Grid>
         </StackPanel>
     </Grid>
