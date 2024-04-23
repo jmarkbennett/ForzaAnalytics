@@ -1,8 +1,10 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Controls;
 using ForzaAnalytics.Models.Core;
 using ForzaAnalytics.Services.Service;
 using ForzaAnalytics.UdpReader.Model;
+using Microsoft.Win32;
 namespace ForzaAnalytics.Modules
 {
     /// <summary>
@@ -31,6 +33,23 @@ namespace ForzaAnalytics.Modules
             svc.ResetService();
             tbCurrentLapNumber.Content = string.Empty;
             tbCurrentLapTime.Content = string.Empty;
+        }
+
+        private void miImport_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            svc.ResetService();
+            OpenFileDialog dialog = new();
+            dialog.Filter = "FZTEL files (*.fztel)|*.fztel";
+            dialog.Title = "Load Telemtry";
+            if (dialog.ShowDialog() == true)
+            {
+                svc.ResetService();
+                svc.ImportTelemetry(dialog.FileName);
+                lvLapTimes.ItemsSource = svc.LapTimes;
+
+                MessageBox.Show("Telemetry Loaded");
+
+            }
         }
     }
 }

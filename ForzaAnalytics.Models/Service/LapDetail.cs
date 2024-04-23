@@ -16,6 +16,7 @@ namespace ForzaAnalytics.Models.Service
         private List<double> currentAccelerations;
         private List<double> currentBrakeApplied;
         private List<double> fuelConsumption;
+        private List<int> currentCoasting;
         private int currentLapNumber;
         private float initialfuel = -1;
 
@@ -29,20 +30,16 @@ namespace ForzaAnalytics.Models.Service
             currentSpeeds = [];
             currentAccelerations = [];
             currentBrakeApplied = [];
+            currentCoasting = [];
             fuelConsumption = [];
             currentLapNumber = 0;
         }
         public double AverageSpeed { get { return currentSpeeds.Any() ? currentSpeeds.Average() : 0.0; } }
         public double PercentBrakeApplied { get { return ((double)currentBrakeApplied.Count(x => x > 0) / (double)currentBrakeApplied.Count()); } }
         public double PercentFullThrottle { get { return ((double)currentAccelerations.Count(x => x == 100) / (double)currentBrakeApplied.Count()); } }
+        public double PercentCoasting { get { return ((double)currentCoasting.Count() / (double)currentAccelerations.Count()); } }
         public double MaxSpeed { get { return currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Max() : 0.0; } }
         public double MinSpeed { get { return currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Min() : 0.0; } }
         public double FuelUsed { get { return fuelConsumption.Any() ? fuelConsumption.Max() - fuelConsumption.Min() : 0; } }
-
-        public void UpdateBestLap()
-        {
-            ; //    foreach (LapTime t in LapTimes)
-        //        t.IsBestLap = (t.TimeInSeconds == payload.Race.BestLapTime);
-        }
     }
 }

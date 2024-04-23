@@ -14,6 +14,8 @@ namespace ForzaAnalytics.Models.Core
         private double minSpeed;
         private double maxSpeed;
         private double fuelUsed;
+        private double percentCoasting;
+        private int racePosition;
         public float TimeInSeconds
         {
             get { return timeInSeconds; }
@@ -32,6 +34,17 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(LapNumber));
             }
         }
+
+        public int RacePosition
+        {
+            get { return racePosition; }
+            set
+            {
+                racePosition = value;
+                OnPropertyChanged(nameof(RacePosition));
+            }
+        }
+
         public bool IsBestLap
         {
             get { return isBestLap; }
@@ -79,6 +92,17 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(PercentBrakeApplied));
             }
         }
+
+        public double PercentCoasting
+        {
+            get { return percentCoasting; }
+            set
+            {
+                percentCoasting = value;
+                OnPropertyChanged(nameof(PercentCoasting));
+            }
+        }
+
         public double MaxSpeed
         {
             get { return maxSpeed; }
@@ -136,6 +160,10 @@ namespace ForzaAnalytics.Models.Core
         public string FormattedPercentFullThrottle
         {
             get { return  Formatting.FormattedPercentage(percentFullThrottle); }
+        }
+        public string FormattedPercentCoasting
+        {
+            get { return Formatting.FormattedPercentage(percentCoasting); }
         }
 
         public string FormattedFuelRemaining

@@ -60,8 +60,10 @@ namespace ForzaAnalytics.Web.Pages
                         row.TimeInSeconds = lapInfo.Max(i => i.LapTime);
                         row.PercentBrakeApplied = (double)lapInfo.Where(i => i.Brake > 0).Count() / (double)lapInfo.Count();
                         row.PercentFullThrottle = (double)lapInfo.Where(i => i.Acceleration == 100).Count() / (double)lapInfo.Count();
+                        row.PercentCoasting = (double)lapInfo.Where(i=>i.Acceleration == 0 && i.Brake == 0 && i.Handbrake == 0).Count() / (double)lapInfo.Count();
                         row.FuelRemaining = (double)lapInfo.Min(i => i.FuelRemaining);
                         row.FuelUsed = (double)lapInfo.Max(i => i.FuelRemaining) - (double)lapInfo.Min(i => i.FuelRemaining);
+
                         LapTimes.Add(row);
                     }
 
@@ -73,7 +75,6 @@ namespace ForzaAnalytics.Web.Pages
                             if (lap.TimeInSeconds == bestLap)
                                 lap.IsBestLap = true;
                         }
-
                     }
                 }
             }

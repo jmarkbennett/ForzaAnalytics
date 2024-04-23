@@ -7,7 +7,6 @@ function LoadLapTimes(lapTimes) {
     var bestLapTime = 0
     for (var i = 0; i < lapTimes.length; i++) {
         if (lapTimes[i].isBestLap) {
-            debugger;
             bestLapTime = lapTimes[i].timeInSeconds;
         }
     }
@@ -29,6 +28,7 @@ function LoadLapTimes(lapTimes) {
         row += "<td>" + lapTimes[i].formattedAverageSpeed + "</td>";         
         row += "<td>" + lapTimes[i].formattedPercentFullThrottle + "</td>";    
         row += "<td>" + lapTimes[i].formattedPercentBrakeApplied + "</td>";    
+        row += "<td>" + lapTimes[i].formattedPercentCoasting + "</td>";    
         row += "<td>" + lapTimes[i].formattedMinSpeed + "</td>";
         row += "<td>" + lapTimes[i].formattedMaxSpeed + "</td>";   
         row += "<td>" + lapTimes[i].formattedFuelUsed + "</td>";
