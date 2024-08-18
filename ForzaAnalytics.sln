@@ -15,6 +15,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ForzaAnalytics.Web", "Forza
 EndProject
 Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "ForzaAnalytics.SharedResources", "ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.shproj", "{AD843816-EA85-4E3B-8ADB-298E7D49216F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Applications", "{4264EEEF-329B-443E-B4E1-0E9A69C42A40}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Shared", "Shared", "{FDF1EDAE-11CD-4B54-8BBD-8AEC4EDAC3F7}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -44,6 +48,11 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{0D9779F5-8210-4A90-AF16-5B227D65DAA4} = {4264EEEF-329B-443E-B4E1-0E9A69C42A40}
+		{6301041F-97E8-4C3C-BA88-FAE87D008EC0} = {4264EEEF-329B-443E-B4E1-0E9A69C42A40}
+		{AD843816-EA85-4E3B-8ADB-298E7D49216F} = {FDF1EDAE-11CD-4B54-8BBD-8AEC4EDAC3F7}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {C1AED340-9CBF-4C41-A93C-902C328A242B}

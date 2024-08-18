@@ -57,7 +57,7 @@
                     <StackPanel Orientation="Horizontal" Width="160">
                         <Ellipse Name="eLapTimes"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
                         <TextBlock Text="Lap Times"></TextBlock>
-                        <Image Source="/Resources/Icons/stopwatch.png" Margin="8 4" Height="16" Width="16"></Image>
+                        <Image Source="./Resources/Icons/stopwatch.png" Margin="8 4" Height="16" Width="16"></Image>
                     </StackPanel>
                 </TabItem.Header>
                 <Modules:LapDetail x:Name="mlapDetail"/>
