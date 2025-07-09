@@ -30,18 +30,16 @@ namespace ForzaAnalytics.UdpReader.Model
         private float raw_tireTempFrontRight { get { return TelemetryHelper.extractSingle(ref payload, 260, 263); } }// F32 TireTempFrontRight;	4	260	263
         private float raw_tireTempRearLeft { get { return TelemetryHelper.extractSingle(ref payload, 264, 267); } }// F32 TireTempRearLeft;	4	264	267
         private float raw_tireTempRearRight { get { return TelemetryHelper.extractSingle(ref payload, 268, 271); } }// F32 TireTempRearRight;	4	268	271
-
         public float TireSlipRatioFrontLeft { get { return raw_tireCombinedSlipFrontLeft; } }
         public float TireSlipRatioFrontRight { get { return raw_tireCombinedSlipFrontRight; } }
         public float TireSlipRatioRearLeft { get { return raw_tireCombinedSlipRearLeft; } }
         public float TireSlipRatioRearRight { get { return raw_tireCombinedSlipRearRight; } }
+        public float TireWearFrontLeft { get { return (float)Math.Round(raw_tireWearFrontLeft * 100.0, 2); } }
+        public float TireWearFrontRight { get { return (float)Math.Round(raw_tireWearFrontRight * 100.0, 2); } }
+        public float TireWearRearLeft { get { return (float)Math.Round(raw_tireWearRearLeft * 100.0, 2); } }
+        public float TireWearRearRight { get { return (float)Math.Round(raw_tireWearRearRight * 100.0, 2); } }
 
-        public float TireWearFrontLeft { get { return raw_tireWearFrontLeft; } }
-        public float TireWearFrontRight { get { return raw_tireWearFrontRight; } }
-        public float TireWearRearLeft { get { return raw_tireWearRearLeft; } }
-        public float TireWearRearRight { get { return raw_tireWearRearRight; } }
-
-        public float AvgTireWear { get { return (TireWearFrontLeft + TireWearFrontRight + TireWearRearLeft + TireWearRearRight) / 4.0f; } }
+        public double AvgTireWear { get { return Math.Round((TireWearFrontLeft + TireWearFrontRight + TireWearRearLeft + TireWearRearRight) / 4.0f,2); } }
 
     }
 }

@@ -11,4 +11,6 @@
     <ProjectReference Include="..\ForzaAnalytics.UdpReader\ForzaAnalytics.UdpReader.csproj" />
   </ItemGroup>
 
+  <Import Project="..\ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems" Label="Shared" />
+
 </Project>

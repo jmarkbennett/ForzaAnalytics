@@ -97,7 +97,14 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Avg. Speed" Width="140">
+                        <GridViewColumn Header="Avg. Tyre Wear" Width="140">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=FormattedAvgTyreWear}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Avg. Speed" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedAverageSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -111,14 +118,14 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="% Brake" Width="140">
+                        <GridViewColumn Header="% Brake" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedPercentBrakeApplied}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="% Coasting" Width="140">
+                        <GridViewColumn Header="% Coasting" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedPercentCoasting}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -132,17 +139,31 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Max Speed" Width="140">
+                        <GridViewColumn Header="Max Speed" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedMaxSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Fuel Used" Width="140">
+                        <GridViewColumn Header="Fuel Used" Width="110">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedFuelUsed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Lap Distance" Width="160">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+                                </DataTemplate>
+                            </GridViewColumn.CellTemplate>
+                        </GridViewColumn>
+                        <GridViewColumn Header="Total Distance" Width="160">
+                            <GridViewColumn.CellTemplate>
+                                <DataTemplate>
+                                    <Label Content="{Binding Path=FormattedTotalDistanceTravelled}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>

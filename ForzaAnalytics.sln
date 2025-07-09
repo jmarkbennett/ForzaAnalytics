@@ -59,6 +59,7 @@ Global
 	EndGlobalSection
 	GlobalSection(SharedMSBuildProjectFiles) = preSolution
 		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{0d9779f5-8210-4a90-af16-5b227d65daa4}*SharedItemsImports = 5
+		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{33a6493d-3eab-46df-9f29-43f7ee026ce3}*SharedItemsImports = 5
 		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{6301041f-97e8-4c3c-ba88-fae87d008ec0}*SharedItemsImports = 5
 		ForzaAnalytics.SharedResources\ForzaAnalytics.SharedResources.projitems*{ad843816-ea85-4e3b-8adb-298e7d49216f}*SharedItemsImports = 13
 	EndGlobalSection

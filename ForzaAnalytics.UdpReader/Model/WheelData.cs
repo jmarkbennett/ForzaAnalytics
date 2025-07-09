@@ -31,8 +31,6 @@ namespace ForzaAnalytics.UdpReader.Model
         private float raw_surfaceRumbleFrontRight { get { return TelemetryHelper.extractSingle(ref payload, 152, 155); } }// F32 SurfaceRumbleFrontRight;	4	152	155
         private float raw_surfaceRumbleRearLeft { get { return TelemetryHelper.extractSingle(ref payload, 156, 159); } }// F32 SurfaceRumbleRearLeft;	4	156	159
         private float raw_surfaceRumbleRearRight { get { return TelemetryHelper.extractSingle(ref payload, 160, 163); } }// F32 SurfaceRumbleRearRight;	4	160	163
-
-
         public float WheelRotationSpeedFrontLeft { get { return raw_wheelRotationSpeedFrontLeft; } }
         public float WheelRotationSpeedFrontRight { get { return raw_wheelRotationSpeedFrontRight; } }
         public float WheelRotationSpeedFrontDelta { get { return WheelRotationSpeedFrontLeft - WheelRotationSpeedFrontRight; } }

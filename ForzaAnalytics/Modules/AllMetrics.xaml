@@ -57,8 +57,19 @@
         </Label>
         <Controls:CoreMetric Grid.Column="3" Grid.Row="3"  MetricTitle="Wheel Puddle FL" x:Name="mWheelPuddleFl"></Controls:CoreMetric>
         <Controls:CoreMetric Grid.Column="4" Grid.Row="3"  MetricTitle="Wheel Puddle FR" x:Name="mWheelPuddleFr"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="3" Grid.Row="4"  MetricTitle="Wheel Puddle FL" x:Name="mWheelPuddleRl"></Controls:CoreMetric>
-        <Controls:CoreMetric Grid.Column="4" Grid.Row="4"  MetricTitle="Wheel Puddle FR" x:Name="mWheelPuddleRr"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="3" Grid.Row="4"  MetricTitle="Wheel Puddle RL" x:Name="mWheelPuddleRl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="4" Grid.Row="4"  MetricTitle="Wheel Puddle RR" x:Name="mWheelPuddleRr"></Controls:CoreMetric>
+        <Label Content="Tyre Wear" 
+              Grid.Column="5" Grid.ColumnSpan="2"
+               Grid.Row="2" 
+               Style="{StaticResource HeaderLabel}">
+        </Label>
+        <Controls:CoreMetric Grid.Column="5" Grid.Row="3"  MetricTitle="Tyre Wear FL" x:Name="mTyreWearFl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="6" Grid.Row="3"  MetricTitle="Tyre Wear FR" x:Name="mTyreWearFr"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="5" Grid.Row="4"  MetricTitle="Tyre Wear RL" x:Name="mTyreWearRl"></Controls:CoreMetric>
+        <Controls:CoreMetric Grid.Column="6" Grid.Row="4"  MetricTitle="Tyre Wear RR" x:Name="mTyreWearRr"></Controls:CoreMetric>
+
+        <Controls:CoreMetric Grid.Column="6" Grid.Row="6"  MetricTitle="Avg Tyre Wear" x:Name="mAvgTyreWear"></Controls:CoreMetric>
         <Label Content="Suspension Metrics" 
               Grid.Column="0" Grid.ColumnSpan="2"
                Grid.Row="5" 

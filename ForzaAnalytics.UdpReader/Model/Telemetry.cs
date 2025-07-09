@@ -116,6 +116,7 @@ namespace ForzaAnalytics.UdpReader.Model
         }
         public bool isReportingActive { get { return raw_isRaceOn > 0; } }
         public float DistanceTravelled { get { return raw_distanceTraveled; } }
+        public double DistanceTravelled_Km { get { return Math.Round(raw_distanceTraveled / 1000, 2); } }
         public string GearNumber { get { return raw_gear == 11 ? "N" : raw_gear == 0 ? "R" : raw_gear.ToString(); } }
         public float EngineRpm { get { return raw_rpm; } }
         public float EngineMaxRpm { get { return raw_engineMaxRpm; } }
@@ -123,7 +124,7 @@ namespace ForzaAnalytics.UdpReader.Model
         public float Fuel { get { return raw_fuel; } }
         public float Boost { get { return raw_boost; } }
         public int SteeringAngle { get { return raw_steeringAngle; } }
-         public float Yaw { get { return raw_yaw;} }
+        public float Yaw { get { return raw_yaw; } }
         public float Pitch { get { return raw_pitch; } }
         public float Roll { get { return raw_roll; } }
         public float TorqueNm { get { return raw_torque; } }

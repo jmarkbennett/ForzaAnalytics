@@ -5,36 +5,79 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
              mc:Ignorable="d" 
-             d:DesignHeight="80" d:DesignWidth="800">
+             d:DesignHeight="120" d:DesignWidth="1080">
     <UserControl.Resources>
     </UserControl.Resources>
     <Grid Style="{StaticResource MainMenu}">
         <Grid.RowDefinitions>
             <RowDefinition Height="40"></RowDefinition>
-            <RowDefinition></RowDefinition>
+            <RowDefinition Height="35"></RowDefinition>
+            <RowDefinition Height="45"></RowDefinition>
         </Grid.RowDefinitions>
         <Label Style="{StaticResource HeaderLabel}" Grid.Row="0" Grid.ColumnSpan="5" Content="Session Summary"></Label>
         <Grid Grid.Row="1">
             <Grid.ColumnDefinitions>
+                <!--Game Status -->
                 <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="160"></ColumnDefinition>
+                <!--Race Time -->
                 <ColumnDefinition Width="100"></ColumnDefinition>
-                <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="160"></ColumnDefinition>
+                <!--Position -->
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <!--Distance Travelled -->
+                <ColumnDefinition Width="80"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
+                <!--Best Lap Time -->
+                <ColumnDefinition Width="90"></ColumnDefinition>
+                <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Style="{StaticResource TitleLabel}" Content="Game Status:"></Label>
             <Ellipse Name="eGameStatus" Grid.Column="1" Width="16" Height="16" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="6 8"></Ellipse>
+            
             <Label Grid.Column="1" Name="lGameStatus" HorizontalAlignment="Left" Margin="24 0 0 0"></Label>
-            <Label Style="{StaticResource TitleLabel}" Grid.Column="2" Content="Race Time:"></Label>
+            <Label Grid.Column="2" Style="{StaticResource TitleLabel}" Content="Race Time:"></Label>
             <Label Grid.Column="3" Name="lSessionTime" FontWeight="Bold" Margin="4 0"></Label>
-            <Label Style="{StaticResource TitleLabel}" Grid.Column="4" Content="Position:"></Label>
+            <Label Grid.Column="4" Style="{StaticResource TitleLabel}" Content="Position:"></Label>
             <Label Grid.Column="5" Name="lRacePosition" FontWeight="Bold" Margin="4 0"></Label>
-            <Label Style="{StaticResource TitleLabel}" Grid.Column="6"  Content="Best Time:"></Label>
-            <Label Grid.Column="7" Name="lBestTime" FontWeight="Bold" Margin="4 0"></Label>
+            <Label Grid.Column="6" Style="{StaticResource TitleLabel}" Content="Distance:"></Label>
+            <Label Grid.Column="7" Name="lDistanceTravelled" FontWeight="Bold" Margin="4 0"></Label>
+            <Label Grid.Column="8" Style="{StaticResource TitleLabel}" Content="Best Time:"></Label>
+            <Label Grid.Column="9" Name="lBestTime" FontWeight="Bold" Margin="4 0"></Label>
+        </Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition Width="140"></ColumnDefinition>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="60"></ColumnDefinition>
+                <ColumnDefinition></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Label Grid.Column="0" Style="{StaticResource TitleLabel}" VerticalAlignment="Center" Content="Class:"></Label>
+            <Grid Grid.Column="1" Name="PiContainer" Width="128">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="34"></ColumnDefinition>
+                    <ColumnDefinition Width="40"></ColumnDefinition>
+                    <ColumnDefinition Width="8"></ColumnDefinition>
+                    <ColumnDefinition Width="34"></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Rectangle Grid.Column="0" Style="{StaticResource PiContainer}"></Rectangle>
+                <Label Content="PI" Height="35" Style="{StaticResource PiContainerFont}" Grid.Column="0"></Label>
+                <Rectangle Grid.Column="1" Style="{StaticResource PiNumberContainer}"></Rectangle>
+                <Label Name="lCpi" Style="{StaticResource PiNumber}" Height="35" Grid.Column="1"></Label>
+                <Border Style="{StaticResource CarClass}" Name="bCarClass" Grid.Column="0" Grid.ColumnSpan="2"  BorderBrush="Red"></Border>
+                <Rectangle Name="rCarClass" Grid.Column="3" Style="{StaticResource CarClassContainer}"></Rectangle>
+                <Label Name="lCarClass" Height="41" HorizontalAlignment="Center" VerticalAlignment="Center" Style="{StaticResource PiContainerFont}" Grid.Column="3"></Label>
+            </Grid>
+
+            <Label Grid.Column="2" Style="{StaticResource TitleLabel}" VerticalAlignment="Center" Content="Car:"></Label>
+            <Label Grid.Column="3" Name="lCarName" FontWeight="Bold" Margin="4 0" VerticalContentAlignment="Center"></Label>
+            <Label Grid.Column="4" Style="{StaticResource TitleLabel}" VerticalAlignment="Center" Content="Track:"></Label>
+            <Label Grid.Column="5" Name="lTrackName" FontWeight="Bold" VerticalContentAlignment="Center" Margin="4 0"></Label>
+
         </Grid>
     </Grid>
 </UserControl>

@@ -42,12 +42,12 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="4"></ColumnDefinition>
-                <ColumnDefinition Width="300"></ColumnDefinition>
+                <!--ColumnDefinition Width="420"></ColumnDefinition-->
                 <ColumnDefinition Width="4"></ColumnDefinition>
                 <ColumnDefinition Width="420"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Modules:SessionDetail Grid.Column="0" x:Name="mSessionDetails"></Modules:SessionDetail>
-            <Modules:CarDetail Grid.Column="2" x:Name="mCarDetails"></Modules:CarDetail>
+            <!--Modules:CarDetail Grid.Column="2" x:Name="mCarDetails"></Modules:CarDetail-->
             <Modules:PedalPressures Grid.Column="4" x:Name="mPedalPressures"></Modules:PedalPressures>
         </Grid>
         <Modules:CoreMetrics DockPanel.Dock="Bottom" Height="140" x:Name="mCoreMetrics" HorizontalAlignment="Center"></Modules:CoreMetrics>

@@ -1,4 +1,5 @@
-﻿using ForzaAnalytics.UdpReader.Service;
+﻿using ForzaAnalytics.Services.Serializers;
+using ForzaAnalytics.UdpReader.Service;
 using System.Configuration;
 using System.Diagnostics.Metrics;
 using System.Net;
@@ -19,6 +20,7 @@ namespace ForzaAnalytics
         private Models.Enumerators.MessageRate messageRate = Models.Enumerators.MessageRate.Full;
         private int msgCounter = 0;
         private int msgLimit = 0;
+        
         public MainWindow()
         {
             InitializeComponent();
@@ -74,10 +76,10 @@ namespace ForzaAnalytics
                                     mSessionDetails.ReceiveEvents(payload);
                                 if (mPedalPressures.Visibility == Visibility.Visible)
                                     mPedalPressures.ReceiveEvents(payload);
-                                if (mCarDetails.Visibility == Visibility.Visible)
-                                    mCarDetails.ReceiveEvents(payload);
-                                if (mCarDetails.Visibility == Visibility.Visible)
-                                    mCoreMetrics.ReceiveEvents(payload);
+                               // if (mCarDetails.Visibility == Visibility.Visible)
+                                //    mCarDetails.ReceiveEvents(payload);
+                               // if (mCarDetails.Visibility == Visibility.Visible)
+                               //     mCoreMetrics.ReceiveEvents(payload);
 
                                 if (tLapTimes.IsChecked)
                                     mlapDetail.ReceiveEvents(payload);
@@ -119,10 +121,10 @@ namespace ForzaAnalytics
                         mCoreMetrics.Visibility = Visibility.Visible;
                     break;
                 case "Show Car Summary":
-                    if (mCarDetails.Visibility == Visibility.Visible)
-                        mCarDetails.Visibility = Visibility.Collapsed;
-                    else
-                        mCarDetails.Visibility = Visibility.Visible;
+                  //  if (mCarDetails.Visibility == Visibility.Visible)
+                 //       mCarDetails.Visibility = Visibility.Collapsed;
+                 //   else
+                //        mCarDetails.Visibility = Visibility.Visible;
                     break;
                 case "Show Pedal Pressures":
                     if (mPedalPressures.Visibility == Visibility.Visible)
@@ -134,8 +136,8 @@ namespace ForzaAnalytics
             // Handle Visibility of Rows based on whats hidden
             if (
                 mSessionDetails.Visibility == Visibility.Collapsed &&
-                mPedalPressures.Visibility == Visibility.Collapsed &&
-                mCarDetails.Visibility == Visibility.Collapsed
+                mPedalPressures.Visibility == Visibility.Collapsed// &&
+                //mCarDetails.Visibility == Visibility.Collapsed
                 )
                 TopMenu.Visibility = Visibility.Collapsed;
             else
@@ -213,7 +215,7 @@ namespace ForzaAnalytics
         {
             mSessionDetails.ResetEvents();
             mPedalPressures.ResetEvents();
-            mCarDetails.ResetEvents();
+           // mCarDetails.ResetEvents();
             mCoreMetrics.ResetEvents();
             mlapDetail.ResetEvents();
             mMapGenerator.ResetEvents();

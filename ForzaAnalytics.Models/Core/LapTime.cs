@@ -7,8 +7,11 @@ namespace ForzaAnalytics.Models.Core
         private float timeInSeconds;
         private int lapNumber;
         private bool isBestLap;
+        private double distanceTravelled;
+        private double totalDistanceTravelled;
         private double averageSpeed;
         private double fuelRemaining;
+        private double avgTyreWear;
         private double percentFullThrottle;
         private double percentBrakeApplied;
         private double minSpeed;
@@ -73,6 +76,17 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(FuelRemaining));
             }
         }
+
+        public double AvgTyreWear
+        {
+            get { return avgTyreWear; }
+            set
+            {
+                avgTyreWear = value;
+                OnPropertyChanged(nameof(AvgTyreWear));
+            }
+        }
+
         public double PercentFullThrottle
         {
             get { return percentFullThrottle; }
@@ -134,6 +148,25 @@ namespace ForzaAnalytics.Models.Core
             }
         }
 
+        public double DistanceTravelled
+        {
+            get { return distanceTravelled; }
+            set
+            {
+                distanceTravelled = value;
+                OnPropertyChanged(nameof(DistanceTravelled));
+            }
+        }
+        public double TotalDistanceTravelled
+        {
+            get { return totalDistanceTravelled; }
+            set
+            {
+                totalDistanceTravelled = value;
+                OnPropertyChanged(nameof(TotalDistanceTravelled));
+            }
+        }
+
         public string FormattedLapTime
         {
             get { return Formatting.FormattedTime(timeInSeconds); }
@@ -174,6 +207,19 @@ namespace ForzaAnalytics.Models.Core
         public string FormattedFuelUsed
         {
             get { return Formatting.FormattedPercentage(fuelUsed); }
+        }
+        public string FormattedDistanceTravelled
+        {
+            get { return $"{distanceTravelled.ToString("F2")}KM"; }
+        }
+        public string FormattedTotalDistanceTravelled
+        {
+            get { return $"{totalDistanceTravelled.ToString("F2")}KM"; }
+        }
+
+        public string FormattedAvgTyreWear
+        {
+            get { return $"{avgTyreWear}%"; }
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

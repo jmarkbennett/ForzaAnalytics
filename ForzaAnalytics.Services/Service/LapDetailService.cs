@@ -15,8 +15,10 @@ namespace ForzaAnalytics.Services.Service
         private List<double> currentBrakeApplied;
         private List<double> currentCoasting;
         private List<double> fuelConsumption;
+        private double distanceTravelled;
         private int currentLapNumber;
         private float initialFuel = -1;
+        private float initialDistance = -1;
         public double AverageSpeed { get { return currentSpeeds.Any() ? currentSpeeds.Average() : 0.0; } }
         public double PercentBrakeApplied { get { return ((double)currentBrakeApplied.Count(x => x > 0) / (double)currentBrakeApplied.Count()); } }
         public double PercentFullThrottle { get { return ((double)currentAccelerations.Count(x => x == 100) / (double)currentAccelerations.Count()); } }
@@ -56,6 +58,8 @@ namespace ForzaAnalytics.Services.Service
         {
             if (initialFuel == -1)
                 initialFuel = payload.Fuel;
+            if (initialDistance == -1)
+                initialDistance = payload.DistanceTravelled;
             if (LapTimes.Any() && payload.Race.LastLapTime > 0)
             {
                 if (LapTimes[LapTimes.Count - 1].TimeInSeconds != payload.Race.LastLapTime)
@@ -74,7 +78,10 @@ namespace ForzaAnalytics.Services.Service
                             MaxSpeed = MaxSpeed,
                             MinSpeed = MinSpeed,
                             FuelUsed = FuelUsed,
-                            PercentCoasting = PercentCoasting
+                            PercentCoasting = PercentCoasting,
+                            TotalDistanceTravelled = payload.DistanceTravelled_Km,
+                            DistanceTravelled = payload.DistanceTravelled_Km - LapTimes.Last().TotalDistanceTravelled,
+                            AvgTyreWear = payload.Tire.AvgTireWear
                         }
                     );
 
@@ -98,7 +105,10 @@ namespace ForzaAnalytics.Services.Service
                         MaxSpeed = MaxSpeed,
                         MinSpeed = MinSpeed,
                         FuelUsed = FuelUsed,
-                        PercentCoasting = PercentCoasting
+                        PercentCoasting = PercentCoasting,
+                        TotalDistanceTravelled = payload.DistanceTravelled_Km,
+                        DistanceTravelled = payload.DistanceTravelled_Km,
+                        AvgTyreWear = payload.Tire.AvgTireWear
                     }
                 );
             }

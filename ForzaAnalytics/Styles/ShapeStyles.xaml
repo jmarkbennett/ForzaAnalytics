@@ -5,11 +5,11 @@
         <Setter Property="Fill" Value="Black"></Setter>
         <Setter Property="Width" Value="32"></Setter>
         <Setter Property="HorizontalAlignment" Value="Right"></Setter>
-        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="Height" Value="36"></Setter>
     </Style>
     <Style x:Key="PiNumberContainer" TargetType="Rectangle">
         <Setter Property="Fill" Value="#1C1C1C"></Setter>
-        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="Height" Value="36"></Setter>
         <Setter Property="Width" Value="38"></Setter>
         <Setter Property="HorizontalAlignment" Value="Left"></Setter>
  
@@ -21,13 +21,13 @@
     <Style x:Key="CarClass" TargetType="Border">
         <Setter Property="CornerRadius" Value="6"></Setter>
         <Setter Property="BorderThickness" Value="2"></Setter>
-        <Setter Property="Height" Value="45"></Setter>
+        <Setter Property="Height" Value="35"></Setter>
     </Style>
 
     <Style x:Key="CarClassContainer" TargetType="Rectangle">
         <Setter Property="RadiusX" Value="4"></Setter>
         <Setter Property="RadiusY" Value="4"></Setter>
-        <Setter Property="Height" Value="41"></Setter>
+        <Setter Property="Height" Value="36"></Setter>
         <Setter Property="Width" Value="30"></Setter>
     </Style>
 
