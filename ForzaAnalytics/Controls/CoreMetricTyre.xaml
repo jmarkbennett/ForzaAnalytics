@@ -1,0 +1,87 @@
+﻿<UserControl x:Class="ForzaAnalytics.Controls.CoreMetricTyre"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ForzaAnalytics.Controls"
+             mc:Ignorable="d" 
+             d:DesignHeight="140" d:DesignWidth="160">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Label Name="lMetricTitle" Content="{Binding MetricTitle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}"  Grid.Row="0" Style="{StaticResource CoreMetricLabel}"></Label>
+        <Grid Grid.Row="1" Style="{StaticResource CoreMetricContainer}" >
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition></ColumnDefinition>
+                    <ColumnDefinition></ColumnDefinition>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                    <ProgressBar 
+                        Width="20"
+                        Margin="4 4"
+                    Background="Black" 
+                    BorderBrush="Transparent" 
+                    Orientation="Vertical" 
+                    Name="pbFl" 
+                    Minimum="0" 
+                    Maximum="1">
+                    </ProgressBar>
+                    <Label Name="lflValue" Width="45" Style="{StaticResource SmallerMetric}"></Label>
+                </StackPanel>
+
+                <StackPanel Grid.Row="0" Grid.Column="1" Orientation="Horizontal">
+                    <Label Name="lfrValue" Width="45" Style="{StaticResource SmallerMetric}"></Label>
+                    <ProgressBar 
+                        Width="20"
+                        Margin="4 4"
+                    Background="Black" 
+                    BorderBrush="Transparent" 
+                    Orientation="Vertical" 
+                    Name="pbFr" 
+                    Minimum="0" 
+                    Maximum="1">
+                    </ProgressBar>
+                </StackPanel>
+                
+                <StackPanel Grid.Row="1" Grid.Column="0" Orientation="Horizontal">
+                    <ProgressBar 
+                        Width="20"
+                        Margin="4 4"
+                    Background="Black" 
+                    BorderBrush="Transparent" 
+                    Orientation="Vertical" 
+                    Name="pbRl" 
+                    Minimum="0" 
+                    Maximum="1">
+                    </ProgressBar>
+                    <Label Name="lrlValue" Width="45" Style="{StaticResource SmallerMetric}"></Label>
+                </StackPanel>
+                
+                
+                <StackPanel Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                    <Label Name="lrrValue" Width="45" Style="{StaticResource SmallerMetric}"></Label>
+                    <ProgressBar 
+                        Width="20"
+                        Margin="4 4"
+                    Background="Black" 
+                    BorderBrush="Transparent" 
+                    Orientation="Vertical" 
+                    Name="pbRr" 
+                    Minimum="0" 
+                    Maximum="1">
+                    </ProgressBar>
+                </StackPanel>
+
+
+            </Grid>
+            
+        </Grid>
+    </Grid>
+</UserControl>

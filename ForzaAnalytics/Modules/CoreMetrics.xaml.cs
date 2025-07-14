@@ -36,6 +36,8 @@ namespace ForzaAnalytics.Modules
                 payload.GearNumber,
                  useMetric ? "KPH" : "MPH"
                 );
+
+            mTyreRemaining.Update(ref payload);
         }
         public void ResetEvents()
         {
@@ -50,6 +52,7 @@ namespace ForzaAnalytics.Modules
             mDistanceTravelled.Update(string.Empty);
             mSteeringAngle.Update(0);
             mSpeed.Update(string.Empty,string.Empty, string.Empty);
+
         }
     }
 }

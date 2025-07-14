@@ -1,4 +1,7 @@
-﻿namespace ForzaAnalytics.Models.Formatters
+﻿using ForzaAnalytics.Models.Enumerators;
+using System.Drawing;
+
+namespace ForzaAnalytics.Models.Formatters
 {
     public static class Formatting
     {
@@ -14,7 +17,7 @@
 
         public static Enumerators.CarClass GetCarClass(int carClass)
         {
-           return (Enumerators.CarClass)carClass;
+            return (Enumerators.CarClass)carClass;
         }
 
         public static Enumerators.DriveTrain GetDriveTrain(int driveTrain)

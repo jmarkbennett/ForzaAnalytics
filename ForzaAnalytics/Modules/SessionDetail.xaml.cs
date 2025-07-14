@@ -12,16 +12,16 @@ namespace ForzaAnalytics.Modules
     public partial class SessionDetail : UserControl
     {
         public bool IsReportingActive { get; set; }
-        private List<Models.Core.CarDetail> carDetails;
-        private List<Models.Core.TrackDetail> trackDetails;
+        private List<Models.Core.Car> carDetails;
+        private List<Models.Core.Track> trackDetails;
         private string carId = string.Empty;
         private string trackId = string.Empty;
 
         public SessionDetail()
         {
             IsReportingActive = false;
-            carDetails = CarDetailsSeralizer.LoadCarDetails($"{Environment.CurrentDirectory}\\Resources\\Files\\ManteoMaxs FM Spreadsheet.csv");
-            trackDetails = TrackDetailsSeralizer.LoadTrackDetails($"{Environment.CurrentDirectory}\\Resources\\Files\\Track Ordinals.csv");
+            carDetails = CarDetailsSeralizer.LoadCarDetails();
+            trackDetails = TrackDetailsSeralizer.LoadTrackDetails();
             InitializeComponent();
         }
 

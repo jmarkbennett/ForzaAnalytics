@@ -74,6 +74,14 @@
         <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
         <Setter Property="Padding" Value="0 0 8 8"></Setter>
     </Style>
+
+    <Style x:Key="SmallerMetric" TargetType="Label">
+        <Setter Property="FontSize" Value="10"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+    </Style>
+    
     <Style x:Key="CoreMetricLabel" TargetType="Label">
         <Setter Property="FontSize" Value="14"></Setter>
         <Setter Property="Foreground" Value="White"></Setter>
@@ -87,4 +95,14 @@
         <Setter Property="HorizontalAlignment" Value="Center"></Setter>
         <Setter Property="VerticalAlignment" Value="Center"></Setter>
     </Style>
+
+    <Style x:Key="SessionDetailSummary" TargetType="Label">
+        <Setter Property="FontSize" Value="18"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="Black"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Margin" Value="4 4 0 4"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
+    </Style>
+    
 </ResourceDictionary>

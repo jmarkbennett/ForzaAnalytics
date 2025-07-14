@@ -1,6 +1,6 @@
 ﻿namespace ForzaAnalytics.Models.Core
 {
-    public class TrackDetail
+    public class Track
     {
         public string TrackId { get; set; }
         public string Name { get; set; }
@@ -8,7 +8,7 @@
         public string CountryCode { get; set; }
         public string Layout { get; set; }
         public string Distance { get; set; }
-        public TrackDetail()
+        public Track()
         {
             TrackId = string.Empty;
             Name = string.Empty;

@@ -15,6 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\CoreMetricTyre.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Modules\SessionManager.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\ReplayMetrics.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

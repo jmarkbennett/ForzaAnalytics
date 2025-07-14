@@ -1,6 +1,6 @@
 ﻿namespace ForzaAnalytics.Models.Core
 {
-    public class CarDetail
+    public class Car
     {
         public string CarId { get; set; }
         public string YearMakeModel { get; set; }
@@ -12,7 +12,7 @@
         public string Spec { get; set; }
         public string Pi { get; set; }
         public string Class { get; set; }
-        public CarDetail()
+        public Car()
         {
             CarId = string.Empty;
             YearMakeModel = string.Empty;

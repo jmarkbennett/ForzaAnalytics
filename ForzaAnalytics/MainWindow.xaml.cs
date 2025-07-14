@@ -76,19 +76,17 @@ namespace ForzaAnalytics
                                     mSessionDetails.ReceiveEvents(payload);
                                 if (mPedalPressures.Visibility == Visibility.Visible)
                                     mPedalPressures.ReceiveEvents(payload);
-                               // if (mCarDetails.Visibility == Visibility.Visible)
-                                //    mCarDetails.ReceiveEvents(payload);
-                               // if (mCarDetails.Visibility == Visibility.Visible)
-                               //     mCoreMetrics.ReceiveEvents(payload);
-
+                                if (mCoreMetrics.Visibility == Visibility.Visible)
+                                    mCoreMetrics.ReceiveEvents(payload);
                                 if (tLapTimes.IsChecked)
-                                    mlapDetail.ReceiveEvents(payload);
+                                    mSessionManager.ReceiveEvents(payload);
                                 if (tMapGenerator.IsChecked)
                                     mMapGenerator.ReceiveEvents(payload);
                                 if (tCarPositions.IsChecked)
                                     mPositionMap.ReceiveEvents(payload);
                                 if (tAllMetrics.IsChecked)
                                     mAllMetrics.ReceiveEvents(payload);
+                                
                             }
                             msgCounter = msgLimit;
                         }
@@ -120,12 +118,6 @@ namespace ForzaAnalytics
                     else
                         mCoreMetrics.Visibility = Visibility.Visible;
                     break;
-                case "Show Car Summary":
-                  //  if (mCarDetails.Visibility == Visibility.Visible)
-                 //       mCarDetails.Visibility = Visibility.Collapsed;
-                 //   else
-                //        mCarDetails.Visibility = Visibility.Visible;
-                    break;
                 case "Show Pedal Pressures":
                     if (mPedalPressures.Visibility == Visibility.Visible)
                         mPedalPressures.Visibility = Visibility.Collapsed;
@@ -136,8 +128,7 @@ namespace ForzaAnalytics
             // Handle Visibility of Rows based on whats hidden
             if (
                 mSessionDetails.Visibility == Visibility.Collapsed &&
-                mPedalPressures.Visibility == Visibility.Collapsed// &&
-                //mCarDetails.Visibility == Visibility.Collapsed
+                mPedalPressures.Visibility == Visibility.Collapsed
                 )
                 TopMenu.Visibility = Visibility.Collapsed;
             else
@@ -215,9 +206,8 @@ namespace ForzaAnalytics
         {
             mSessionDetails.ResetEvents();
             mPedalPressures.ResetEvents();
-           // mCarDetails.ResetEvents();
             mCoreMetrics.ResetEvents();
-            mlapDetail.ResetEvents();
+            // mSessionManager.ResetEvents();
             mMapGenerator.ResetEvents();
             mPositionMap.ResetEvents();
             mAllMetrics.ResetEvents(); ;

@@ -2,22 +2,23 @@
 using ForzaAnalytics.UdpReader.Model;
 using System.IO;
 using System.Text.Json;
-using CarDetail = ForzaAnalytics.Models.Core.CarDetail;
+using Car = ForzaAnalytics.Models.Core.Car;
 
 namespace ForzaAnalytics.Services.Serializers
 {
     public static class CarDetailsSeralizer
     {
-        public static List<CarDetail> LoadCarDetails(string path)
+        public static List<Car> LoadCarDetails()
         {
+            var path = $"{Environment.CurrentDirectory}\\Resources\\Files\\ManteoMaxs FM Spreadsheet.csv";
             try
             {
-                var result = new List<CarDetail>();
+                var result = new List<Car>();
                 var rawContents = File.ReadAllLines(path);
                 foreach (var row in rawContents)
                 {
                     var split = row.Split(',');
-                    var car_detail = new CarDetail();
+                    var car_detail = new Car();
                     car_detail.YearMakeModel = split[0];
                     car_detail.NickName = split[1]; 
                     car_detail.CarId = split[2]; 
@@ -35,7 +36,7 @@ namespace ForzaAnalytics.Services.Serializers
             }
             catch (Exception e)
             {
-                return new List<CarDetail>();
+                return new List<Car>();
             }
         }
     }

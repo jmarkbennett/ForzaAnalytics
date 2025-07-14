@@ -1,20 +1,26 @@
 ﻿using ForzaAnalytics.Models.Core;
 using ForzaAnalytics.Services.Serializers;
 using ForzaAnalytics.UdpReader.Model;
+using System;
 using System.Collections.ObjectModel;
 using System.Reflection.PortableExecutable;
 using System.Text.Json;
 
 namespace ForzaAnalytics.Services.Service
 {
+    public delegate void LapCompleteEventHandler(LapTime lap);
     public class LapDetailService
     {
+        public event LapCompleteEventHandler LapCompleteEvent;
         public ObservableCollection<LapTime> LapTimes { get; set; }
+        public List<LapTime> ReversedLapTimes { get { return LapTimes.Reverse().ToList(); } }
         private List<double> currentSpeeds;
         private List<double> currentAccelerations;
         private List<double> currentBrakeApplied;
+        private List<int> currentPositions;
         private List<double> currentCoasting;
         private List<double> fuelConsumption;
+        
         private double distanceTravelled;
         private int currentLapNumber;
         private float initialFuel = -1;
@@ -26,6 +32,7 @@ namespace ForzaAnalytics.Services.Service
         public double MinSpeed { get { return currentSpeeds.Any() ? currentSpeeds.Where(x => x != 0).Min() : 0.0; } }
         public double FuelUsed { get { return fuelConsumption.Any() ? fuelConsumption.Max() - fuelConsumption.Min() : 0; } }
         public double PercentCoasting { get { return ((double)currentCoasting.Count() / (double)currentAccelerations.Count()); } }
+        public int PositionChanges { get { return currentPositions.Any() ? currentPositions.Distinct().Count() : 0; } }
         private void ClearCurrentValues()
         {
             currentSpeeds = [];
@@ -42,19 +49,27 @@ namespace ForzaAnalytics.Services.Service
             currentBrakeApplied.Add(payload.Brake);
             currentSpeeds.Add(payload.Speed_Mph);
             fuelConsumption.Add(payload.Fuel);
+            currentPositions.Add(payload.Race.RacePosition);
         }
 
         public LapDetailService()
         {
-            LapTimes = [];
+            LapTimes = new ObservableCollection<LapTime>();
             currentSpeeds = [];
             currentAccelerations = [];
             currentCoasting = [];
             currentBrakeApplied = [];
             fuelConsumption = [];
+            currentPositions = [];
             currentLapNumber = 0;
+            distanceTravelled = 0;
+
+            SessionSerializer.initializeDatabase();
+
+            SyncData(SessionSerializer.GetAllSessions(), SessionSerializer.GetAllLapTimes());
+
         }
-        public void Update(Telemetry payload)
+        public void Update(Telemetry payload, Guid sessionId, string sessionSummary)
         {
             if (initialFuel == -1)
                 initialFuel = payload.Fuel;
@@ -62,37 +77,9 @@ namespace ForzaAnalytics.Services.Service
                 initialDistance = payload.DistanceTravelled;
             if (LapTimes.Any() && payload.Race.LastLapTime > 0)
             {
-                if (LapTimes[LapTimes.Count - 1].TimeInSeconds != payload.Race.LastLapTime)
+                if (LapTimes[LapTimes.Count - 1].TimeInSeconds != payload.Race.LastLapTime) // Scenario 1: Check the last lap time is different to the payloads last lap
                 {
-                    LapTimes.Add(
-                        new LapTime()
-                        {
-                            IsBestLap = (payload.Race.LastLapTime == payload.Race.BestLapTime),
-                            LapNumber = payload.Race.LapNumber,
-                            RacePosition = payload.Race.RacePosition,
-                            TimeInSeconds = payload.Race.LastLapTime,
-                            FuelRemaining = payload.Fuel,
-                            AverageSpeed = AverageSpeed,
-                            PercentBrakeApplied = PercentBrakeApplied,
-                            PercentFullThrottle = PercentFullThrottle,
-                            MaxSpeed = MaxSpeed,
-                            MinSpeed = MinSpeed,
-                            FuelUsed = FuelUsed,
-                            PercentCoasting = PercentCoasting,
-                            TotalDistanceTravelled = payload.DistanceTravelled_Km,
-                            DistanceTravelled = payload.DistanceTravelled_Km - LapTimes.Last().TotalDistanceTravelled,
-                            AvgTyreWear = payload.Tire.AvgTireWear
-                        }
-                    );
-
-                    foreach (LapTime t in LapTimes)
-                        t.IsBestLap = (t.TimeInSeconds == payload.Race.BestLapTime);
-                }
-            }
-            else if (payload.Race.LastLapTime > 0)
-            {
-                LapTimes.Add(
-                    new LapTime()
+                    var current = new LapTime()
                     {
                         IsBestLap = (payload.Race.LastLapTime == payload.Race.BestLapTime),
                         LapNumber = payload.Race.LapNumber,
@@ -107,10 +94,56 @@ namespace ForzaAnalytics.Services.Service
                         FuelUsed = FuelUsed,
                         PercentCoasting = PercentCoasting,
                         TotalDistanceTravelled = payload.DistanceTravelled_Km,
-                        DistanceTravelled = payload.DistanceTravelled_Km,
-                        AvgTyreWear = payload.Tire.AvgTireWear
-                    }
-                );
+                        DistanceTravelled = payload.DistanceTravelled_Km - LapTimes.Last().TotalDistanceTravelled,
+                        AvgTyreWear = payload.Tire.AvgTireWear,
+                        FlTyreWear = payload.Tire.TireWearFrontLeft,
+                        FrTyreWear = payload.Tire.TireWearFrontRight,
+                        RlTyreWear = payload.Tire.TireWearRearLeft,
+                        RrTyreWear = payload.Tire.TireWearRearRight,
+                        SessionSummary = sessionSummary,
+                        PositionChanges = PositionChanges,
+                        SessionId = sessionId,
+                        TimeOfLapTime = DateTime.Now
+                       
+                    };
+                    LapTimes.Add(current);
+                    LapCompleteEvent?.Invoke(current);
+
+                    foreach (LapTime t in LapTimes)
+                        t.IsBestLap = (t.TimeInSeconds == payload.Race.BestLapTime);
+                }
+            }
+            else if (payload.Race.LastLapTime > 0) // scenario 2: no last lap time
+            {
+                var current = new LapTime()
+                {
+                    IsBestLap = (payload.Race.LastLapTime == payload.Race.BestLapTime),
+                    LapNumber = payload.Race.LapNumber,
+                    RacePosition = payload.Race.RacePosition,
+                    TimeInSeconds = payload.Race.LastLapTime,
+                    FuelRemaining = payload.Fuel,
+                    AverageSpeed = AverageSpeed,
+                    PercentBrakeApplied = PercentBrakeApplied,
+                    PercentFullThrottle = PercentFullThrottle,
+                    MaxSpeed = MaxSpeed,
+                    MinSpeed = MinSpeed,
+                    FuelUsed = FuelUsed,
+                    PercentCoasting = PercentCoasting,
+                    TotalDistanceTravelled = payload.DistanceTravelled_Km,
+                    DistanceTravelled = payload.DistanceTravelled_Km,
+                    AvgTyreWear = payload.Tire.AvgTireWear,
+                    FlTyreWear = payload.Tire.TireWearFrontLeft,
+                    FrTyreWear = payload.Tire.TireWearFrontRight,
+                    RlTyreWear = payload.Tire.TireWearRearLeft,
+                    RrTyreWear = payload.Tire.TireWearRearRight,
+                    SessionSummary = sessionSummary,
+                    PositionChanges = PositionChanges,
+                    SessionId = sessionId,
+                    TimeOfLapTime = DateTime.Now
+                };
+                LapTimes.Add(current);
+                LapCompleteEvent?.Invoke(current);
+                
             }
 
             if (currentLapNumber == payload.Race.LapNumber)
@@ -131,38 +164,23 @@ namespace ForzaAnalytics.Services.Service
             ClearCurrentValues();
             currentLapNumber = 0;
             initialFuel = -1;
+            distanceTravelled = 0;
         }
 
-        public void ImportTelemetry(string filename)
+        public void SyncData(List<Session> sessions, List<LapTime> laps)
         {
-            ResetService();
-            var telemetry = MapSerializer.LoadPositionData(filename);
-            var laps = telemetry.ExtendedPositions.Select(i => i.LapNumber).Distinct().ToList();
-            foreach(var lap in laps)
-            {
-                var row = new LapTime();
-                var lapInfo = telemetry.ExtendedPositions.Select(i => i).Where(i => i.LapNumber == lap).ToList();
-                row.LapNumber = lap;
-                row.AverageSpeed = lapInfo.Average(i => i.Speed_Mph);
-                row.MaxSpeed = lapInfo.Max(i => i.Speed_Mph);
-                row.MinSpeed = lapInfo.Min(i => i.Speed_Mph);
-                row.TimeInSeconds = lapInfo.Max(i => i.LapTime);
-                row.PercentBrakeApplied = (double)lapInfo.Where(i => i.Brake > 0).Count() / (double)lapInfo.Count();
-                row.PercentFullThrottle = (double)lapInfo.Where(i => i.Acceleration == 100).Count() / (double)lapInfo.Count();
-                row.PercentCoasting = (double)lapInfo.Where(i => i.Acceleration == 0 && i.Brake == 0 && i.Handbrake == 0).Count() / (double)lapInfo.Count();
-                row.FuelRemaining = (double)lapInfo.Min(i => i.FuelRemaining);
-                row.FuelUsed = (double)lapInfo.Max(i => i.FuelRemaining) - (double)lapInfo.Min(i => i.FuelRemaining);
-                row.RacePosition = lapInfo.Last().RacePosition;
-                LapTimes.Add(row);
-            }
-
-            if (laps.Count > 0)
-            {
-                var bestLap = LapTimes.Min(i => i.TimeInSeconds);
-                foreach (var lap in LapTimes)
+            for(var i = 0; i< sessions.Count; i++) {
+                var car = CarDetailsSeralizer.LoadCarDetails().Where(x=>x.CarId == sessions[i].CarId.ToString()).FirstOrDefault();
+                var track = TrackDetailsSeralizer.LoadTrackDetails().Where(x=>x.TrackId == sessions[i].TrackId.ToString()).FirstOrDefault();
+                var sessionLaps = laps.Where(x => x.SessionId == sessions[i].SessionId).ToList();
+                foreach (var lap in sessionLaps)
                 {
-                    if (lap.TimeInSeconds == bestLap)
-                        lap.IsBestLap = true;
+                    var toAdd = lap;
+                    var sessionEnd = sessions[i].SessionEnd.ToString("yyyy-mm-dd HH:mm:ss");
+                    if (sessions[i].SessionEnd.Year == 1)
+                        sessionEnd = "???";
+                    toAdd.SessionSummary = $"{i} - Car: {car?.YearMakeModel ?? "Unknown"} - Track: {track?.FullTrackName ?? "Unknown"} - ({sessions[i].SessionStart.ToString("yyyy-mm-dd HH:mm:ss")} - {sessionEnd})";
+                    LapTimes.Add(toAdd);
                 }
             }
         }

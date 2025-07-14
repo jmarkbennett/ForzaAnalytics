@@ -60,7 +60,7 @@
                         <Image Source="./Resources/Icons/stopwatch.png" Margin="8 4" Height="16" Width="16"></Image>
                     </StackPanel>
                 </TabItem.Header>
-                <Modules:LapDetail x:Name="mlapDetail"/>
+                <Modules:SessionManager x:Name="mSessionManager"></Modules:SessionManager>
             </TabItem>
             <TabItem>
                 <TabItem.Header>

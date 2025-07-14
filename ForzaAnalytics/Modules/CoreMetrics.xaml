@@ -19,5 +19,6 @@
         <Controls:CoreMetric Width="160" MetricTitle="Roll" x:Name="mRoll"></Controls:CoreMetric>
         <Controls:CoreMetric Width="160" MetricTitle="Torque (lb-ft)" x:Name="mTorque"></Controls:CoreMetric>
         <Controls:CoreMetric Width="160"  MetricTitle="Distance Travelled (m)" x:Name="mDistanceTravelled"></Controls:CoreMetric>
+        <Controls:CoreMetricTyre Width="160"  MetricTitle="Tyre Use" x:Name="mTyreRemaining"></Controls:CoreMetricTyre>
     </StackPanel>
 </UserControl>

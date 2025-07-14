@@ -38,7 +38,10 @@ namespace ForzaAnalytics.UdpReader.Model
         public float TireWearFrontRight { get { return (float)Math.Round(raw_tireWearFrontRight * 100.0, 2); } }
         public float TireWearRearLeft { get { return (float)Math.Round(raw_tireWearRearLeft * 100.0, 2); } }
         public float TireWearRearRight { get { return (float)Math.Round(raw_tireWearRearRight * 100.0, 2); } }
-
+        public float TyreWearRemainingFrontLeft { get { return 1 - raw_tireWearFrontLeft; } }
+        public float TyreWearRemainingFrontRight { get { return 1 - raw_tireWearFrontRight; } }
+        public float TyreWearRemainingRearLeft { get { return 1 - raw_tireWearRearLeft; } }
+        public float TyreWearRemainingRearRight { get { return 1 - raw_tireWearRearRight; } }
         public double AvgTireWear { get { return Math.Round((TireWearFrontLeft + TireWearFrontRight + TireWearRearLeft + TireWearRearRight) / 4.0f,2); } }
 
     }

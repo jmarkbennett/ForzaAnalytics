@@ -11,15 +11,15 @@ namespace ForzaAnalytics.Modules
     /// </summary>
     public partial class CarDetail : UserControl
     {
-        private List<Models.Core.CarDetail> carDetails;
-        private List<Models.Core.TrackDetail>  trackDetails;
+        private List<Models.Core.Car> carDetails;
+        private List<Models.Core.Track>  trackDetails;
         private string carId = string.Empty;
         private string trackId = string.Empty;
         public CarDetail()
         {
             InitializeComponent();
-            carDetails = CarDetailsSeralizer.LoadCarDetails($"{Environment.CurrentDirectory}\\Resources\\Files\\ManteoMaxs FM Spreadsheet.csv");
-            trackDetails = TrackDetailsSeralizer.LoadTrackDetails($"{Environment.CurrentDirectory}\\Resources\\Files\\Track Ordinals.csv");
+            carDetails = CarDetailsSeralizer.LoadCarDetails();
+            trackDetails = TrackDetailsSeralizer.LoadTrackDetails();
         }
         
 

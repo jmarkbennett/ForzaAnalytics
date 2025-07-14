@@ -9,6 +9,15 @@
     <Import_RootNamespace>ForzaAnalytics.SharedResources</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\checkered-flag.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\exit.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\file-excel.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\cog.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

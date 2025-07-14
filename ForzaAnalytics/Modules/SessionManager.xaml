@@ -1,4 +1,4 @@
-﻿<UserControl x:Class="ForzaAnalytics.Modules.LapDetail"
+﻿<UserControl x:Class="ForzaAnalytics.Modules.SessionManager"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
@@ -13,52 +13,46 @@
         </Style>
     </UserControl.Resources>
     <DockPanel Background="#CC444444">
-        <Label DockPanel.Dock="Top"  Style="{StaticResource HeaderLabel}" Grid.Row="0" Content="Lap Summary"></Label>
-        <Menu Background="#CC444444" FontSize="16" DockPanel.Dock="Top">
-            <MenuItem Header="Telemetry" Style="{StaticResource MainMenuItem}">
-                <MenuItem Name="miImport" Foreground="White" Click="miImport_Click" Style="{StaticResource MainMenuItem}">
-                    <MenuItem.Header>
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="/Resources/Icons/folder-download.png" Margin="4" Height="16" Width="16"></Image>
-                            <Label Content="Import Telemetry"></Label>
-                        </StackPanel>
-                    </MenuItem.Header>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
-        <Separator DockPanel.Dock="Top"></Separator>
-        
-        <Grid DockPanel.Dock="Bottom" Height="44">
+        <Grid DockPanel.Dock="Top" Height="40">
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
-                <ColumnDefinition Width="140"></ColumnDefinition>
-                <ColumnDefinition Width="120"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="40"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="180"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="35"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Content="Lap Number:" Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Grid.Column="1" Grid.Row="0" x:Name="tbCurrentLapNumber" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Content="Current Lap:" Grid.Row="0" Grid.Column="2" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Grid.Column="3" Grid.Row="0" x:Name="tbCurrentLapTime" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Content="Best Lap:" Grid.Row="0" Grid.Column="4" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Grid.Column="5" Grid.Row="0" x:Name="tbBestLapTime" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Content="Fuel Remaining:" Grid.Row="0" Grid.Column="6" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
-            <Label Grid.Column="7" Grid.Row="0" x:Name="tbFuel" HorizontalAlignment="Center" Style="{StaticResource LeaderboardDefaultLabel}"></Label>
+            <Label Grid.Column="0" Content="Close Current Session:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
+            <Button Grid.Column="1"  Margin="2" Name="btnAbandonSession" Click="btnAbandonSession_Click">
+                <StackPanel Orientation="Horizontal">
+                <Label Content="Abandon Session*" Foreground="Black"></Label>
+                <Image Source="../Resources/Icons/exit.png" Margin="8 4" Height="16" Width="16"></Image>
+                </StackPanel>
+            </Button>
+            <Button Grid.Column="3" Margin="2" Name="btnCompleteSession"  Click="btnCompleteSession_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Complete Session*" Foreground="Black"></Label>
+                    <Image Source="../Resources/Icons/checkered-flag.png" Margin="8 4" Height="16" Width="16"></Image>
+                </StackPanel>
+            </Button>
+            <Label Grid.Column="5" Content="Export Session Data:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
+            <Button Grid.Column="6" Margin="2" Name="btnExport" Click="btnExport_Click">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Export" Foreground="Black"></Label>
+                    <Image Source="../Resources/Icons/file-excel.png" Margin="8 4" Height="16" Width="16"></Image>
+                </StackPanel>
+            </Button>
+
         </Grid>
+        <Label DockPanel.Dock="Top"  Style="{StaticResource HeaderLabel}" Grid.Row="0" Content="Session Summary"></Label>
         <ListView DockPanel.Dock="Top"  Name="lvLapTimes" Style="{StaticResource LeaderboardView}">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridView.ColumnHeaderContainerStyle>
                         <Style TargetType="GridViewColumnHeader">
                             <Setter Property="Background" Value="Transparent"></Setter>
-                            <Setter Property="FontSize" Value="18"></Setter>
+                            <Setter Property="FontSize" Value="16"></Setter>
                             <Setter Property="Foreground" Value="White"></Setter>
                             <Setter Property="BorderBrush" Value="Transparent"></Setter>
                             <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
@@ -67,14 +61,14 @@
                         </Style>
                     </GridView.ColumnHeaderContainerStyle>
                     <GridView.Columns>
-                        <GridViewColumn Header="Lap Number" Width="140">
+                        <GridViewColumn Header="Lap Number" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=LapNumber}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Time" Width="140">
+                        <GridViewColumn Header="Time" Width="100">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedLapTime}" Style="{StaticResource LeaderboardLapTimeLabel}">
@@ -82,7 +76,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Race Position" Width="140">
+                        <GridViewColumn Header="Race Position" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=RacePosition}" Style="{StaticResource LeaderboardLapTimeLabel}">
@@ -90,7 +84,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Fuel Remaining" Width="160">
+                        <GridViewColumn Header="Fuel Remaining" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedFuelRemaining}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -100,7 +94,22 @@
                         <GridViewColumn Header="Avg. Tyre Wear" Width="140">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=FormattedAvgTyreWear}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
+                                    <Grid Background="Transparent">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition></ColumnDefinition>
+                                            <ColumnDefinition Width="100"></ColumnDefinition>
+                                        </Grid.ColumnDefinitions>
+                                        <Grid.RowDefinitions>
+                                            <RowDefinition></RowDefinition>
+                                            <RowDefinition></RowDefinition>
+                                        </Grid.RowDefinitions>
+                                        <ProgressBar Grid.Column="0" Height="15" Width="10" Grid.Row="0" Value="{Binding Path=FlTyreRemaining}" Minimum="0" Maximum="100" Margin="2"  ToolTip="{Binding Path=FlTyreRemaining}" Foreground="White" Background="Black"  Orientation="Vertical"></ProgressBar>
+                                        <ProgressBar Grid.Column="1" Height="15" Width="10" Grid.Row="0" Value="{Binding Path=FrTyreRemaining}" Minimum="0" Maximum="100" Margin="2"  ToolTip="{Binding Path=FrTyreRemaining}" Foreground="White" Background="Black"  Orientation="Vertical" ></ProgressBar>
+                                        <ProgressBar Grid.Column="0" Height="15" Width="10" Grid.Row="1" Value="{Binding Path=RlTyreRemaining}" Minimum="0" Maximum="100" Margin="2"  ToolTip="{Binding Path=RlTyreRemaining}" Foreground="White" Background="Black" Orientation="Vertical" ></ProgressBar>
+                                        <ProgressBar Grid.Column="1" Height="15" Width="10"  Grid.Row="1" Value="{Binding Path=RrTyreRemaining}" Minimum="0" Maximum="100" Margin="2" ToolTip="{Binding Path=RrTyreRemaining}" Foreground="White" Background="Black"  Orientation="Vertical"></ProgressBar>
+                                        <Label Grid.Row="0" Grid.Column="2" Grid.RowSpan="2" Margin="4 0" Content="{Binding Path=FormattedTyreRemaining}" Style="{StaticResource LeaderboardLapTimeLabel}" Background="Transparent" ></Label>
+                                    </Grid>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
@@ -132,7 +141,7 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Min Speed" Width="140">
+                        <GridViewColumn Header="Min Speed" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedMinSpeed}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -153,14 +162,14 @@
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Lap Distance" Width="160">
+                        <GridViewColumn Header="Lap Distance" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
-                        <GridViewColumn Header="Total Distance" Width="160">
+                        <GridViewColumn Header="Total Distance" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
                                     <Label Content="{Binding Path=FormattedTotalDistanceTravelled}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
@@ -170,6 +179,15 @@
                     </GridView.Columns>
                 </GridView>
             </ListView.View>
+            <ListView.GroupStyle>
+                <GroupStyle>
+                    <GroupStyle.HeaderTemplate>
+                        <DataTemplate>
+                            <Label Content="{Binding Name}" Style="{StaticResource SessionDetailSummary}"></Label>
+                        </DataTemplate>
+                    </GroupStyle.HeaderTemplate>
+                </GroupStyle>
+            </ListView.GroupStyle>
         </ListView>
     </DockPanel>
 </UserControl>
