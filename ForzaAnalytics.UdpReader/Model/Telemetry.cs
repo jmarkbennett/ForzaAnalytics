@@ -13,6 +13,7 @@ namespace ForzaAnalytics.UdpReader.Model
         private SuspensionData suspension;
         private PositionalData position;
 
+        private DateTime eventTime;
         public Telemetry(byte[] payload)
         {
             this.payload = payload;
@@ -22,6 +23,7 @@ namespace ForzaAnalytics.UdpReader.Model
             tire = new TireData(ref payload);
             suspension = new SuspensionData(ref payload);
             position = new PositionalData(ref payload);
+            eventTime = DateTime.Now;
 
         }
 
@@ -130,5 +132,9 @@ namespace ForzaAnalytics.UdpReader.Model
         public float TorqueNm { get { return raw_torque; } }
         public float TorqueOneFootPound { get { return (raw_torque / (float)1.356); } }
         public float EnginePowerHp { get { return ((raw_power * (float)1.341) / 1000); } }
+        public DateTime EventTime
+        {
+            get { return eventTime; }
+        }
     }
 }

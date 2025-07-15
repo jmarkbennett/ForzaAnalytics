@@ -40,7 +40,7 @@ namespace ForzaAnalytics.Services.Serializers
                 SQLiteConnection.CreateFile(name);
             }
             //resetDbTables();
-            clearSessions();
+            //clearSessions();
             createDbTables();
         }
 
@@ -192,7 +192,9 @@ namespace ForzaAnalytics.Services.Serializers
             using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
-                string sql = "SELECT DISTINCT s.SessionId SessionId, TrackId, CarId, SessionStartTime, SessionEndTime, SessionEndType, CarClass, CarPi  FROM SessionData s INNER JOIN LapData ld ON ld.Sessionid = ld.SessionId";
+                string sql =    "SELECT DISTINCT " +
+                                "s.SessionId SessionId, TrackId, CarId, SessionStartTime, SessionEndTime, SessionEndType, CarClass, CarPi  " +
+                                "FROM SessionData s INNER JOIN LapData ld ON s.Sessionid = ld.SessionId";
                 using (var command = new SQLiteCommand(sql, conn))
                 {
                     var reader = command.ExecuteReader();
@@ -214,7 +216,6 @@ namespace ForzaAnalytics.Services.Serializers
             }
             return sessions;
         }
-
         public static List<LapTime> GetAllLapTimes()
         {
             var sessions = new List<LapTime>();
@@ -256,7 +257,6 @@ namespace ForzaAnalytics.Services.Serializers
             }
             return sessions;
         }
-
         public static void ExportSessionData(string filePath) // need to move this data, or centralise it as the lap detail service also uses it
         {
             var sessions = GetAllSessions();

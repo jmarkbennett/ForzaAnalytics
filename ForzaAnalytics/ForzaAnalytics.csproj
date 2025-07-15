@@ -18,6 +18,9 @@
     <Compile Update="Controls\CoreMetricTyre.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Modules\RawTelemetryViewer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Modules\SessionManager.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

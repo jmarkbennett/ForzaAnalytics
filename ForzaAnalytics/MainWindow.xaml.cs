@@ -1,4 +1,5 @@
 ﻿using ForzaAnalytics.Services.Serializers;
+using ForzaAnalytics.UdpReader.Model;
 using ForzaAnalytics.UdpReader.Service;
 using System.Configuration;
 using System.Diagnostics.Metrics;
@@ -20,7 +21,8 @@ namespace ForzaAnalytics
         private Models.Enumerators.MessageRate messageRate = Models.Enumerators.MessageRate.Full;
         private int msgCounter = 0;
         private int msgLimit = 0;
-        
+
+        private Telemetry previousValue;
         public MainWindow()
         {
             InitializeComponent();
@@ -70,25 +72,38 @@ namespace ForzaAnalytics
                     {
                         if (msgCounter == 0)
                         {
-                            if (payload.isReportingActive)
+                            if (mSessionDetails.Visibility == Visibility.Visible)
+                                mSessionDetails.ReceiveEvents(payload);
+                            if (tLapTimes.IsChecked)
                             {
-                                if (mSessionDetails.Visibility == Visibility.Visible)
-                                    mSessionDetails.ReceiveEvents(payload);
-                                if (mPedalPressures.Visibility == Visibility.Visible)
-                                    mPedalPressures.ReceiveEvents(payload);
-                                if (mCoreMetrics.Visibility == Visibility.Visible)
-                                    mCoreMetrics.ReceiveEvents(payload);
-                                if (tLapTimes.IsChecked)
-                                    mSessionManager.ReceiveEvents(payload);
-                                if (tMapGenerator.IsChecked)
-                                    mMapGenerator.ReceiveEvents(payload);
-                                if (tCarPositions.IsChecked)
-                                    mPositionMap.ReceiveEvents(payload);
-                                if (tAllMetrics.IsChecked)
-                                    mAllMetrics.ReceiveEvents(payload);
-                                
+                                if (previousValue != null && previousValue.isReportingActive && !payload.isReportingActive)
+                                    mSessionManager.ReceiveEvents(previousValue, true);
+                                else
+                                    mSessionManager.ReceiveEvents(payload, false);
                             }
+                            if (tLapTimes.IsChecked)
+
+
+                                if (payload.isReportingActive)
+                                {
+                                    if (mPedalPressures.Visibility == Visibility.Visible)
+                                        mPedalPressures.ReceiveEvents(payload);
+                                    if (mCoreMetrics.Visibility == Visibility.Visible)
+                                        mCoreMetrics.ReceiveEvents(payload);
+
+                                    if (tMapGenerator.IsChecked)
+                                        mMapGenerator.ReceiveEvents(payload);
+                                    if (tCarPositions.IsChecked)
+                                        mPositionMap.ReceiveEvents(payload);
+                                    if (tAllMetrics.IsChecked)
+                                        mAllMetrics.ReceiveEvents(payload);
+                                }
+
+                            if (tTrackTelemetry.IsChecked)
+                                mTelemetryLog.ReceiveEvents(payload);
                             msgCounter = msgLimit;
+
+                            previousValue = payload;
                         }
                         else
                             msgCounter -= 1;
@@ -176,6 +191,7 @@ namespace ForzaAnalytics
                 eAllMetrics.Fill = tAllMetrics.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
                 eMapGenerator.Fill = tMapGenerator.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
                 ePositionMap.Fill = tCarPositions.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
+                eTrackTelemetry.Fill = tTrackTelemetry.IsChecked ? new SolidColorBrush(Colors.YellowGreen) : new SolidColorBrush(Colors.OrangeRed);
             }
             else
             {
@@ -183,6 +199,7 @@ namespace ForzaAnalytics
                 eAllMetrics.Fill = new SolidColorBrush(Colors.DarkGray);
                 eMapGenerator.Fill = new SolidColorBrush(Colors.DarkGray);
                 ePositionMap.Fill = new SolidColorBrush(Colors.DarkGray);
+                eTrackTelemetry.Fill = new SolidColorBrush(Colors.DarkGray);
             }
         }
 

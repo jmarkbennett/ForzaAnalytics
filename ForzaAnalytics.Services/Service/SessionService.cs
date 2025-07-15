@@ -8,85 +8,41 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static System.Collections.Specialized.BitVector32;
 
 namespace ForzaAnalytics.Services.Service
 {
     public class SessionService
     {
-        private LapDetailService svc;
+        private LapDetailService lapSvc;
         private List<Car> cars;
         private List<Track> tracks;
 
-        private float previousRaceTime;
         private ObservableCollection<Session> sessions;
-        private Session session;
-
+        private Session currentSession;
         private Car sessionCar;
         private Track sessionTrack;
-        public void Update(Telemetry payload)
-        {
-            if (HasSessionChanged(ref payload))
-            {
-                if (session.CarId > 0) // session exists
-                {
-                    var endTime = DateTime.Now;
-                    if (svc.LapTimes.Any())
-                        endTime = svc.LapTimes.Last().TimeOfLapTime;
-                    SessionSerializer.CloseSession(session.SessionId, "Automatic", endTime);
-                    session.FinalizeSession();
-                    sessions.Add(session);
-                    svc.ResetService();
-                }
-                session = new Session();
-                session.InitSession(payload.Car.CarIdentifier, payload.Race.TrackIdentifier, payload.Race.CurrentRaceTime, int.Parse(payload.Car.CarPerformanceIndex), 
-                    Models.Formatters.Formatting.GetCarClass(payload.Car.CarClass).ToString());
-                sessionCar = ObtainCarDetail(payload.Car.CarIdentifier);
-                sessionTrack = ObtainTrackDetail(payload.Race.TrackIdentifier);
-            }
 
-            UpdateSession(ref payload);
-            svc.Update(payload, session.SessionId, SessionSummary);
-        }
-        private bool HasSessionChanged(ref Telemetry payload)
-        {
-            if (payload.Race.TrackIdentifier != session.TrackId)
-                return true;
-            if (payload.Car.CarIdentifier != session.CarId)
-                return true;
-            //if (payload.DistanceTravelled < session.DistanceTravelled) // cant use this as driving in reverse or backwards reverses distance.
-            //    return true;
-            if (payload.Race.LapNumber < session.CurrentLapNumber)
-                return true;
-            if (payload.Race.CurrentRaceTime < session.LastSessionRaceTime)
-                return true;
+        private Telemetry lastTelemetry; // limitation of Data Out: we cant track the last lap when the race completes because it doesnts update the lap data for this. we have to get the last telemetry value which will be off
 
-            return false;
+        public Session CurrentSession { get { return currentSession; } }
 
+        public SessionService()
+        {         
+            Reset();
+            SyncData();
+            lapSvc.LapCompleteEvent += AddLapToCurrentSession;
         }
-        private void UpdateSession(ref Telemetry payload)
-        {
-            session.DistanceTravelled = payload.DistanceTravelled;
-            session.LastSessionRaceTime = payload.Race.CurrentRaceTime;
-            if (payload.Race.LapNumber != session.CurrentLapNumber)
-                session.CurrentLapNumber = payload.Race.LapNumber;
-        }
-        public void AddLapToCurrentSession(LapTime lap)
-        {
-            session.LapTimes.Add(lap);
-            var bestTime = session.LapTimes.Min(i => i.TimeInSeconds);
-            foreach (LapTime t in session.LapTimes)
-                t.IsBestLap = (t.TimeInSeconds == bestTime);
 
-            SessionSerializer.LogSessionRow(session, lap);
-        }
+        public LapDetailService LapDetails { get { return lapSvc; } }
+
         public void Reset()
         {
+            lapSvc = new LapDetailService();
             cars = CarDetailsSeralizer.LoadCarDetails();
             tracks = TrackDetailsSeralizer.LoadTrackDetails();
-            session = new Session();
+            currentSession = new Session();
             sessions = [];
-            
-            previousRaceTime = 0;
         }
         private Car ObtainCarDetail(int carId)
         {
@@ -112,25 +68,83 @@ namespace ForzaAnalytics.Services.Service
                 return detail;
             }
         }
-
-        public SessionService()
+        private bool HasSessionChanged(ref Telemetry payload)
         {
-            svc = new LapDetailService();
-            session = new Session();
-            Reset();
-            SyncData();
-            svc.LapCompleteEvent += AddLapToCurrentSession;
+            if (payload.DistanceTravelled < 0)
+                return false;
+            if (payload.Race.TrackIdentifier != currentSession.TrackId)
+                return true;
+            if (payload.Car.CarIdentifier != currentSession.CarId)
+                return true;
+            //if (payload.DistanceTravelled < currentSession.DistanceTravelled) // cant use this as driving in reverse or backwards reverses distance.
+            //    return true;
+            if (payload.Race.LapNumber < currentSession.CurrentLapNumber)
+                return true;
+            if (payload.Race.CurrentRaceTime < currentSession.LastSessionRaceTime)
+                return true;
+
+            return false;
+
+        }
+        public void Update(Telemetry payload)
+        {
+            lastTelemetry = payload;
+
+            if (HasSessionChanged(ref payload))
+            {
+                if (currentSession.CarId > 0) // session exists, close it off, reset laps
+                {
+                    var endTime = DateTime.Now;
+                    if (lapSvc.LapTimes.Any())
+                        endTime = lapSvc.LapTimes.Last().TimeOfLapTime;
+                    SessionSerializer.CloseSession(currentSession.SessionId, "Automatic", endTime);
+                    currentSession.FinalizeSession();
+                    sessions.Add(currentSession);
+                    lapSvc.Reset();
+                }
+
+                currentSession = new Session();
+                currentSession.InitSession(
+                    payload.Car.CarIdentifier,
+                    payload.Race.TrackIdentifier,
+                    payload.Race.CurrentRaceTime,
+                    int.Parse(payload.Car.CarPerformanceIndex),
+                    Models.Formatters.Formatting.GetCarClass(payload.Car.CarClass).ToString()
+                );
+                sessionCar = ObtainCarDetail(payload.Car.CarIdentifier);
+                sessionTrack = ObtainTrackDetail(payload.Race.TrackIdentifier);
+            }
+
+            if (currentSession.CarId > 0 && payload.DistanceTravelled > 0)
+            {
+                currentSession.DistanceTravelled = payload.DistanceTravelled;
+                currentSession.LastSessionRaceTime = payload.Race.CurrentRaceTime;
+                if (payload.Race.LapNumber != currentSession.CurrentLapNumber)
+                    currentSession.CurrentLapNumber = payload.Race.LapNumber;
+
+                lapSvc.Update(payload, currentSession.SessionId, SessionSummary);
+            }
         }
 
-        private void SyncData()
+        public void AddLapToCurrentSession(LapTime lap)
+        {
+            SessionSerializer.LogSessionRow(currentSession, lap);
+        }
+
+        public void CreateFinalRaceLap()
+        {
+            lapSvc.CreateFinalRaceLap(lastTelemetry, currentSession.SessionId, SessionSummary);
+        }
+
+        public void SyncData()
         {
            var readSessions = SessionSerializer.GetAllSessions();
             foreach (var sess in readSessions)
                 sessions.Add(sess);
         }
 
-        public ObservableCollection<LapTime> CurrentLapTimes { get { return svc.LapTimes; } }
-        public Guid SessionId { get { return session.SessionId; } }
+        public ObservableCollection<LapTime> CurrentLapTimes { get { return lapSvc.LapTimes; } }
+
         public string SessionSummary { get { return $"{sessions.Count()} - Car: {sessionCar?.YearMakeModel ?? "Unknown"} - Track: {sessionTrack?.FullTrackName ?? "Unknown"}"; } }
     }
 }

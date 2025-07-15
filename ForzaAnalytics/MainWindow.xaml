@@ -30,6 +30,7 @@
                 <MenuItem Header="Track Car Positions" Name="tCarPositions" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
                 <MenuItem Header="Track All Metrics" Name="tAllMetrics" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
                 <MenuItem Header="Track Map Generator" Name="tMapGenerator" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="True" />
+                <MenuItem Header="Track Raw Telemetry" Name="tTrackTelemetry" Style="{StaticResource MainMenuItem}" Click="tToggleTrack_Click" IsCheckable="True" IsChecked="False" />
             </MenuItem>
             <MenuItem Name="miConfigure" Header="Options" Style="{StaticResource MainMenuItem}" Click="miConfigure_Click">
                 <MenuItem.Icon>
@@ -91,6 +92,16 @@
                     </StackPanel>
                 </TabItem.Header>
                 <Modules:MapGenerator x:Name="mMapGenerator"></Modules:MapGenerator>
+            </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="200">
+                        <Ellipse Name="eTrackTelemetry"  Height="18" Width="18" Fill="Gray" Margin="12 0"></Ellipse>
+                        <TextBlock Text="Telemetry Log"></TextBlock>
+                        <Image Source="/Resources/Icons/map2.png" Margin="8 4" Height="16" Width="16"></Image>
+                    </StackPanel>
+                </TabItem.Header>
+                <Modules:RawTelemetryViewer x:Name="mTelemetryLog"></Modules:RawTelemetryViewer>
             </TabItem>
         </TabControl>
     </DockPanel>

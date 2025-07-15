@@ -19,13 +19,11 @@ namespace ForzaAnalytics.Models.Core
         private DateTime sessionStart;
         private DateTime sessionEnd;
         private string sessionEndType;
-        private ObservableCollection<LapTime> lapTimes;
         private int currentLapNumber;
 
         public Session()
         {
             sessionId = Guid.NewGuid();
-            lapTimes = [];
             carId = -1;
             carClass = "";
             carPi = 0;
@@ -34,7 +32,6 @@ namespace ForzaAnalytics.Models.Core
             DistanceTravelled = -100000;
             sessionEndType = "";
         }
-
         public Guid SessionId
         {
             get { return sessionId; }
@@ -62,7 +59,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(CarClass));
             }
         }
-
         public int CarPi
         {
             get { return carPi; }
@@ -72,7 +68,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(CarPi));
             }
         }
-
         public int TrackId
         {
             get { return trackId; }
@@ -82,7 +77,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(TrackId));
             }
         }
-
         public int CurrentLapNumber
         {
             get { return currentLapNumber; }
@@ -92,7 +86,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(CurrentLapNumber));
             }
         }
-
         public DateTime SessionStart
         {
             get { return sessionStart; }
@@ -111,7 +104,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(SessionEnd));
             }
         }
-
         public String SessionEndType
         {
             get { return sessionEndType; }
@@ -121,25 +113,8 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(SessionEndType));
             }
         }
-
-        
-
-        public ObservableCollection<LapTime> LapTimes
-        {
-            get { return lapTimes; }
-            set
-            {
-                lapTimes = value;
-                OnPropertyChanged(nameof(LapTimes));
-            }
-        }
-
-        #region Tracking Events
-        // we can use scenarios where Distance or Time is less to indicate a change in session.
-        // both values increment so should never be less.
         public float LastSessionRaceTime { get; set; }
         public float DistanceTravelled { get; set; }
-        #endregion
         public void InitSession(int carId, int trackId, float sessionTime, int carPi, string carClass)
         {
             SessionStart = DateTime.Now;
@@ -149,12 +124,10 @@ namespace ForzaAnalytics.Models.Core
             CarPi = carPi;
             CarClass = carClass;
         }
-
         public void FinalizeSession()
         {
             SessionEnd = DateTime.Now;
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {

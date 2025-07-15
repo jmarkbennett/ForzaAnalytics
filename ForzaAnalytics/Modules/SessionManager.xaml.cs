@@ -16,34 +16,45 @@ namespace ForzaAnalytics.Modules
     public partial class SessionManager : UserControl
     {
         private SessionService svc;
-        private LapDetailService ldSvc;
 
         public SessionManager()
         {
             svc = new SessionService();
-            ldSvc = new LapDetailService();
 
             InitializeComponent();
-            lvLapTimes.ItemsSource = ldSvc.ReversedLapTimes;
+            RebindListView();
+        }
+
+        private void RebindListView()
+        {
+            lvLapTimes.ItemsSource = svc.LapDetails.ReversedLapTimes;
 
             CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvLapTimes.ItemsSource);
             PropertyGroupDescription groupDescription = new PropertyGroupDescription("SessionSummary");
             view.GroupDescriptions.Add(groupDescription);
         }
-        public void ReceiveEvents(Telemetry payload)
+        public void ReceiveEvents(Telemetry payload, bool sessionPotentiallyEnded)
         {
-            svc.Update(payload);
-            var prvLaps = ldSvc.LapTimes.Count();
-            if(prvLaps != ldSvc.LapTimes.Count()){
-                lvLapTimes.ItemsSource = ldSvc.ReversedLapTimes;
-
-                CollectionView view = (CollectionView)CollectionViewSource.GetDefaultView(lvLapTimes.ItemsSource);
-                PropertyGroupDescription groupDescription = new PropertyGroupDescription("SessionSummary");
-                view.GroupDescriptions.Add(groupDescription);
+            if (!sessionPotentiallyEnded && payload.isReportingActive)
+            {
+                var prvLaps = svc.LapDetails.LapTimes.Count();
+                svc.Update(payload);
+                if (prvLaps != svc.LapDetails.LapTimes.Count())
+                {
+                    RebindListView();
+                }
+            }
+            else if (sessionPotentiallyEnded)
+            {
+                var msg = MessageBox.Show("Do you want to Finish this session? (Only select YES if it was a Race and the final lap is complete)", "Session Status Changed", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
+                if (msg == MessageBoxResult.Yes) // Yes for a race session...
+                {
+                    CompleteRaceSession();
+                }
             }
         }
 
-        public static System.Windows.Media.Brush GetTyreWearColour(float wear)
+        public static Brush GetTyreWearColour(float wear)
         {
             if (wear < 0.2)
                 return new SolidColorBrush(Colors.DarkRed);
@@ -64,17 +75,44 @@ namespace ForzaAnalytics.Modules
             var endDate = DateTime.Now;
             if (svc.CurrentLapTimes.Any())
                 endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
-            SessionSerializer.CloseSession(svc.SessionId, "ManualAbandon", endDate);
+            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualAbandon", endDate);
             svc.Reset();
+            svc.LapDetails.Reset();
+            svc.LapDetails.SyncData();
+            MessageBox.Show("Session Abandoned","Information",MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void btnCompleteSession_Click(object sender, RoutedEventArgs e)
         {
+            
             var endDate = DateTime.Now;
             if (svc.CurrentLapTimes.Any())
                 endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
-            SessionSerializer.CloseSession(svc.SessionId, "ManualComplete", endDate);
+            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualComplete", endDate);
             svc.Reset();
+            svc.LapDetails.Reset();
+            svc.LapDetails.SyncData();
+            MessageBox.Show("Session Completed", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void btnCompleteRaceSession_Click(object sender, RoutedEventArgs e)
+        {
+            CompleteRaceSession();
+            MessageBox.Show("Final Lap Logged", "Information", MessageBoxButton.OK, MessageBoxImage.Information);
+        }
+
+        private void CompleteRaceSession()
+        {
+            var endDate = DateTime.Now;
+            svc.CreateFinalRaceLap();
+            if (svc.CurrentLapTimes.Any())
+                endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
+            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualComplete", endDate);
+            svc.Reset();
+            svc.LapDetails.Reset();
+            svc.LapDetails.SyncData();
+            RebindListView();
+
         }
 
         private void btnExport_Click(object sender, RoutedEventArgs e)
