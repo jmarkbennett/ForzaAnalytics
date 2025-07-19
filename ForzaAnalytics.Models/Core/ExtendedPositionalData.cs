@@ -16,7 +16,7 @@
         public int LapNumber { get; set; }
         public string GearNumber { get; set; }
         public double FuelRemaining { get; set; }
-        public double AvgTireWear { get; set; }
+        public double AvgTyreWear { get; set; }
         public int RacePosition { get; set; }
     }
 }

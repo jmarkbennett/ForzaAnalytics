@@ -32,7 +32,7 @@ namespace ForzaAnalytics.Modules
                 eGameStatus.Fill = Brushes.Green;
             else
                 eGameStatus.Fill = Brushes.Red;
-            lGameStatus.Content = payload.isReportingActive ? "Running" : "Paused";
+            lGameStatus.Content = payload.isReportingActive ? "Active" : "Inactive";
             lSessionTime.Content = Models.Formatters.Formatting.FormattedTime(payload.Race.CurrentRaceTime);
             lDistanceTravelled.Content = $"{payload.DistanceTravelled_Km}KM";
             if (payload.Race.BestLapTime > 0)

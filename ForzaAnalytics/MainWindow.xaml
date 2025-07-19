@@ -103,6 +103,15 @@
                 </TabItem.Header>
                 <Modules:RawTelemetryViewer x:Name="mTelemetryLog"></Modules:RawTelemetryViewer>
             </TabItem>
+            <TabItem>
+                <TabItem.Header>
+                    <StackPanel Orientation="Horizontal" Width="200">
+                        <TextBlock Text="Stats"></TextBlock>
+                        <Image Source="/Resources/Icons/stats-dots.png" Margin="8 4" Height="16" Width="16"></Image>
+                    </StackPanel>
+                </TabItem.Header>
+                <Modules:StatsManager x:Name="mStatsManager"></Modules:StatsManager>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>

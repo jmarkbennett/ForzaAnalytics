@@ -70,7 +70,8 @@ namespace ForzaAnalytics.Services.Serializers
                         SessionEndTime NUMERIC,
                         SessionEndType TEXT,
                         TrackId INT NOT NULL,
-                        CarId INT NOT NULL
+                        CarId INT NOT NULL,
+                        StartingPosition INT
                     )
                 ";
                 var command = new SQLiteCommand(sql, conn);
@@ -99,7 +100,8 @@ namespace ForzaAnalytics.Services.Serializers
                             frTyreWear REAL,
                             rlTyreWear REAL,
                             rrTyreWear REAL,
-                            positionChanges INT             
+                            PositionChanges INT,
+                            LapStartingPosition INT
                     )";
                 command = new SQLiteCommand(sql, conn);
                 command.ExecuteNonQuery();
@@ -112,8 +114,8 @@ namespace ForzaAnalytics.Services.Serializers
             using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
-                string sql = "INSERT INTO SessionData (SessionId, SessionStartTime, SessionEndTime, TrackId, CarId) " +
-                                "SELECT @SessionId, @SessionStartTime, @SessionEndTime, @TrackId, @CarId " +
+                string sql = "INSERT INTO SessionData (SessionId, SessionStartTime, SessionEndTime, TrackId, CarId, StartingPosition) " +
+                                "SELECT @SessionId, @SessionStartTime, @SessionEndTime, @TrackId, @CarId, @StartingPosition " +
                                 "WHERE NOT EXISTS (SELECT 1 FROM SessionData WHERE SessionId = @SessionId)";
                 using (var command = new SQLiteCommand(sql, conn))
                 {
@@ -122,6 +124,7 @@ namespace ForzaAnalytics.Services.Serializers
                     command.Parameters.AddWithValue("@SessionEndTime", session.SessionEnd.Ticks);
                     command.Parameters.AddWithValue("@TrackId", session.TrackId);
                     command.Parameters.AddWithValue("@CarId", session.CarId);
+                    command.Parameters.AddWithValue("@StartingPosition", session.StartingPosition);
                     command.ExecuteNonQuery();
                 }
 
@@ -129,11 +132,11 @@ namespace ForzaAnalytics.Services.Serializers
                 sql = "INSERT INTO LapData (SessionId, CarClass, CarPi, TimeOfLapTime, TimeInSeconds, LapNumber, LapPosition, " +
                     "DistanceTravelled, TotalDistanceTravelled, AverageSpeed, MaxSpeed, MinSpeed, " +
                     "PercentFullThrottle, PercentBrakeApplied, PercentCoasting, FuelRemaining, FuelUsed, " +
-                    "flTyreWear, frTyreWear, rlTyreWear, rrTyreWear, positionChanges)" +
+                    "flTyreWear, frTyreWear, rlTyreWear, rrTyreWear, PositionChanges, LapStartingPosition)" +
                     " SELECT @SessionId, @CarClass, @CarPi, @TimeOfLapTime, @TimeInSeconds, " +
                     "@LapNumber, @LapPosition, @DistanceTravelled, @TotalDistanceTravelled, @AverageSpeed, @MaxSpeed, @MinSpeed, " +
                     "@PercentFullThrottle, @PercentBrakeApplied, @PercentCoasting, @FuelRemaining, @FuelUsed, " +
-                    "@flTyreWear, @frTyreWear, @rlTyreWear, @rrTyreWear, @positionChanges;";
+                    "@flTyreWear, @frTyreWear, @rlTyreWear, @rrTyreWear, @PositionChanges, @LapStartingPosition;";
 
                 using (var command = new SQLiteCommand(sql, conn))
                 {
@@ -158,8 +161,8 @@ namespace ForzaAnalytics.Services.Serializers
                     command.Parameters.AddWithValue("@frTyreWear", lap.FrTyreWear);
                     command.Parameters.AddWithValue("@rlTyreWear", lap.RlTyreWear);
                     command.Parameters.AddWithValue("@rrTyreWear", lap.RrTyreWear);
-                    command.Parameters.AddWithValue("@positionChanges", lap.PositionChanges);
-
+                    command.Parameters.AddWithValue("@PositionChanges", lap.PositionChanges);
+                    command.Parameters.AddWithValue("@LapStartingPosition", lap.LapStartingPosition);
                     if (lap.MaxSpeed > 0)
                     {
                         command.ExecuteNonQuery();
@@ -193,7 +196,7 @@ namespace ForzaAnalytics.Services.Serializers
             {
                 conn.Open();
                 string sql =    "SELECT DISTINCT " +
-                                "s.SessionId SessionId, TrackId, CarId, SessionStartTime, SessionEndTime, SessionEndType, CarClass, CarPi  " +
+                                "s.SessionId SessionId, TrackId, CarId, SessionStartTime, SessionEndTime, SessionEndType, CarClass, CarPi, StartingPosition  " +
                                 "FROM SessionData s INNER JOIN LapData ld ON s.Sessionid = ld.SessionId";
                 using (var command = new SQLiteCommand(sql, conn))
                 {
@@ -209,6 +212,7 @@ namespace ForzaAnalytics.Services.Serializers
                         row.SessionStart = new DateTime(Convert.ToInt64(reader["SessionStartTime"]));
                         row.SessionEnd = new DateTime(Convert.ToInt64(reader["SessionEndTime"]));
                         row.SessionEndType = Convert.ToString(reader["SessionEndType"]);
+                        row.StartingPosition = Convert.ToInt32(reader["StartingPosition"]);
                         sessions.Add(row);
                     }
                 }
@@ -250,6 +254,7 @@ namespace ForzaAnalytics.Services.Serializers
                         row.RlTyreWear = Convert.ToDouble(reader["RlTyreWear"]);
                         row.RrTyreWear = Convert.ToDouble(reader["RrTyreWear"]);
                         row.PositionChanges = Convert.ToInt32(reader["PositionChanges"]);
+                        row.LapStartingPosition = Convert.ToInt32(reader["LapStartingPosition"]);
                         sessions.Add(row);
                     }
                 }

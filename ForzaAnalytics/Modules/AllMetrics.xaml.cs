@@ -50,12 +50,12 @@ namespace ForzaAnalytics.Modules
             mWheelRotationDeltaF.Update(payload.Wheel.WheelRotationSpeedFrontDelta.ToString("F2"));
             mWheelRotationDeltaR.Update(payload.Wheel.WheelRotationSpeedRearDelta.ToString("F2"));
 
-            mTyreWearFl.Update($"{payload.Tire.TireWearFrontLeft.ToString()}%");
-            mTyreWearFr.Update($"{payload.Tire.TireWearFrontRight.ToString()}%");
-            mTyreWearRl.Update($"{payload.Tire.TireWearRearLeft.ToString()}%");
-            mTyreWearRr.Update($"{payload.Tire.TireWearRearRight.ToString()}%");
+            mTyreWearFl.Update($"{payload.Tyre.TyreWearFrontLeft.ToString()}%");
+            mTyreWearFr.Update($"{payload.Tyre.TyreWearFrontRight.ToString()}%");
+            mTyreWearRl.Update($"{payload.Tyre.TyreWearRearLeft.ToString()}%");
+            mTyreWearRr.Update($"{payload.Tyre.TyreWearRearRight.ToString()}%");
 
-            mAvgTyreWear.Update($"{payload.Tire.AvgTireWear.ToString()}%");
+            mAvgTyreWear.Update($"{payload.Tyre.AvgTyreWear.ToString()}%");
         }
 
         public void ResetEvents()

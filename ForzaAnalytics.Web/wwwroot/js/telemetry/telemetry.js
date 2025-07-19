@@ -273,23 +273,23 @@ function GetTelemetryColour(position, maxSpeed, prevSpeed) {
                 return "FF0000";
             break;
         case "tyredegradation":
-            if (position.avgTireWear == 1)
+            if (position.avgTyreWear == 1)
                 return heatmapColours[0];
-            else if (position.avgTireWear >= 0.9)
+            else if (position.avgTyreWear >= 0.9)
                 return heatmapColours[1];
-            else if (position.avgTireWear >= 0.8)
+            else if (position.avgTyreWear >= 0.8)
                 return heatmapColours[2];
-            else if (position.avgTireWear >= 0.7)
+            else if (position.avgTyreWear >= 0.7)
                 return heatmapColours[3];
-            else if (position.avgTireWear >= 0.6)
+            else if (position.avgTyreWear >= 0.6)
                 return heatmapColours[4];
-            else if (position.avgTireWear >= 0.5)
+            else if (position.avgTyreWear >= 0.5)
                 return heatmapColours[5];
-            else if (position.avgTireWear >= 0.4)
+            else if (position.avgTyreWear >= 0.4)
                 return heatmapColours[6];
-            else if (position.avgTireWear >= 0.3)
+            else if (position.avgTyreWear >= 0.3)
                 return heatmapColours[7];
-            else if (position.avgTireWear >= 0.2)
+            else if (position.avgTyreWear >= 0.2)
                 return heatmapColours[8];
             else
                 return heatmapColours[9];

@@ -107,7 +107,7 @@ namespace ForzaAnalytics.Modules
             svc.CreateFinalRaceLap();
             if (svc.CurrentLapTimes.Any())
                 endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
-            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualComplete", endDate);
+            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualRaceComplete", endDate);
             svc.Reset();
             svc.LapDetails.Reset();
             svc.LapDetails.SyncData();

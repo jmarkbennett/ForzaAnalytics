@@ -24,6 +24,7 @@ namespace ForzaAnalytics.Models.Core
         private double fuelUsed;
         private double percentCoasting;
         private int positionChanges;
+        private int lapStartingPosition;
         private int racePosition;
         private string sessionSummary;
         private Guid sessionId;
@@ -81,6 +82,15 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(RacePosition));
             }
         }
+        public int LapStartingPosition
+        {
+            get { return lapStartingPosition; }
+            set
+            {
+                lapStartingPosition = value;
+                OnPropertyChanged(nameof(LapStartingPosition));
+            }
+        }
         public bool IsBestLap
         {
             get { return isBestLap; }
@@ -117,7 +127,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(AvgTyreWear));
             }
         }
-
         public double PercentFullThrottle
         {
             get { return percentFullThrottle; }
@@ -127,7 +136,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(PercentFullThrottle));
             }
         }
-
         public double PercentBrakeApplied
         {
             get { return percentBrakeApplied; }
@@ -137,7 +145,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(PercentBrakeApplied));
             }
         }
-
         public double PercentCoasting
         {
             get { return percentCoasting; }
@@ -147,7 +154,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(PercentCoasting));
             }
         }
-
         public double MaxSpeed
         {
             get { return maxSpeed; }
@@ -157,7 +163,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(MaxSpeed));
             }
         }
-
         public double MinSpeed
         {
             get { return minSpeed; }
@@ -167,7 +172,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(MinSpeed));
             }
         }
-
         public double FuelUsed
         {
             get { return fuelUsed; }
@@ -213,7 +217,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(RrTyreWear));
             }
         }
-
         public int PositionChanges
         {
             get { return positionChanges; }
@@ -223,7 +226,6 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(PositionChanges));
             }
         }
-
         public double DistanceTravelled
         {
             get { return distanceTravelled; }
@@ -242,12 +244,10 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(TotalDistanceTravelled));
             }
         }
-
         public string FormattedLapTime
         {
             get { return Formatting.FormattedTime(timeInSeconds); }
         }
-
         public string FormattedAverageSpeed
         {
             get { return $"{averageSpeed.ToString("F2")}MPH"; }
@@ -256,12 +256,10 @@ namespace ForzaAnalytics.Models.Core
         {
             get { return $"{minSpeed.ToString("F2")}MPH"; }
         }
-
         public string FormattedMaxSpeed
         {
             get { return $"{maxSpeed.ToString("F2")}MPH"; }
         }
-
         public string FormattedPercentBrakeApplied
         {
             get { return Formatting.FormattedPercentage(percentBrakeApplied); }
@@ -274,12 +272,10 @@ namespace ForzaAnalytics.Models.Core
         {
             get { return Formatting.FormattedPercentage(percentCoasting); }
         }
-
         public string FormattedFuelRemaining
         {
             get { return Formatting.FormattedPercentage(fuelRemaining); }
         }
-
         public string FormattedFuelUsed
         {
             get { return Formatting.FormattedPercentage(fuelUsed); }
@@ -322,8 +318,19 @@ namespace ForzaAnalytics.Models.Core
             set { value = RrTyreRemaining; }
         }
         public string FormattedFuelAvailable { get { return Formatting.FormattedPercentage(1 - fuelUsed); } }
-
         public string FormattedTyreRemaining { get { return Formatting.FormattedPercentage((FlTyreRemaining + FrTyreRemaining + RlTyreRemaining + RrTyreRemaining) / 400); } }
+        public string FormattedLapPositionChange
+        {
+            get
+            {
+                return (lapStartingPosition == racePosition) ? " = " : string.Format("{0}{1} ", lapStartingPosition > racePosition ? " +" : " -", (Math.Abs(lapStartingPosition - racePosition)));
+            }
+        }
+
+        public string FormattedRacePosition
+        {
+            get { return $"{RacePosition} ({FormattedLapPositionChange})"; }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)

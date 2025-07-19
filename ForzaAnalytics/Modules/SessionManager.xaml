@@ -89,7 +89,7 @@
                         <GridViewColumn Header="Race Position" Width="120">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
-                                    <Label Content="{Binding Path=RacePosition}" Style="{StaticResource LeaderboardLapTimeLabel}">
+                                    <Label Content="{Binding Path=FormattedRacePosition}" Style="{StaticResource LeaderboardLapTimeLabel}">
                                     </Label>
                                 </DataTemplate>
                             </GridViewColumn.CellTemplate>

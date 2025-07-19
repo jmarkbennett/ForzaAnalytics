@@ -9,7 +9,7 @@ namespace ForzaAnalytics.UdpReader.Model
         private WheelData wheel;
         private CarDetail car;
         private RaceData race;
-        private TireData tire;
+        private TyreData tyre;
         private SuspensionData suspension;
         private PositionalData position;
 
@@ -20,7 +20,7 @@ namespace ForzaAnalytics.UdpReader.Model
             wheel = new WheelData(ref payload);
             car = new CarDetail(ref payload);
             race = new RaceData(ref payload);
-            tire = new TireData(ref payload);
+            tyre = new TyreData(ref payload);
             suspension = new SuspensionData(ref payload);
             position = new PositionalData(ref payload);
             eventTime = DateTime.Now;
@@ -55,7 +55,7 @@ namespace ForzaAnalytics.UdpReader.Model
         public WheelData Wheel { get { return wheel; } }
         public CarDetail Car { get { return car; } }
         public RaceData Race { get { return race; } }
-        public TireData Tire { get { return tire; } }
+        public TyreData Tyre { get { return tyre; } }
         public SuspensionData Suspension { get { return suspension; } }
         public PositionalData Position { get { return position; } }
 

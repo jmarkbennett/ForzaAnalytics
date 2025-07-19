@@ -51,7 +51,7 @@ namespace ForzaAnalytics.Models.Core
             result.RaceTime = position.RaceTime;
             result.GearNumber = position.GearNumber;
             result.FuelRemaining = position.FuelRemaining;
-            result.AvgTireWear = position.AvgTireWear;
+            result.AvgTyreWear = position.AvgTyreWear;
             result.RacePosition= position.RacePosition;
             return result;
         }
@@ -73,7 +73,7 @@ namespace ForzaAnalytics.Models.Core
             result.RaceTime = ExtendedPositions[ordinal].RaceTime;
             result.GearNumber = ExtendedPositions[ordinal].GearNumber;
             result.FuelRemaining = ExtendedPositions[ordinal].FuelRemaining;
-            result.AvgTireWear = ExtendedPositions[ordinal].AvgTireWear;
+            result.AvgTyreWear = ExtendedPositions[ordinal].AvgTyreWear;
             result.RacePosition = ExtendedPositions[ordinal].RacePosition;
             return result;
         }

@@ -26,8 +26,7 @@ namespace ForzaAnalytics.Services.Service
 
         #region public properties
         public event LapCompleteEventHandler LapCompleteEvent;
-        public ObservableCollection<LapTime> LapTimes { get; set; }
-        
+        public ObservableCollection<LapTime> LapTimes { get; set; }       
         public double PercentBrakeApplied { get { return ((double)currentBrakeApplied.Count(x => x > 0) / (double)currentBrakeApplied.Count()); } }
         public double PercentFullThrottle { get { return ((double)currentAccelerations.Count(x => x == 100) / (double)currentAccelerations.Count()); } }
         public double PercentCoasting { get { return ((double)currentCoasting.Count() / (double)currentAccelerations.Count()); } }
@@ -37,7 +36,7 @@ namespace ForzaAnalytics.Services.Service
         public double FuelUsed { get { return fuelConsumption.Any() ? fuelConsumption.Max() - fuelConsumption.Min() : 0; } }
         public int PositionChanges { get { return currentPositions.Any() ? currentPositions.Distinct().Count() : 0; } }
         #endregion
-
+        public int LapStartingPosition { get { return currentPositions.Any() ? currentPositions.First(): 0; } }
         public LapDetailService()
         {
             Reset();
@@ -97,15 +96,16 @@ namespace ForzaAnalytics.Services.Service
                         PercentCoasting = PercentCoasting,
                         TotalDistanceTravelled = payload.DistanceTravelled_Km,
                         DistanceTravelled = payload.DistanceTravelled_Km - LapTimes.Last().TotalDistanceTravelled,
-                        AvgTyreWear = payload.Tire.AvgTireWear,
-                        FlTyreWear = payload.Tire.TireWearFrontLeft,
-                        FrTyreWear = payload.Tire.TireWearFrontRight,
-                        RlTyreWear = payload.Tire.TireWearRearLeft,
-                        RrTyreWear = payload.Tire.TireWearRearRight,
+                        AvgTyreWear = payload.Tyre.AvgTyreWear,
+                        FlTyreWear = payload.Tyre.TyreWearFrontLeft,
+                        FrTyreWear = payload.Tyre.TyreWearFrontRight,
+                        RlTyreWear = payload.Tyre.TyreWearRearLeft,
+                        RrTyreWear = payload.Tyre.TyreWearRearRight,
                         SessionSummary = sessionSummary,
                         PositionChanges = PositionChanges,
                         SessionId = sessionId,
-                        TimeOfLapTime = DateTime.Now
+                        TimeOfLapTime = DateTime.Now,
+                        LapStartingPosition = LapStartingPosition
                     };
                     LapTimes.Add(current);
                     LapCompleteEvent?.Invoke(current);
@@ -132,15 +132,16 @@ namespace ForzaAnalytics.Services.Service
                     PercentCoasting = PercentCoasting,
                     TotalDistanceTravelled = payload.DistanceTravelled_Km,
                     DistanceTravelled = payload.DistanceTravelled_Km,
-                    AvgTyreWear = payload.Tire.AvgTireWear,
-                    FlTyreWear = payload.Tire.TireWearFrontLeft,
-                    FrTyreWear = payload.Tire.TireWearFrontRight,
-                    RlTyreWear = payload.Tire.TireWearRearLeft,
-                    RrTyreWear = payload.Tire.TireWearRearRight,
+                    AvgTyreWear = payload.Tyre.AvgTyreWear,
+                    FlTyreWear = payload.Tyre.TyreWearFrontLeft,
+                    FrTyreWear = payload.Tyre.TyreWearFrontRight,
+                    RlTyreWear = payload.Tyre.TyreWearRearLeft,
+                    RrTyreWear = payload.Tyre.TyreWearRearRight,
                     SessionSummary = sessionSummary,
                     PositionChanges = PositionChanges,
                     SessionId = sessionId,
-                    TimeOfLapTime = DateTime.Now
+                    TimeOfLapTime = DateTime.Now,
+                    LapStartingPosition = LapStartingPosition
                 };
                 LapTimes.Add(current);
                 LapCompleteEvent?.Invoke(current);
@@ -184,15 +185,16 @@ namespace ForzaAnalytics.Services.Service
                     PercentCoasting = PercentCoasting,
                     TotalDistanceTravelled = payload.DistanceTravelled_Km,
                     DistanceTravelled = payload.DistanceTravelled_Km,
-                    AvgTyreWear = payload.Tire.AvgTireWear,
-                    FlTyreWear = payload.Tire.TireWearFrontLeft,
-                    FrTyreWear = payload.Tire.TireWearFrontRight,
-                    RlTyreWear = payload.Tire.TireWearRearLeft,
-                    RrTyreWear = payload.Tire.TireWearRearRight,
+                    AvgTyreWear = payload.Tyre.AvgTyreWear,
+                    FlTyreWear = payload.Tyre.TyreWearFrontLeft,
+                    FrTyreWear = payload.Tyre.TyreWearFrontRight,
+                    RlTyreWear = payload.Tyre.TyreWearRearLeft,
+                    RrTyreWear = payload.Tyre.TyreWearRearRight,
                     SessionSummary = sessionSummary,
                     PositionChanges = PositionChanges,
                     SessionId = sessionId,
-                    TimeOfLapTime = payload.EventTime
+                    TimeOfLapTime = payload.EventTime,
+                    LapStartingPosition = LapStartingPosition
                 };
                 LapTimes.Add(current);
                 LapCompleteEvent?.Invoke(current);
@@ -235,7 +237,6 @@ namespace ForzaAnalytics.Services.Service
                         if (lap.TimeInSeconds == bestlapTime)
                             lap.IsBestLap = true;
                 }
-
             }
         }
     }

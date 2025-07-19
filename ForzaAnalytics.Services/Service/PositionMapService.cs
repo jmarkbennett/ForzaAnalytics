@@ -72,7 +72,7 @@ namespace ForzaAnalytics.Services.Service
                 LapNumber = payload.Race.LapNumber,
                 GearNumber = payload.GearNumber,
                 FuelRemaining = payload.Fuel,
-                AvgTireWear = payload.Tire.AvgTireWear,
+                AvgTyreWear = payload.Tyre.AvgTyreWear,
                 RacePosition = payload.Race.RacePosition
             };
             Positions.ExtendedPositions.Add(result);

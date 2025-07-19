@@ -109,7 +109,8 @@ namespace ForzaAnalytics.Services.Service
                     payload.Race.TrackIdentifier,
                     payload.Race.CurrentRaceTime,
                     int.Parse(payload.Car.CarPerformanceIndex),
-                    Models.Formatters.Formatting.GetCarClass(payload.Car.CarClass).ToString()
+                    Models.Formatters.Formatting.GetCarClass(payload.Car.CarClass).ToString(),
+                    payload.Race.RacePosition
                 );
                 sessionCar = ObtainCarDetail(payload.Car.CarIdentifier);
                 sessionTrack = ObtainTrackDetail(payload.Race.TrackIdentifier);
@@ -125,24 +126,20 @@ namespace ForzaAnalytics.Services.Service
                 lapSvc.Update(payload, currentSession.SessionId, SessionSummary);
             }
         }
-
         public void AddLapToCurrentSession(LapTime lap)
         {
             SessionSerializer.LogSessionRow(currentSession, lap);
         }
-
         public void CreateFinalRaceLap()
         {
             lapSvc.CreateFinalRaceLap(lastTelemetry, currentSession.SessionId, SessionSummary);
         }
-
         public void SyncData()
         {
            var readSessions = SessionSerializer.GetAllSessions();
             foreach (var sess in readSessions)
                 sessions.Add(sess);
         }
-
         public ObservableCollection<LapTime> CurrentLapTimes { get { return lapSvc.LapTimes; } }
 
         public string SessionSummary { get { return $"{sessions.Count()} - Car: {sessionCar?.YearMakeModel ?? "Unknown"} - Track: {sessionTrack?.FullTrackName ?? "Unknown"}"; } }

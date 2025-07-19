@@ -35,25 +35,25 @@ namespace ForzaAnalytics.Controls
         }
         public void Update(ref Telemetry payload)
         {
-            pbFl.Value = payload.Tire.TyreWearRemainingFrontLeft;
-            pbFl.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingFrontLeft);
-            lflValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tire.TyreWearRemainingFrontLeft);
-            lflValue.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingFrontLeft);
+            pbFl.Value = payload.Tyre.TyreWearRemainingFrontLeft;
+            pbFl.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingFrontLeft);
+            lflValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tyre.TyreWearRemainingFrontLeft);
+            lflValue.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingFrontLeft);
 
-            pbFr.Value = payload.Tire.TyreWearRemainingFrontRight;
-            pbFr.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingFrontRight);
-            lfrValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tire.TyreWearRemainingFrontRight);
-            lfrValue.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingFrontRight);
+            pbFr.Value = payload.Tyre.TyreWearRemainingFrontRight;
+            pbFr.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingFrontRight);
+            lfrValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tyre.TyreWearRemainingFrontRight);
+            lfrValue.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingFrontRight);
 
-            pbRl.Value = payload.Tire.TyreWearRemainingRearLeft;
-            pbRl.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingRearLeft);
-            lrlValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tire.TyreWearRemainingRearLeft);
-            lrlValue.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingRearLeft);
+            pbRl.Value = payload.Tyre.TyreWearRemainingRearLeft;
+            pbRl.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingRearLeft);
+            lrlValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tyre.TyreWearRemainingRearLeft);
+            lrlValue.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingRearLeft);
 
-            pbRr.Value = payload.Tire.TyreWearRemainingRearRight;
-            pbRr.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingRearRight);
-            lrrValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tire.TyreWearRemainingRearRight);
-            lrrValue.Foreground = GetTyreWearColour(payload.Tire.TyreWearRemainingRearRight);
+            pbRr.Value = payload.Tyre.TyreWearRemainingRearRight;
+            pbRr.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingRearRight);
+            lrrValue.Content = Models.Formatters.Formatting.FormattedPercentage(payload.Tyre.TyreWearRemainingRearRight);
+            lrrValue.Foreground = GetTyreWearColour(payload.Tyre.TyreWearRemainingRearRight);
         }
 
         public static System.Windows.Media.Brush GetTyreWearColour(float wear)

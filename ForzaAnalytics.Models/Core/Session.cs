@@ -20,7 +20,7 @@ namespace ForzaAnalytics.Models.Core
         private DateTime sessionEnd;
         private string sessionEndType;
         private int currentLapNumber;
-
+        private int startingPosition;
         public Session()
         {
             sessionId = Guid.NewGuid();
@@ -86,6 +86,15 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(CurrentLapNumber));
             }
         }
+        public int StartingPosition
+        {
+            get { return startingPosition; }
+            set
+            {
+                startingPosition = value;
+                OnPropertyChanged(nameof(StartingPosition));
+            }
+        }
         public DateTime SessionStart
         {
             get { return sessionStart; }
@@ -115,7 +124,7 @@ namespace ForzaAnalytics.Models.Core
         }
         public float LastSessionRaceTime { get; set; }
         public float DistanceTravelled { get; set; }
-        public void InitSession(int carId, int trackId, float sessionTime, int carPi, string carClass)
+        public void InitSession(int carId, int trackId, float sessionTime, int carPi, string carClass, int startingPosition)
         {
             SessionStart = DateTime.Now;
             CarId = carId;
@@ -123,6 +132,7 @@ namespace ForzaAnalytics.Models.Core
             LastSessionRaceTime = sessionTime;
             CarPi = carPi;
             CarClass = carClass;
+            StartingPosition = startingPosition;
         }
         public void FinalizeSession()
         {
