@@ -4,6 +4,7 @@ using ForzaAnalytics.Services.Service;
 using ForzaAnalytics.UdpReader.Model;
 using Microsoft.Win32;
 using System.Collections.ObjectModel;
+using System.Configuration;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -16,14 +17,17 @@ namespace ForzaAnalytics.Modules
     public partial class SessionManager : UserControl
     {
         private SessionService svc;
-
+        private bool saveStats = true;
         public SessionManager()
         {
             svc = new SessionService();
 
             InitializeComponent();
             RebindListView();
+            bool.TryParse(ConfigurationManager.AppSettings["SaveStats"]?.ToString(), out bool saveStats);
+            svc.SaveStats = saveStats;
         }
+        public bool SaveStats { get { return saveStats; } set { saveStats = value; } }
 
         private void RebindListView()
         {
@@ -35,7 +39,7 @@ namespace ForzaAnalytics.Modules
         }
         public void ReceiveEvents(Telemetry payload, bool sessionPotentiallyEnded)
         {
-            if (!sessionPotentiallyEnded && payload.isReportingActive)
+            if ( /*!sessionPotentiallyEnded && */ payload.isReportingActive)
             {
                 var prvLaps = svc.LapDetails.LapTimes.Count();
                 svc.Update(payload);
@@ -43,7 +47,7 @@ namespace ForzaAnalytics.Modules
                 {
                     RebindListView();
                 }
-            }
+            }/*
             else if (sessionPotentiallyEnded)
             {
                 var msg = MessageBox.Show("Do you want to Finish this session? (Only select YES if it was a Race and the final lap is complete)", "Session Status Changed", MessageBoxButton.YesNoCancel, MessageBoxImage.Question);
@@ -51,7 +55,7 @@ namespace ForzaAnalytics.Modules
                 {
                     CompleteRaceSession();
                 }
-            }
+            }*/
         }
 
         public static Brush GetTyreWearColour(float wear)
@@ -75,7 +79,8 @@ namespace ForzaAnalytics.Modules
             var endDate = DateTime.Now;
             if (svc.CurrentLapTimes.Any())
                 endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
-            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualAbandon", endDate);
+            if (SaveStats)
+                SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualAbandon", endDate, "Unknown");
             svc.Reset();
             svc.LapDetails.Reset();
             svc.LapDetails.SyncData();
@@ -88,7 +93,8 @@ namespace ForzaAnalytics.Modules
             var endDate = DateTime.Now;
             if (svc.CurrentLapTimes.Any())
                 endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
-            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualComplete", endDate);
+            if (SaveStats)
+                SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualComplete", endDate, "PracticeOrQualifying");
             svc.Reset();
             svc.LapDetails.Reset();
             svc.LapDetails.SyncData();
@@ -103,16 +109,18 @@ namespace ForzaAnalytics.Modules
 
         private void CompleteRaceSession()
         {
-            var endDate = DateTime.Now;
-            svc.CreateFinalRaceLap();
-            if (svc.CurrentLapTimes.Any())
-                endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
-            SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualRaceComplete", endDate);
-            svc.Reset();
-            svc.LapDetails.Reset();
-            svc.LapDetails.SyncData();
-            RebindListView();
-
+            if (SaveStats)
+            {
+                var endDate = DateTime.Now;
+                svc.CreateFinalRaceLap();
+                if (svc.CurrentLapTimes.Any())
+                    endDate = svc.CurrentLapTimes.Last().TimeOfLapTime;
+                SessionSerializer.CloseSession(svc.CurrentSession.SessionId, "ManualRaceComplete", endDate, "Race");
+                svc.Reset();
+                svc.LapDetails.Reset();
+                svc.LapDetails.SyncData();
+                RebindListView();
+            }
         }
 
         private void btnExport_Click(object sender, RoutedEventArgs e)

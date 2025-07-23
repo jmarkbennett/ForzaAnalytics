@@ -17,21 +17,10 @@ namespace ForzaAnalytics.Services.Serializers
         private static string name = "MyStats.sqlite";
         private static string connectionString = $"Data Source={name};Version=3;";
 
-        private static void clearSessions()
+        public static void ResetDatabase()
         {
-            using (var conn = new SQLiteConnection(connectionString))
-            {
-                conn.Open();
-                string sql = "DELETE FROM SessionData";
-                using (var command = new SQLiteCommand(sql, conn))
-                    command.ExecuteNonQuery();
-
-                sql = "DELETE FROM LapData";
-                using (var command = new SQLiteCommand(sql, conn))
-                    command.ExecuteNonQuery();
-
-                conn.Close();
-            }
+            resetDbTables();
+            initializeDatabase();
         }
         public static void initializeDatabase()
         {
@@ -39,11 +28,8 @@ namespace ForzaAnalytics.Services.Serializers
             {
                 SQLiteConnection.CreateFile(name);
             }
-            //resetDbTables();
-            //clearSessions();
             createDbTables();
         }
-
         private static void resetDbTables()
         {
             using (var conn = new SQLiteConnection(connectionString))
@@ -71,7 +57,8 @@ namespace ForzaAnalytics.Services.Serializers
                         SessionEndType TEXT,
                         TrackId INT NOT NULL,
                         CarId INT NOT NULL,
-                        StartingPosition INT
+                        StartingPosition INT,
+                        SessionType TEXT
                     )
                 ";
                 var command = new SQLiteCommand(sql, conn);
@@ -173,17 +160,18 @@ namespace ForzaAnalytics.Services.Serializers
             }
         }
 
-        public static void CloseSession(Guid sessionId, string endReason, DateTime endTime)
+        public static void CloseSession(Guid sessionId, string endReason, DateTime endTime,string sessionType)
         {
             using (var conn = new SQLiteConnection(connectionString))
             {
                 conn.Open();
-                string sql = "UPDATE SessionData SET SessionEndTime = @SessionEndTime, SessionEndType = @EndReason WHERE SessionId = @SessionId";
+                string sql = "UPDATE SessionData SET SessionEndTime = @SessionEndTime, SessionEndType = @EndReason, SessionType = @SessionType WHERE SessionId = @SessionId";
                 using (var command = new SQLiteCommand(sql, conn))
                 {
                     command.Parameters.AddWithValue("@SessionId", sessionId.ToString());
                     command.Parameters.AddWithValue("@SessionEndTime", endTime.Ticks);
                     command.Parameters.AddWithValue("@EndReason", endReason);
+                    command.Parameters.AddWithValue("@SessionType", sessionType);
                     command.ExecuteNonQuery();
                 }
                 conn.Close();
@@ -196,7 +184,7 @@ namespace ForzaAnalytics.Services.Serializers
             {
                 conn.Open();
                 string sql =    "SELECT DISTINCT " +
-                                "s.SessionId SessionId, TrackId, CarId, SessionStartTime, SessionEndTime, SessionEndType, CarClass, CarPi, StartingPosition  " +
+                                "s.SessionId SessionId, TrackId, CarId, SessionStartTime, SessionEndTime, SessionEndType, SessionType, CarClass, CarPi, StartingPosition  " +
                                 "FROM SessionData s INNER JOIN LapData ld ON s.Sessionid = ld.SessionId";
                 using (var command = new SQLiteCommand(sql, conn))
                 {
@@ -213,6 +201,7 @@ namespace ForzaAnalytics.Services.Serializers
                         row.SessionEnd = new DateTime(Convert.ToInt64(reader["SessionEndTime"]));
                         row.SessionEndType = Convert.ToString(reader["SessionEndType"]);
                         row.StartingPosition = Convert.ToInt32(reader["StartingPosition"]);
+                        row.SessionType = Convert.ToString(reader["SessionType"]);
                         sessions.Add(row);
                     }
                 }
@@ -271,10 +260,10 @@ namespace ForzaAnalytics.Services.Serializers
             using(var writer = new StreamWriter(filePath))
             {
                 writer.WriteLine(
-                    "SessionId, CarId, TrackId, CarClass, CarPi, SessionStart, SessionEnd, SessionEndType, CurrentLapNumber," +
+                    "SessionId, CarId, TrackId, CarClass, CarPi, SessionStart, SessionEnd, SessionEndType, SessionType, CurrentLapNumber," +
                     "TimeInSeconds, TimeOfLapTime, LapNumber, IsBestLap, DistanceTravelled, TotalDistanceTravelled," +
                     "AverageSpeed, FuelRemaining, AvgTyreWear, FlTyreWear, FrTyreWear, RlTyreWear, RrTyreWear, " +
-                    "PercentFullThrottle, PercentBrakeApplied, MinSpeed, MaxSpeed, FuelUsed,PercentCoasting, PositionChanges, RacePosition, SessionSummary");
+                    "PercentFullThrottle, PercentBrakeApplied, MinSpeed, MaxSpeed, FuelUsed,PercentCoasting, PositionChanges, LapStartPosition, RacePosition, SessionSummary");
                 for (var i = 0; i < sessions.Count; i++)
                 {
                     var car = CarDetailsSeralizer.LoadCarDetails().Where(x => x.CarId == sessions[i].CarId.ToString()).FirstOrDefault();
@@ -290,6 +279,7 @@ namespace ForzaAnalytics.Services.Serializers
                         writer.Write($"{sessions[i].SessionStart},");
                         writer.Write($"{sessions[i].SessionEnd},");
                         writer.Write($"{sessions[i].SessionEndType},");
+                        writer.Write($"{sessions[i].SessionType},");
                         writer.Write($"{sessions[i].CurrentLapNumber},");
                         writer.Write($"{lap.TimeInSeconds},");
                         writer.Write($"{lap.TimeOfLapTime},");
@@ -311,6 +301,7 @@ namespace ForzaAnalytics.Services.Serializers
                         writer.Write($"{lap.FuelUsed},");
                         writer.Write($"{lap.PercentCoasting},");
                         writer.Write($"{lap.PositionChanges},");
+                        writer.Write($"{lap.LapStartingPosition},");
                         writer.Write($"{lap.RacePosition},");
                         writer.Write($"{i} - Car: {car?.YearMakeModel ?? "Unknown"} - Track: {track?.FullTrackName ?? "Unknown"}");
                         writer.WriteLine("");

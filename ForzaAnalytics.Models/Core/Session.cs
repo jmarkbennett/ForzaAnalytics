@@ -21,6 +21,7 @@ namespace ForzaAnalytics.Models.Core
         private string sessionEndType;
         private int currentLapNumber;
         private int startingPosition;
+        private string sessionType;
         public Session()
         {
             sessionId = Guid.NewGuid();
@@ -31,6 +32,7 @@ namespace ForzaAnalytics.Models.Core
             LastSessionRaceTime = 0;
             DistanceTravelled = -100000;
             sessionEndType = "";
+            sessionType = "Unknown";
         }
         public Guid SessionId
         {
@@ -93,6 +95,15 @@ namespace ForzaAnalytics.Models.Core
             {
                 startingPosition = value;
                 OnPropertyChanged(nameof(StartingPosition));
+            }
+        }
+        public string SessionType
+        {
+            get { return sessionType; }
+            set
+            {
+                sessionType = value;
+                OnPropertyChanged(nameof(SessionType));
             }
         }
         public DateTime SessionStart

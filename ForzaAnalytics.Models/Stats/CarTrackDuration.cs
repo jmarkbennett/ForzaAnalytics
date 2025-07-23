@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace ForzaAnalytics.Models.Stats
 {
-    public class CarTrackDistance
+    public class CarTrackDuration
     {
         public string CarOrTrackName { get; set; }
         public string SecondaryDetail { get; set; }
-        public double DistanceTravelled { get; set; }
+        public TimeSpan Duration { get; set; }
 
-        public string FormattedDistanceTravelled
+        public string FormattedDuration
         {
-            get { return $"{DistanceTravelled.ToString("F2")}KM"; }
+            get { return $"{Duration.ToString(@"hh\:mm\:ss")}"; }
         }
     }
 }

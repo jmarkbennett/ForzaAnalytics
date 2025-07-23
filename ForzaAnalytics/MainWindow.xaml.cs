@@ -29,6 +29,17 @@ namespace ForzaAnalytics
             bool.TryParse(ConfigurationManager.AppSettings["TrackOnOpen"]?.ToString(), out bool start);
             bool.TryParse(ConfigurationManager.AppSettings["UseMetric"]?.ToString(), out bool useMetric);
             Enum.TryParse(ConfigurationManager.AppSettings["MessageRate"]?.ToString(), out Models.Enumerators.MessageRate messageRate);
+            bool.TryParse(ConfigurationManager.AppSettings["ClearStats"]?.ToString(), out bool clearStats);
+            bool.TryParse(ConfigurationManager.AppSettings["SaveStats"]?.ToString(), out bool saveStats);
+
+            SessionSerializer.initializeDatabase();
+            if (clearStats)
+            {
+                SessionSerializer.ResetDatabase();
+            }
+
+            mSessionManager.SaveStats = saveStats;
+
             SetMessageLimit(messageRate);
             if (start)
             {

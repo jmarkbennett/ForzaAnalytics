@@ -223,11 +223,11 @@ namespace ForzaAnalytics.Services.Service
                 foreach (var lap in sessionLaps)
                 {
                     var toAdd = lap;
-                    var sessionEnd = sessions[i].SessionEnd.ToString("yyyy-mm-dd HH:mm:ss");
+                    var sessionEnd = sessions[i].SessionEnd.ToString("yyyy-MM-dd HH:mm:ss");
                     if (sessions[i].SessionEnd.Year == 1)
                         sessionEnd = "???";
                     
-                    toAdd.SessionSummary = $"{i} - Car: {car?.YearMakeModel ?? "Unknown"} - Track: {track?.FullTrackName ?? "Unknown"} - ({sessions[i].SessionStart.ToString("yyyy-mm-dd HH:mm:ss")} - {sessionEnd})";
+                    toAdd.SessionSummary = $"{i} - Car: {car?.YearMakeModel ?? "Unknown"} - Track: {track?.FullTrackName ?? "Unknown"} - ({sessions[i].SessionStart.ToString("yyyy-MM-dd HH:mm:ss")} - {sessionEnd})";
                     LapTimes.Add(toAdd);
                 }
                 if (sessionLaps.Any())

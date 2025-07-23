@@ -104,5 +104,31 @@
         <Setter Property="Margin" Value="4 4 0 4"></Setter>
         <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
     </Style>
+    <Style x:Key="StatLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Background" Value="#5F5F5F"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Right"></Setter>
+        <Setter Property="Padding" Value="0 0 12 0"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Margin" Value="2 2 0 2"></Setter>
+    </Style>
     
+    <Style x:Key="StatValue" TargetType="Label">
+        <Setter Property="FontSize" Value="16"></Setter>
+        <Setter Property="Foreground" Value="#5F5F5F"></Setter>
+        <Setter Property="Background" Value="White"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Padding" Value="0 0 0 0"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Center"></Setter>
+        <Setter Property="FontWeight" Value="Bold"></Setter>
+        <Setter Property="Margin" Value="0 2 2 2"></Setter>
+    </Style>
+    <Style x:Key="PodiumLabel" TargetType="Label">
+        <Setter Property="FontSize" Value="14"></Setter>
+        <Setter Property="VerticalContentAlignment" Value="Bottom"></Setter>
+        <Setter Property="HorizontalContentAlignment" Value="Center"></Setter>
+        <Setter Property="Foreground" Value="White"></Setter>
+        <Setter Property="Padding" Value="0 0 0 8"></Setter>
+    </Style>
 </ResourceDictionary>

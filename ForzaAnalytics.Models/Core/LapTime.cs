@@ -288,7 +288,6 @@ namespace ForzaAnalytics.Models.Core
         {
             get { return $"{totalDistanceTravelled.ToString("F2")}KM"; }
         }
-
         public string FormattedAvgTyreWear
         {
             get { return $"{avgTyreWear}%"; }
@@ -326,12 +325,10 @@ namespace ForzaAnalytics.Models.Core
                 return (lapStartingPosition == racePosition) ? " = " : string.Format("{0}{1} ", lapStartingPosition > racePosition ? " +" : " -", (Math.Abs(lapStartingPosition - racePosition)));
             }
         }
-
         public string FormattedRacePosition
         {
             get { return $"{RacePosition} ({FormattedLapPositionChange})"; }
         }
-
         public event PropertyChangedEventHandler PropertyChanged;
         protected virtual void OnPropertyChanged(string propertyName)
         {

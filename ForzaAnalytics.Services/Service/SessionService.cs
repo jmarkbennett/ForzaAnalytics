@@ -22,7 +22,7 @@ namespace ForzaAnalytics.Services.Service
         private Session currentSession;
         private Car sessionCar;
         private Track sessionTrack;
-
+        private bool saveStats;
         private Telemetry lastTelemetry; // limitation of Data Out: we cant track the last lap when the race completes because it doesnts update the lap data for this. we have to get the last telemetry value which will be off
 
         public Session CurrentSession { get { return currentSession; } }
@@ -34,11 +34,13 @@ namespace ForzaAnalytics.Services.Service
             lapSvc.LapCompleteEvent += AddLapToCurrentSession;
         }
 
+        public bool SaveStats { get { return saveStats; } set { saveStats = value; } }
         public LapDetailService LapDetails { get { return lapSvc; } }
 
         public void Reset()
         {
             lapSvc = new LapDetailService();
+            lapSvc.LapCompleteEvent += AddLapToCurrentSession;
             cars = CarDetailsSeralizer.LoadCarDetails();
             tracks = TrackDetailsSeralizer.LoadTrackDetails();
             currentSession = new Session();
@@ -97,7 +99,8 @@ namespace ForzaAnalytics.Services.Service
                     var endTime = DateTime.Now;
                     if (lapSvc.LapTimes.Any())
                         endTime = lapSvc.LapTimes.Last().TimeOfLapTime;
-                    SessionSerializer.CloseSession(currentSession.SessionId, "Automatic", endTime);
+                    if (SaveStats)
+                        SessionSerializer.CloseSession(currentSession.SessionId, "Automatic", endTime, "Unknown");
                     currentSession.FinalizeSession();
                     sessions.Add(currentSession);
                     lapSvc.Reset();
@@ -128,7 +131,8 @@ namespace ForzaAnalytics.Services.Service
         }
         public void AddLapToCurrentSession(LapTime lap)
         {
-            SessionSerializer.LogSessionRow(currentSession, lap);
+            if (SaveStats)
+                SessionSerializer.LogSessionRow(currentSession, lap);
         }
         public void CreateFinalRaceLap()
         {

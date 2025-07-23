@@ -16,14 +16,14 @@
         <Grid DockPanel.Dock="Top" Height="40">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="40"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="220"></ColumnDefinition>
                 <ColumnDefinition Width="40"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-                <ColumnDefinition Width="40"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
-                <ColumnDefinition Width="180"></ColumnDefinition>
+                <ColumnDefinition Width="220"></ColumnDefinition>
+                <ColumnDefinition Width="4"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Label Grid.Column="0" Content="Close Current Session:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
             <Button Grid.Column="1"  Margin="2" Name="btnAbandonSession" Click="btnAbandonSession_Click">
@@ -34,14 +34,14 @@
             </Button>
             <Button Grid.Column="3" Margin="2" Name="btnCompleteSession"  Click="btnCompleteSession_Click">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Complete Session*" Foreground="Black"></Label>
-                    <Image Source="../Resources/Icons/checkered-flag.png" Margin="8 4" Height="16" Width="16"></Image>
+                    <Label Content="Complete Session (P/Q)" Foreground="Black"></Label>
+                    <Image Source="../Resources/Icons/stopwatch.png" Margin="8 4" Height="16" Width="16"></Image>
                 </StackPanel>
             </Button>
 
             <Button Grid.Column="5" Margin="2" Name="btnCompleteRaceSession"  Click="btnCompleteRaceSession_Click">
                 <StackPanel Orientation="Horizontal">
-                    <Label Content="Complete Race Session*" Foreground="Black"></Label>
+                    <Label Content="Complete Session (R)" Foreground="Black"></Label>
                     <Image Source="../Resources/Icons/checkered-flag.png" Margin="8 4" Height="16" Width="16"></Image>
                 </StackPanel>
             </Button>
@@ -55,8 +55,8 @@
             </Button>
 
         </Grid>
-        <Label DockPanel.Dock="Top"  Style="{StaticResource HeaderLabel}" Grid.Row="0" Content="Session Summary"></Label>
-        <ListView DockPanel.Dock="Top"  Name="lvLapTimes" Style="{StaticResource LeaderboardView}">
+        <Label DockPanel.Dock="Top"  Style="{StaticResource HeaderLabel}" Content="Session Summary"></Label>
+        <ListView DockPanel.Dock="Left"  Name="lvLapTimes" Style="{StaticResource LeaderboardView}">
             <ListView.View>
                 <GridView AllowsColumnReorder="True">
                     <GridView.ColumnHeaderContainerStyle>
@@ -199,5 +199,19 @@
                 </GroupStyle>
             </ListView.GroupStyle>
         </ListView>
+        <Grid DockPanel.Dock="Right">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+                <RowDefinition Height="40"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.Row="0"  Style="{StaticResource HeaderLabel}" Content="Current Session"></Label>
+            <Label Grid.Row="1" Content="Start Time"></Label>
+            <TextBlock Grid.Row="2" Background="White" Name="tbCurrentSessionStart"></TextBlock>
+        </Grid>
     </DockPanel>
 </UserControl>

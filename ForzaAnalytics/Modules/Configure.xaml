@@ -13,6 +13,9 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200"></ColumnDefinition>
                     <ColumnDefinition Width="300"></ColumnDefinition>
+                    <ColumnDefinition Width="10"></ColumnDefinition>
+                    <ColumnDefinition Width="200"></ColumnDefinition>
+                    <ColumnDefinition Width="80"></ColumnDefinition>
                     <ColumnDefinition></ColumnDefinition>
                 </Grid.ColumnDefinitions>
                 <Grid.RowDefinitions>
@@ -51,6 +54,10 @@
                     <Bold>Lower:</Bold> 7 Messages Per Second<LineBreak/>
                     <Bold>Lowest:</Bold> 3 Messages Per Second<LineBreak/>
                 </TextBlock>
+                <Label Grid.Column="3" Grid.Row="0" Content="Save Stats:"></Label>
+                <CheckBox Name="cbSaveStats" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Grid.Column="4" Grid.Row="0"></CheckBox>
+                <Label Grid.Column="3" Grid.Row="1" Content="Clear Stats:"></Label>
+                <CheckBox Name="cbClearStats" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="2" Grid.Column="4" Grid.Row="1"></CheckBox>
             </Grid>
         </StackPanel>
     </Grid>

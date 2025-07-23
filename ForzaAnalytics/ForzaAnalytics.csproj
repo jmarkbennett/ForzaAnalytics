@@ -15,6 +15,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Controls\PodiumStatMetric.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Update="Controls\GenericStatMetric.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="Controls\CoreMetricTyre.xaml.cs">
       <SubType>Code</SubType>
     </Compile>

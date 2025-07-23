@@ -4,8 +4,9 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:ForzaAnalytics.Modules"
+             xmlns:Controls="clr-namespace:ForzaAnalytics.Controls"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="1920">
+             d:DesignHeight="700" d:DesignWidth="1920">
     <UserControl.Resources>
         <Style x:Key="ImportantText" TargetType="TextBlock">
             <Setter Property="FontSize" Value="12"></Setter>
@@ -14,84 +15,370 @@
     </UserControl.Resources>
     <DockPanel Background="#CC444444">
         <Label DockPanel.Dock="Top"  Style="{StaticResource HeaderLabel}" Grid.Row="0" Content="Stats"></Label>
-
-        <Grid>
+        <Grid DockPanel.Dock="Left">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="8"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="8"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
-                <ColumnDefinition></ColumnDefinition>
+                <ColumnDefinition Width="8"></ColumnDefinition>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
                 <RowDefinition Height="60"></RowDefinition>
                 <RowDefinition></RowDefinition>
-                <RowDefinition></RowDefinition>
+                <RowDefinition Height="8"></RowDefinition>
+                <RowDefinition Height="60"></RowDefinition>
             </Grid.RowDefinitions>
-            <Label Grid.Row="0" Grid.Column="0" Height="30" Content="Unique Sessions"       Name="lUniqueSessions"></Label>
-            <Label Grid.Row="0" Grid.Column="1" Height="30" Content="Total Distance"        Name="lTotalDistance"></Label>
-            <Label Grid.Row="0" Grid.Column="2" Height="30" Content="Total Laps"            Name="lTotalLaps"></Label>
-            <Label Grid.Row="0" Grid.Column="3" Height="30" Content="Total Cars"            Name="lTotalCars"></Label>
-            <Label Grid.Row="0" Grid.Column="4" Height="30" Content="Total Tracks"          Name="lTotalTracks"></Label>
-            <Label Grid.Row="0" Grid.Column="5" Height="30" Content="Total Time Tracked"    Name="lTotalTimeTracked"></Label>
-            <Label Grid.Row="0" Grid.Column="6" Height="30" Content="Total Pits"            Name="lNumberOfPits"></Label>
-            
-            <Label Grid.Row="1" Grid.Column="0" Height="30" Content="Maximum Speed"         Name="lMaximumSpeed"></Label>
-            <Label Grid.Row="1" Grid.Column="1" Height="30" Content="Average Speed"         Name="lAverageSpeed"></Label>
-            <Label Grid.Row="1" Grid.Column="2" Height="30" Content="Average Position"      Name="lAveragePosition"></Label>
-            <Label Grid.Row="1" Grid.Column="3" Height="30" Content="Average Lap Time By Track"     Name="mAverageLapTimeByTrack"></Label>
-            <Label Grid.Row="1" Grid.Column="4" Height="30" Content="Average Session Length"    Name="lAverageSessionLength"></Label>
-            <Label Grid.Row="1" Grid.Column="5" Height="30" Content="Wins"                      Name="lWins"></Label>
-            <Label Grid.Row="1" Grid.Column="6" Height="30" Content="Podiums"                   Name="lPodiums"></Label>
-            
 
-            <Label Grid.Row="2" Grid.Column="0"  Content="Time Per Track" Name="lTrackMostDriven"></Label>
-            <Label Grid.Row="2" Grid.Column="3" Content="Time Per Car" Name="mTimePerCar"></Label>
+            <Controls:GenericStatMetric Grid.Row="0" Grid.Column="1"    StatTitle="Sessions:"               x:Name="cUniqueSessions"></Controls:GenericStatMetric>
+            <Controls:GenericStatMetric Grid.Row="0" Grid.Column="3"    StatTitle="Laps:"                    x:Name="cTotalLaps"></Controls:GenericStatMetric>
 
+            <Controls:GenericStatMetric Grid.Row="2" Grid.Column="1"    StatTitle="Cars:"                   x:Name="cTotalCars" ></Controls:GenericStatMetric>
+            <Controls:GenericStatMetric Grid.Row="2" Grid.Column="3"    StatTitle="Tracks:"                  x:Name="cTotalTracks"></Controls:GenericStatMetric>
 
+            <Controls:GenericStatMetric Grid.Row="4" Grid.Column="1"    StatTitle="Total Time:"              x:Name="cTotalTimeTracked"></Controls:GenericStatMetric>
+            <Controls:GenericStatMetric Grid.Row="4" Grid.Column="3"    StatTitle="Total Distance:"          x:Name="cTotalDistance"></Controls:GenericStatMetric>
 
-            <ListView Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Name="lvTotalDistanceByCar" Style="{StaticResource LeaderboardView}">
-                <ListView.View>
-                    <GridView AllowsColumnReorder="True">
-                        <GridView.ColumnHeaderContainerStyle>
-                            <Style TargetType="GridViewColumnHeader">
-                                <Setter Property="Background" Value="Transparent"></Setter>
-                                <Setter Property="FontSize" Value="16"></Setter>
-                                <Setter Property="Foreground" Value="White"></Setter>
-                                <Setter Property="BorderBrush" Value="Transparent"></Setter>
-                                <Setter Property="HorizontalContentAlignment" Value="Left"></Setter>
-                                <Setter Property="Padding" Value="6 0 0 0"></Setter>
-                                <Setter Property="Height" Value="34"></Setter>
-                            </Style>
-                        </GridView.ColumnHeaderContainerStyle>
-                        <GridView.Columns>
-                            <GridViewColumn Header="Car" Width="280">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource LeaderboardLapTimeLabel}"></Label>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                            <GridViewColumn Header="Time" Width="100">
-                                <GridViewColumn.CellTemplate>
-                                    <DataTemplate>
-                                        <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource LeaderboardLapTimeLabel}">
-                                        </Label>
-                                    </DataTemplate>
-                                </GridViewColumn.CellTemplate>
-                            </GridViewColumn>
-                        </GridView.Columns>
-                    </GridView>
-                </ListView.View>
-            </ListView>
+            <Controls:GenericStatMetric Grid.Row="6" Grid.Column="1"    StatTitle="Avg. Session Time:"       x:Name="cAverageSessionTime"></Controls:GenericStatMetric>
+            <Controls:GenericStatMetric Grid.Row="6" Grid.Column="3"    StatTitle="Avg. Session Distance:"   x:Name="cAverageSessionDistance"></Controls:GenericStatMetric>
 
+            <Controls:GenericStatMetric Grid.Row="8" Grid.Column="1"    StatTitle="Average Speed:"           x:Name="cAverageSpeed"></Controls:GenericStatMetric>
+            <Controls:GenericStatMetric Grid.Row="8" Grid.Column="3"    StatTitle="Maximum Speed:"           x:Name="cMaximumSpeed"></Controls:GenericStatMetric>
 
-            <Label Grid.Row="3" Grid.Column="3" Content="Average Fuel Consumption By Car"  Name="mAverageFuelUseByCar"></Label>
-            
+            <Controls:GenericStatMetric Grid.Row="10" Grid.Column="1"    StatTitle="Average Position:"          x:Name="cAveragePosition"></Controls:GenericStatMetric>
+            <Controls:GenericStatMetric Grid.Row="10" Grid.Column="3"    StatTitle="Tyre Changes:"              x:Name="cTyreChanges"></Controls:GenericStatMetric>
+
+            <Controls:PodiumStatMetric Grid.Row="12" Grid.RowSpan="2" Grid.ColumnSpan ="3"  Grid.Column="1" x:Name="mPodiums"></Controls:PodiumStatMetric>
+            <Controls:GenericStatMetric Grid.Row="15" Grid.Column="1" Grid.ColumnSpan="3" StatTitle="Podiums" x:Name="cPodiums"></Controls:GenericStatMetric>
+
         </Grid>
-       
+        <TabControl DockPanel.Dock="Left">
+            <TabItem Header="Car Stats">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="4"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+
+                    <Label Grid.Column="1" Grid.Row="1" Content="Cars By Duration" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="1" Grid.Row="2" Name="lvCarByDuration">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Car" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Time" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDuration}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="3" Grid.Row="1" Content="Cars By Distance" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="3" Grid.Row="2" Name="lvCarByDistance">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Car" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Distance" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource StatsColumnLabel}" Width="100"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="5" Grid.Row="1" Content="Cars By Avg Position" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="5" Grid.Row="2" Name="lvCarByPosition">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Car" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Position" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=StatValue}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    
+
+                    <Label Grid.Column="1" Grid.Row="4" Content="Car Division By Duration" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="1" Grid.Row="5" Name="lvCarDivisionByDuration">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Car Division" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Time" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDuration}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="3" Grid.Row="4" Content="Car Class By Distance" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="3" Grid.Row="5" Name="lvCarDivisionByDistance">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Car Division" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Distance" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="5" Grid.Row="4" Content="Cars By Fuel Consumption" Style="{StaticResource HeaderLabel}"></Label>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Track Stats">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="4"></RowDefinition>
+                        <RowDefinition Height="40"></RowDefinition>
+                        <RowDefinition></RowDefinition>
+                        <RowDefinition Height="4"></RowDefinition>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                        <ColumnDefinition></ColumnDefinition>
+                        <ColumnDefinition Width="12"></ColumnDefinition>
+                    </Grid.ColumnDefinitions>
+                    <Label Grid.Column="1" Grid.Row="1" Content="Circuit Layout By Duration" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="1" Grid.Row="2" Name="lvTrackByDuration" d:ItemsSource="{d:SampleData ItemCount=5}">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Circuit Layout" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Time" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDuration}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="3" Grid.Row="1" Content="Circuit Layout By Distance" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="3" Grid.Row="2" Name="lvTrackByDistance">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Circuit Layout" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Distance" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource StatsColumnLabel}" Width="100"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="5" Grid.Row="1" Content="Circuit Layout By Avg Position" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="5" Grid.Row="2" Name="lvTrackByPosition">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Circuit Layout" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Position" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=StatValue}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+
+
+
+                    <Label Grid.Column="1" Grid.Row="4" Content="Circuit By Duration" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="1" Grid.Row="5" Name="lvCircuitByDuration">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Circuit" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Time" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDuration}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="3" Grid.Row="4" Content="Circuit By Distance" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="3" Grid.Row="5" Name="lvCircuitByDistance">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Circuit" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Distance" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=FormattedDistanceTravelled}" Style="{StaticResource StatsColumnLabel}" Width="100"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+
+                    <Label Grid.Column="5" Grid.Row="4" Content="Circuit By Avg Position" Style="{StaticResource HeaderLabel}"></Label>
+                    <ListView Grid.Column="5" Grid.Row="5" Name="lvCircuitByPosition">
+                        <ListView.View>
+                            <GridView AllowsColumnReorder="True" ColumnHeaderContainerStyle="{StaticResource ResourceKey=StatsHeaderView}">
+                                <GridView.Columns>
+                                    <GridViewColumn Header="Circuit" Width="220">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=CarOrTrackName}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Position" Width="100">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Label Content="{Binding Path=StatValue}" Style="{StaticResource StatsColumnLabel}"></Label>
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                </GridView.Columns>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
     </DockPanel>
 </UserControl>
