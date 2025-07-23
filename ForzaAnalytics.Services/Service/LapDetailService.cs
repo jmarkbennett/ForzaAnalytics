@@ -227,7 +227,7 @@ namespace ForzaAnalytics.Services.Service
                     if (sessions[i].SessionEnd.Year == 1)
                         sessionEnd = "???";
                     
-                    toAdd.SessionSummary = $"{i} - Car: {car?.YearMakeModel ?? "Unknown"} - Track: {track?.FullTrackName ?? "Unknown"} - ({sessions[i].SessionStart.ToString("yyyy-MM-dd HH:mm:ss")} - {sessionEnd})";
+                    toAdd.SessionSummary = $"{i} - ({sessions[i].GetSessionTypeCode()}) Car: {car?.YearMakeModel ?? "Unknown"} - Track: {track?.FullTrackName ?? "Unknown"} - ({sessions[i].SessionStart.ToString("yyyy-MM-dd HH:mm:ss")} - {sessionEnd})";
                     LapTimes.Add(toAdd);
                 }
                 if (sessionLaps.Any())

@@ -16,9 +16,12 @@
             <ColumnDefinition Width="4"></ColumnDefinition>
             <ColumnDefinition Width="100"></ColumnDefinition>
         </Grid.ColumnDefinitions>
+
         <Label Name="lMetricTitle" Content="{Binding StatTitle, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" 
          Grid.Row="0" Style="{StaticResource StatLabel}">
         </Label>
+        <Image Name="iStatIcon" Grid.Column="0" HorizontalAlignment="Left" 
+               Source="{Binding StatIcon, RelativeSource={RelativeSource AncestorType={x:Type UserControl}}}" Margin="16 4" Height="16" Width="16"></Image>
 
         <Label Grid.Column="2" Name="lMetricValue" Style="{StaticResource StatValue}"></Label>
         <Rectangle Grid.ColumnSpan="3" Height="60" Stroke="#444444" Width="300" RadiusX="4" RadiusY="4" StrokeThickness="4"/>

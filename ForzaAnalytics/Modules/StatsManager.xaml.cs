@@ -47,8 +47,12 @@ namespace ForzaAnalytics.Modules
             cAveragePosition.lMetricValue.Content = svc.AveragePosition();
             cTyreChanges.lMetricValue.Content = svc.TotalTyreChanges();
 
+            cPodiums.lMetricValue.Content = svc.Podiums().ToString();
+            cWins.lMetricValue.Content = svc.Wins().ToString();
+
             mPodiums.Update(svc.Wins().ToString(), svc.SecondPlaces().ToString(), svc.ThirdPlaces().ToString());
-            cPodiums.Update(svc.Podiums().ToString());
+            cPodiumsAlt.Update(svc.Podiums().ToString());
+
 
             lvCarByDuration.ItemsSource = svc.TotalTimeTrackedByCar().OrderByDescending(x => x.Duration);
             lvCarByDistance.ItemsSource = svc.TotalDistanceByCar().OrderByDescending(x => x.DistanceTravelled);

@@ -106,6 +106,21 @@ namespace ForzaAnalytics.Models.Core
                 OnPropertyChanged(nameof(SessionType));
             }
         }
+
+        public string GetSessionTypeCode()
+        {
+            var result = "U";
+            switch (sessionType.ToUpper())
+            {
+                case "RACE":
+                    result = "R";
+                    break;
+                case "PRACTICEORQUALIFYING":
+                    result = "PQ";
+                    break;
+            }
+            return result;
+        }
         public DateTime SessionStart
         {
             get { return sessionStart; }
@@ -144,6 +159,7 @@ namespace ForzaAnalytics.Models.Core
             CarPi = carPi;
             CarClass = carClass;
             StartingPosition = startingPosition;
+            SessionType = "Unknown";
         }
         public void FinalizeSession()
         {

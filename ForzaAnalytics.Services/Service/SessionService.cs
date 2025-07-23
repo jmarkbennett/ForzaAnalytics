@@ -146,6 +146,6 @@ namespace ForzaAnalytics.Services.Service
         }
         public ObservableCollection<LapTime> CurrentLapTimes { get { return lapSvc.LapTimes; } }
 
-        public string SessionSummary { get { return $"{sessions.Count()} - Car: {sessionCar?.YearMakeModel ?? "Unknown"} - Track: {sessionTrack?.FullTrackName ?? "Unknown"}"; } }
+        public string SessionSummary { get { return $"{sessions.Count()} -  ({currentSession.GetSessionTypeCode()}) Car: {sessionCar?.YearMakeModel ?? "Unknown"} - Track: {sessionTrack?.FullTrackName ?? "Unknown"}"; } }
     }
 }

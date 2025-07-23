@@ -21,15 +21,25 @@ namespace ForzaAnalytics.Controls
     public partial class GenericStatMetric : UserControl
     {
         public static readonly DependencyProperty StatTitleProperty =
-        DependencyProperty.Register("StatTitle", typeof(string), typeof(CoreMetric));
+        DependencyProperty.Register("StatTitle", typeof(string), typeof(GenericStatMetric));
+
+        public static readonly DependencyProperty StatIconProperty =
+            DependencyProperty.Register("StatIcon", typeof(string), typeof(GenericStatMetric));
         public string StatTitle
         {
             get { return (string)GetValue(StatTitleProperty); }
             set { SetValue(StatTitleProperty, value); }
         }
+
+        public string StatIcon
+        {
+            get { return (string)GetValue(StatIconProperty); }
+            set { SetValue(StatIconProperty, value); }
+        }
         public GenericStatMetric()
         {
             InitializeComponent();
+       
         }
         public void Update(string value)
         {

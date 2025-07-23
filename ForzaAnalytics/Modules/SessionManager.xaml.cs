@@ -47,6 +47,11 @@ namespace ForzaAnalytics.Modules
                 {
                     RebindListView();
                 }
+                if (svc.CurrentSession.SessionStart.Year > 2000)
+                    lCurrentSessionStart.Content =
+                    svc.CurrentSession.SessionStart.ToString("HH:mm:ss");
+                else
+                    lCurrentSessionStart.Content = "";
             }/*
             else if (sessionPotentiallyEnded)
             {

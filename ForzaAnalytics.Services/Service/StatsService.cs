@@ -67,7 +67,6 @@ namespace ForzaAnalytics.Services.Service
 
             lapSvc.SyncData();
         }
-
         public int UniqueCars()
         {
             var cars = sessions.Select(x => x.CarId).Distinct().Count();
@@ -492,6 +491,7 @@ namespace ForzaAnalytics.Services.Service
                 var laps = from lap in lapSvc.LapTimes
                            join sess in sessions on lap.SessionId equals sess.SessionId
                            join track in tracks on sess.TrackId.ToString() equals track.TrackId
+                           where track.Name == circuit
                            select lap;
                 foreach(var lap in laps)
                 {
@@ -566,6 +566,7 @@ namespace ForzaAnalytics.Services.Service
                 var laps = from lap in lapSvc.LapTimes
                            join sess in sessions on lap.SessionId equals sess.SessionId
                            join track in tracks on sess.TrackId.ToString() equals track.TrackId
+                           where track.FullTrackName == circuit
                            select lap;
                 foreach (var lap in laps)
                 {

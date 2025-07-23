@@ -9,6 +9,24 @@
     <Import_RootNamespace>ForzaAnalytics.SharedResources</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\insert_invitation.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\location.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\meter.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\road.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\trophy.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\save.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="$(MSBuildThisFileDirectory)Resources\Icons\checkered-flag.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Resource>

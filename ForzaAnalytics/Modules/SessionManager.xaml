@@ -15,6 +15,9 @@
     <DockPanel Background="#CC444444">
         <Grid DockPanel.Dock="Top" Height="40">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="200"></ColumnDefinition>
+                <ColumnDefinition Width="40"></ColumnDefinition>
                 <ColumnDefinition></ColumnDefinition>
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="40"></ColumnDefinition>
@@ -25,29 +28,32 @@
                 <ColumnDefinition Width="200"></ColumnDefinition>
                 <ColumnDefinition Width="200"></ColumnDefinition>
             </Grid.ColumnDefinitions>
-            <Label Grid.Column="0" Content="Close Current Session:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
-            <Button Grid.Column="1"  Margin="2" Name="btnAbandonSession" Click="btnAbandonSession_Click">
+            <Label Grid.Column="0" Content="Current Session Start:" HorizontalContentAlignment="Right" VerticalContentAlignment="Center"></Label>
+            <Label Grid.Column="1" Content="00:00:00" Foreground="Black" Name="lCurrentSessionStart" Background="White" Margin="4" HorizontalContentAlignment="Left" Padding="12 0" VerticalContentAlignment="Center"></Label>
+            <Image Grid.Column="2" Name="iSave" Margin="8" ToolTip="Progress is being saved on lap completion" Source="../Resources/Icons/save.png"></Image>
+            <Label Grid.Column="3" Content="Close Current Session:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
+            <Button Grid.Column="4" Margin="2" Name="btnAbandonSession" Click="btnAbandonSession_Click">
                 <StackPanel Orientation="Horizontal">
                 <Label Content="Abandon Session*" Foreground="Black"></Label>
                 <Image Source="../Resources/Icons/exit.png" Margin="8 4" Height="16" Width="16"></Image>
                 </StackPanel>
             </Button>
-            <Button Grid.Column="3" Margin="2" Name="btnCompleteSession"  Click="btnCompleteSession_Click">
+            <Button Grid.Column="6" Margin="2" Name="btnCompleteSession"  Click="btnCompleteSession_Click">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Complete Session (P/Q)" Foreground="Black"></Label>
                     <Image Source="../Resources/Icons/stopwatch.png" Margin="8 4" Height="16" Width="16"></Image>
                 </StackPanel>
             </Button>
 
-            <Button Grid.Column="5" Margin="2" Name="btnCompleteRaceSession"  Click="btnCompleteRaceSession_Click">
+            <Button Grid.Column="8" Margin="2" Name="btnCompleteRaceSession"  Click="btnCompleteRaceSession_Click">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Complete Session (R)" Foreground="Black"></Label>
                     <Image Source="../Resources/Icons/checkered-flag.png" Margin="8 4" Height="16" Width="16"></Image>
                 </StackPanel>
             </Button>
 
-            <Label Grid.Column="7" Content="Export Session Data:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
-            <Button Grid.Column="8" Margin="2" Name="btnExport" Click="btnExport_Click">
+            <Label Grid.Column="10" Content="Export Session Data:" HorizontalAlignment="Right" Margin="12 0" VerticalContentAlignment="Center"></Label>
+            <Button Grid.Column="11" Margin="2" Name="btnExport" Click="btnExport_Click">
                 <StackPanel Orientation="Horizontal">
                     <Label Content="Export" Foreground="Black"></Label>
                     <Image Source="../Resources/Icons/file-excel.png" Margin="8 4" Height="16" Width="16"></Image>
@@ -199,19 +205,5 @@
                 </GroupStyle>
             </ListView.GroupStyle>
         </ListView>
-        <Grid DockPanel.Dock="Right">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
-                <RowDefinition Height="40"></RowDefinition>
-            </Grid.RowDefinitions>
-            <Label Grid.Row="0"  Style="{StaticResource HeaderLabel}" Content="Current Session"></Label>
-            <Label Grid.Row="1" Content="Start Time"></Label>
-            <TextBlock Grid.Row="2" Background="White" Name="tbCurrentSessionStart"></TextBlock>
-        </Grid>
     </DockPanel>
 </UserControl>
